@@ -16,7 +16,7 @@ class LoginWindow(tk.Tk):
 
         self.title("Login Window")
         self.geometry("600x350")
-        self.iconbitmap("H:/Computing-Project/Program/graphics/yinyang.ico")  # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
+        self.iconbitmap("H:/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")  # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
         # title
         self.label = ttk.Label(self, text='Welcome, Please Log In.', font=("Helvetica",25,"bold"))
         self.label.pack()
@@ -42,6 +42,7 @@ class LoginWindow(tk.Tk):
         self.entry1.place(x=250, y=100)
         self.entry2 = tk.Entry(self, bd=6, width=40)
         self.entry2.place(x=250, y=150)
+        self.entry2.config(show="*")
 
     def login(self, username, password):
         username = username.get()
