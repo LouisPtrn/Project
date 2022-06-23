@@ -1,6 +1,6 @@
 # ============================================================================================================== #
 # This file will be used for logging in only.
-# Written by: Louis Pattern     11/05/2022
+# Written by: Louis Pattern     23/06/2022
 # Known bugs: none
 # ============================================================================================================== #
 
@@ -50,6 +50,9 @@ class LoginWindow(tk.Tk):
         password = password.get()
         if search(str(username), str(password), "Admins"):
             tk.messagebox.showinfo(title='', message="Welcome admin "+username)
+            LoginWindow.destroy(self)
+            admin = AdminWindow()
+            admin.mainloop()
         elif search(str(username), str(password), "Users"):
             tk.messagebox.showinfo(title='', message="Welcome " + username)
         else:
@@ -61,7 +64,7 @@ class LoginWindow(tk.Tk):
         if ans:
             LoginWindow.destroy(self)
 
-
+# admin screen, allows creation of users
 class AdminWindow(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -75,13 +78,13 @@ class AdminWindow(tk.Tk):
         self.label.pack()
 
         # login button
-        self.button = ttk.Button(self, text='Login')
+        self.button = ttk.Button(self, text='Create Account')
         self.button['command'] = lambda: self.login(self.entry1, self.entry2)
         self.button.place(x=475, y=300)
 
         # cancel button
-        self.button = ttk.Button(self, text='Cancel', width=10)
-        self.button['command'] = self.cancel
+        self.button = ttk.Button(self, text='Log out', width=10)
+        self.button['command'] = self.back
         self.button.place(x=50, y=300)
 
         # username and password text
@@ -96,10 +99,12 @@ class AdminWindow(tk.Tk):
         self.entry2 = tk.Entry(self, bd=6, width=40)
         self.entry2.place(x=250, y=150)
         self.entry2.config(show="*")
-    def cancel(self):
-        ans = tk.messagebox.askyesno(title='', message='Exit?')
+    def back(self):
+        ans = tk.messagebox.askyesno(title='', message='Log out?')
         if ans:
-            LoginWindow.destroy(self)
+            AdminWindow.destroy(self)
+            login = LoginWindow()
+            login.mainloop()
 
 
 if __name__ == "__main__":
