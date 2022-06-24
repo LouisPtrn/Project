@@ -1,6 +1,6 @@
 # ============================================================================================================== #
 # This file will be used for logging in only.
-# Written by: Louis Pattern     23/06/2022
+# Written by: Louis Pattern     24/06/2022
 # Known bugs: none
 # ============================================================================================================== #
 
@@ -16,27 +16,14 @@ class LoginWindow(tk.Tk):
 
         self.title("Login Window")
         self.geometry("600x350")
+        self.resizable(False, False)
+        self.eval('tk::PlaceWindow . center')
         self.iconbitmap("H:/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")
         # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
+
         # title
         self.label = ttk.Label(self, text='Welcome, Please Log In.', font=("Helvetica", 25, "bold"))
         self.label.pack()
-
-        # login button
-        self.button = ttk.Button(self, text='Login')
-        self.button['command'] = lambda: self.login(self.entry1, self.entry2)
-        self.button.place(x=475, y=300)
-
-        # cancel button
-        self.button = ttk.Button(self, text='Cancel', width=10)
-        self.button['command'] = self.cancel
-        self.button.place(x=50, y=300)
-
-        # username and password text
-        self.label = ttk.Label(self, text='User Name:', font=("Arial", 15))
-        self.label.place(x=75, y=100)
-        self.label = ttk.Label(self, text='Password:', font=("Arial", 15))
-        self.label.place(x=75, y=150)
 
         # text entry boxes
         self.entry1 = tk.Entry(self, bd=6, width=40)
@@ -44,15 +31,44 @@ class LoginWindow(tk.Tk):
         self.entry2 = tk.Entry(self, bd=6, width=40)
         self.entry2.place(x=250, y=150)
         self.entry2.config(show="*")
+        self.i = True
 
-    def login(self, username, password):
-        username = username.get()
-        password = password.get()
+        # login button
+        self.button = ttk.Button(self, text='Login')
+        self.button['command'] = lambda: self.login()
+        self.button.place(x=475, y=300)
+        self.bind("<Return>", (lambda event: self.login()))
+
+        # cancel button
+        self.button2 = ttk.Button(self, text='Cancel', width=10)
+        self.button2['command'] = self.cancel
+        self.button2.place(x=50, y=300)
+
+        # username and password text
+        self.label = ttk.Label(self, text='User Name:', font=("Arial", 15))
+        self.label.place(x=75, y=100)
+        self.label = ttk.Label(self, text='Password:', font=("Arial", 15))
+        self.label.place(x=75, y=150)
+
+        # show password checkbox
+        self.check1 = tk.Checkbutton(self, text='Show Password', onvalue=True, offvalue=False)
+        self.check1['command'] = lambda: self.togglepass()
+        self.check1.place(x=420, y=220)
+
+    def togglepass(self):
+        if self.i:
+            self.entry2.config(show="")
+            self.i = False
+        else:
+            self.entry2.config(show="*")
+            self.i = True
+
+    def login(self):
+        username = self.entry1.get()
+        password = self.entry2.get()
         if search(str(username), str(password), "Admins"):
             tk.messagebox.showinfo(title='', message="Welcome admin "+username)
             LoginWindow.destroy(self)
-            admin = AdminWindow()
-            admin.mainloop()
         elif search(str(username), str(password), "Users"):
             tk.messagebox.showinfo(title='', message="Welcome " + username)
         else:
@@ -64,47 +80,8 @@ class LoginWindow(tk.Tk):
         if ans:
             LoginWindow.destroy(self)
 
+
 # admin screen, allows creation of users
-class AdminWindow(tk.Tk):
-    def __init__(self):
-        super().__init__()
-
-        self.title("Admin Window")
-        self.geometry("600x350")
-        self.iconbitmap("H:/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")
-        # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
-        # title
-        self.label = ttk.Label(self, text='Welcome Admin.', font=("Helvetica", 25, "bold"))
-        self.label.pack()
-
-        # login button
-        self.button = ttk.Button(self, text='Create Account')
-        self.button['command'] = lambda: self.login(self.entry1, self.entry2)
-        self.button.place(x=475, y=300)
-
-        # cancel button
-        self.button = ttk.Button(self, text='Log out', width=10)
-        self.button['command'] = self.back
-        self.button.place(x=50, y=300)
-
-        # username and password text
-        self.label = ttk.Label(self, text='User Name:', font=("Arial", 15))
-        self.label.place(x=75, y=100)
-        self.label = ttk.Label(self, text='Password:', font=("Arial", 15))
-        self.label.place(x=75, y=150)
-
-        # text entry boxes
-        self.entry1 = tk.Entry(self, bd=6, width=40)
-        self.entry1.place(x=250, y=100)
-        self.entry2 = tk.Entry(self, bd=6, width=40)
-        self.entry2.place(x=250, y=150)
-        self.entry2.config(show="*")
-    def back(self):
-        ans = tk.messagebox.askyesno(title='', message='Log out?')
-        if ans:
-            AdminWindow.destroy(self)
-            login = LoginWindow()
-            login.mainloop()
 
 
 if __name__ == "__main__":

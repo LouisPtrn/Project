@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="login gaming 2" />
+    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="login gaming 5">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Computing_Project-main/Program/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Computing_Project-main/Program/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Computing_Project-main/Program/login.db" beforeDir="false" afterPath="$PROJECT_DIR$/Computing_Project-main/Program/login.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Computing_Project-main/Program/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing_Project-main/Program/login.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,7 +20,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/Program" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="29KqPwFQRkAcJWUxzrEdCoWyMuE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -24,27 +29,66 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../A Level Com. Science/Project/dbTest" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings custom-start-script="" module-name="Computing-Project" is-module-sdk="true">
+        <option name="useSoftWraps" value="true" />
+        <option name="myCustomStartScript" value="" />
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="Computing-Project" />
+        <option name="myAddContentRoots" value="false" />
+        <option name="myAddSourceRoots" value="false" />
+      </console-settings>
+    </option>
   </component>
   <component name="RunManager" selected="Python.login">
     <configuration name="login" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Computing Project" />
+      <module name="Computing-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="C:\Python39\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing_Project-main/Program" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing_Project-main/Program/login.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="logindata (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Computing-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Program" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing_Project-main/Program" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Program/login.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing_Project-main/Program/logindata.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -75,9 +119,15 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Python.login" />
+      <item itemvalue="Python.logindata" />
+      <item itemvalue="Python.logindata (1)" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.login" />
+        <item itemvalue="Python.logindata (1)" />
         <item itemvalue="Python.logindata" />
       </list>
     </recent_temporary>
@@ -99,7 +149,8 @@
       <workItem from="1655983213670" duration="685000" />
       <workItem from="1655983990871" duration="104000" />
       <workItem from="1655984756398" duration="10000" />
-      <workItem from="1655984773903" duration="11000" />
+      <workItem from="1655984783502" duration="3468000" />
+      <workItem from="1656064902459" duration="5314000" />
     </task>
     <task id="LOCAL-00001" summary="login gaming">
       <created>1655906528133</created>
@@ -122,7 +173,28 @@
       <option name="project" value="LOCAL" />
       <updated>1655983275336</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="login gaming 3">
+      <created>1655985246980</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1655985246980</updated>
+    </task>
+    <task id="LOCAL-00005" summary="login gaming 4">
+      <created>1655987833309</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1655987833309</updated>
+    </task>
+    <task id="LOCAL-00006" summary="login gaming 5">
+      <created>1655988250737</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1655988250737</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,10 +218,14 @@
     </ignored-roots>
     <MESSAGE value="login gaming" />
     <MESSAGE value="login gaming 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="login gaming 2" />
+    <MESSAGE value="login gaming 3" />
+    <MESSAGE value="login gaming 4" />
+    <MESSAGE value="login gaming 5" />
+    <option name="LAST_COMMIT_MESSAGE" value="login gaming 5" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Computing_Project$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1655900006236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$logindata__1_.coverage" NAME="logindata (1) Coverage Results" MODIFIED="1655987679343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/Computing_Project$login.coverage" NAME="login Coverage Results" MODIFIED="1655900615929" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
   </component>
 </project>
