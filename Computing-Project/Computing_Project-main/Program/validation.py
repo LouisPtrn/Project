@@ -38,9 +38,38 @@ def is_inrange(data, lo, hi):
         return "Error 2"
 
 
-if __name__ == "__main__":
-    show_message("Test1", (is_length(True, 15, 3)), 2)
-    if is_inrange("test", 1, 2):
-        show_message("Range", "Value is in range", 1)
+# username and password validation
+def is_valid_user(u, opt):
+    if opt == "username":
+        if isinstance(u, str):
+            if len(u) > 3:
+                u = u.upper()
+                characters = []
+                for i in range(65,91):
+                    characters.append(chr(i))
+                for i in range(48,58):
+                    characters.append(chr(i))
+                characters.append("_")
+                valid = True
+                for n in range(len(u)):
+                    if not u[n] in characters:
+                        valid = False
+            else:
+                valid = False
+        else:
+            valid = False
     else:
-        show_message("Range", "Value is not in range", 3)
+        valid = False
+        if isinstance(u, str) and len(u) > 7:
+            valid = True
+    return valid
+
+
+if __name__ == "__main__":
+    # show_message("Test1", (is_length(True, 15, 3)), 2)
+    # if is_inrange("test", 1, 2):
+    #     show_message("Range", "Value is in range", 1)
+    # else:
+    #     show_message("Range", "Value is not in range", 3)
+    print(is_valid_user("xXx_AbidIssaTheGenerous_xXX", "username"))
+
