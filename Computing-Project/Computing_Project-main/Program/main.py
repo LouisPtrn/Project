@@ -20,12 +20,17 @@ test_surface = pygame.image.load("graphics/marisa.png").convert_alpha()
 play = True
 gen = 1
 screen.blit(test_surface, (350, 425))
-# text_surface = test_font.render("Sample text", False, "Red")
+div_rect = pygame.Rect(-300, 290, 2000, 10)
+text_surface = test_font.render("Space Game", False, "Red")
 ship_surface = pygame.image.load("graphics/ship1.png").convert_alpha()
-
+ship_rect = ship_surface.get_rect(center=(200, 200))
+ast_surface = pygame.image.load("graphics/ast.png")
+ast_surface.set_colorkey("white")
+ast_surface = ast_surface.convert_alpha()
+ast_rect = ast_surface.get_rect(center=(1000, 200))
 bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
-ship_x_pos = 200
-ship_y_pos = 250
+inv_frames = 0
+
 
 while play:
     for event in pygame.event.get():
@@ -33,11 +38,26 @@ while play:
             pygame.quit()
             exit()
     screen.blit(bg_surface, (0, 0))
+    screen.blit(text_surface, (400, 100))
+    pygame.draw.rect(screen, "White", div_rect)
+    # screen.blit(ship_surface, (ship_x_pos, ship_y_pos))
+    ship_rect.right += 8
+    if ship_rect.right > 1100:
+        ship_rect.right = 500
+    screen.blit(ship_surface, ship_rect)
 
-    ship_x_pos += 4
-    if ship_x_pos > 1200:
-        ship_x_pos = -200
-    screen.blit(ship_surface, (ship_x_pos, ship_y_pos))
+    ast_rect.left += -3
+    if ast_rect.left < -200:
+        ast_rect.left = 1100
+    screen.blit(ast_surface, ast_rect)
+
+    pygame.draw.rect(screen, "White", div_rect)
+
+    if ship_rect.colliderect(ast_rect) and inv_frames == 0:
+        ship_rect.right = -300
+        inv_frames = 100
+    if inv_frames > 0:
+        inv_frames -= 1
 
     # Update everything
     pygame.display.update()
