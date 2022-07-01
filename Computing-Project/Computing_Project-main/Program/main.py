@@ -21,7 +21,7 @@ play = True
 gen = 1
 screen.blit(test_surface, (350, 425))
 div_rect = pygame.Rect(-300, 290, 2000, 10)
-text_surface = test_font.render("Space Game", False, "Red")
+text_surface = test_font.render("SPACE GAME", True, "Red")
 ship_surface = pygame.image.load("graphics/ship1.png").convert_alpha()
 ship_rect = ship_surface.get_rect(center=(200, 200))
 ast_surface = pygame.image.load("graphics/ast.png")
@@ -38,7 +38,7 @@ while play:
             pygame.quit()
             exit()
     screen.blit(bg_surface, (0, 0))
-    screen.blit(text_surface, (400, 100))
+    screen.blit(text_surface, (360, 100))
     pygame.draw.rect(screen, "White", div_rect)
     # screen.blit(ship_surface, (ship_x_pos, ship_y_pos))
     ship_rect.right += 8
