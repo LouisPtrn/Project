@@ -1,5 +1,5 @@
 11/05/2022 this is a log of the project
 17/05/2022 Started use of pygame in main program      https://youtu.be/AY9MnQ4x3zk?t=2545
 23/06/2022 Completed main login screen (not further menus)
-30/06/2022 Continued main program, collision detection
+30/06/2022 Continued main program, collision detection  https://youtu.be/AY9MnQ4x3zk?t=5756
 01/07/2022 Finished 1.1 and 1.2 in the report
