@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Space game 1">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,9 +130,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\patte\AppData\Local\Programs\Python\Python38\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
@@ -303,13 +303,5 @@
     <MESSAGE value="login gaming 6" />
     <MESSAGE value="Space game 1" />
     <option name="LAST_COMMIT_MESSAGE" value="Space game 1" />
-  </component>
-  <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Computing_Project$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1655900006236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$login.coverage" NAME="login Coverage Results" MODIFIED="1656504445892" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$main.coverage" NAME="main Coverage Results" MODIFIED="1656595420761" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$validation.coverage" NAME="validation Coverage Results" MODIFIED="1656588998965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$logindata__1_.coverage" NAME="logindata (1) Coverage Results" MODIFIED="1655987679343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/Computing_Project$login.coverage" NAME="login Coverage Results" MODIFIED="1655900615929" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
   </component>
 </project>

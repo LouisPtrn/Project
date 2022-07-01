@@ -1,6 +1,6 @@
 # ============================================================================================================== #
 #                                             MAIN PROGRAM
-# Written by: Louis Pattern     11/05/2022
+# Written by: Louis Pattern     01/07/2022
 # Known bugs: none
 # ============================================================================================================== #
 
@@ -29,7 +29,7 @@ ast_surface.set_colorkey("white")
 ast_surface = ast_surface.convert_alpha()
 ast_rect = ast_surface.get_rect(center=(1000, 200))
 bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
-inv_frames = 0
+# inv_frames = 0
 
 
 while play:
@@ -53,11 +53,11 @@ while play:
 
     pygame.draw.rect(screen, "White", div_rect)
 
-    if ship_rect.colliderect(ast_rect) and inv_frames == 0:
-        ship_rect.right = -300
+    if ship_rect.colliderect(ast_rect): # and inv_frames == 0:
+        ship_rect.right = 0
         inv_frames = 100
-    if inv_frames > 0:
-        inv_frames -= 1
+    # if inv_frames > 0:
+    #     inv_frames -= 1
 
     # Update everything
     pygame.display.update()
