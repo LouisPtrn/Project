@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Report/~$uis_Pattern_analysis.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -209,7 +207,7 @@
       <workItem from="1656503900617" duration="1624000" />
       <workItem from="1656587027947" duration="371000" />
       <workItem from="1656587411510" duration="7946000" />
-      <workItem from="1657099508564" duration="1223000" />
+      <workItem from="1657099508564" duration="2025000" />
     </task>
     <task id="LOCAL-00001" summary="login gaming">
       <created>1655906528133</created>
@@ -316,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656675400086</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Report 2">
+      <created>1657103115761</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1657103115761</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -348,7 +353,8 @@
     <MESSAGE value="Space game 1" />
     <MESSAGE value="Space game 2" />
     <MESSAGE value="Space game 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Space game 3" />
+    <MESSAGE value="Report 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Report 2" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Computing_Project$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1655900006236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
