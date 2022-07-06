@@ -60,7 +60,7 @@ while play:
 
     pygame.draw.rect(screen, "#FFFFFF", div_rect)
 
-    if ship_rect.colliderect(ast_rect): # and inv_frames == 0:
+    if ship_rect.colliderect(ast_rect):  # and inv_frames == 0:
         ship_rect.right = -600
         # inv_frames = 100
     # if inv_frames > 0:
