@@ -45,9 +45,9 @@ def is_valid_user(u, opt):
             if len(u) > 3:
                 u = u.upper()
                 characters = []
-                for i in range(65,91):
+                for i in range(65, 91):
                     characters.append(chr(i))
-                for i in range(48,58):
+                for i in range(48, 58):
                     characters.append(chr(i))
                 characters.append("_")
                 valid = True

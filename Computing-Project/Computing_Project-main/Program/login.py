@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from logindata import search
+from main import play
 
 
 class LoginWindow(tk.Tk):
@@ -18,7 +19,7 @@ class LoginWindow(tk.Tk):
         self.geometry("600x350")
         self.resizable(False, False)
         self.eval('tk::PlaceWindow . center')
-        self.iconbitmap("H:/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")
+        self.iconbitmap("H:/Computing-Project/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")
         # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
 
         # title
@@ -66,11 +67,10 @@ class LoginWindow(tk.Tk):
     def login(self):
         username = self.entry1.get()
         password = self.entry2.get()
-        if search(str(username), str(password), "Admins"):
-            tk.messagebox.showinfo(title='', message="Welcome admin "+username)
-            LoginWindow.destroy(self)
-        elif search(str(username), str(password), "Users"):
+        if search(str(username), str(password), "Users"):
             tk.messagebox.showinfo(title='', message="Welcome " + username)
+            LoginWindow.destroy(self)
+            play()
         else:
             tk.messagebox.showinfo(title='', message="No")
 

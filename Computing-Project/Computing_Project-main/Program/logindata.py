@@ -1,5 +1,5 @@
 import sqlite3
-
+import validation
 
 def createtable():
     con = sqlite3.connect("login.db")
@@ -20,18 +20,23 @@ def createtable():
     con.close()
 
 
-def enteruser(u, p):
-    con = sqlite3.connect("login.db")
-    try:
-        con.execute('''insert into Users (Username, Password) values (?, ?)''',
-                    (u, p))
-        con.commit()
-        con.close()
-        return True
-    except Exception as ex:
-        print(ex)
-        con.close()
-        return False
+def enter_user(u, p):
+    valU = validation.is_valid_user(u, "username")
+    valP = validation.is_valid_user(p, "password")
+    if valU and valP:
+        con = sqlite3.connect("login.db")
+        try:
+            con.execute('''insert into Users (Username, Password) values (?, ?)''',
+                        (u, p))
+            con.commit()
+            con.close()
+            return True
+        except Exception as ex:
+            print(ex)
+            con.close()
+            return False
+    else:
+        print("not valid")
 
 
 def search(u, p, table):
@@ -51,7 +56,25 @@ def search(u, p, table):
     return found
 
 
+def delete_user(u, p):
+    try:
+        con = sqlite3.connect("login.db")
+        cursor = con.cursor()
+        # Deleting single record now
+        con.execute('''DELETE from Users (Username, Password) values (?, ?)''',
+                    (u, p))
+        con.commit()
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Failed to delete record from sqlite table", error)
+    finally:
+        if con:
+            con.close()
+
+
 if __name__ == "__main__":
     createtable()
-    print(search("Admin0001", "12345678", "Admins"))
-    # enteruser("Dave", "1111")
+    # print(search("Admin0001", "12345678", "Admins"))
+    enter_user("Richard_11", "Password1")
+    delete_user("Richard_11", "Password1")

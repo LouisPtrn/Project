@@ -67,4 +67,4 @@ while True:
         x -= 1
 
     pygame.display.update()
-    clock.tick(120)
+    clock.tick(20)
