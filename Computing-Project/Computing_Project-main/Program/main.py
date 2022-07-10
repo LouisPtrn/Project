@@ -79,13 +79,25 @@ def play():
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_s]:
-                ship_rect.centery += 6
+                if keys[pygame.K_LSHIFT]:
+                    ship_rect.centery += 3
+                else:
+                    ship_rect.centery += 6
             if keys[pygame.K_w]:
-                ship_rect.centery -= 6
+                if keys[pygame.K_LSHIFT]:
+                    ship_rect.centery -= 3
+                else:
+                    ship_rect.centery -= 6
             if keys[pygame.K_d]:
-                ship_rect.centerx += 6
+                if keys[pygame.K_LSHIFT]:
+                    ship_rect.centerx += 3
+                else:
+                    ship_rect.centerx += 6
             if keys[pygame.K_a]:
-                ship_rect.centerx -= 6
+                if keys[pygame.K_LSHIFT]:
+                    ship_rect.centerx -= 3
+                else:
+                    ship_rect.centerx -= 6
             if keys[pygame.K_SPACE]:
                 shoot = True
 
