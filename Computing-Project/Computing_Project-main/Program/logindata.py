@@ -56,25 +56,23 @@ def search(u, p, table):
     return found
 
 
-def delete_user(u, p):
+def delete_user(u):
     try:
         con = sqlite3.connect("login.db")
         cursor = con.cursor()
         # Deleting single record now
-        con.execute('''DELETE from Users (Username, Password) values (?, ?)''',
-                    (u, p))
+        sql = "DELETE FROM Users WHERE Username=?"
+        cursor.execute(sql, (u,))
         con.commit()
         cursor.close()
+        con.close()
 
     except sqlite3.Error as error:
         print("Failed to delete record from sqlite table", error)
-    finally:
-        if con:
-            con.close()
 
 
 if __name__ == "__main__":
     createtable()
     # print(search("Admin0001", "12345678", "Admins"))
     enter_user("Richard_11", "Password1")
-    delete_user("Richard_11", "Password1")
+    delete_user("Richard_11")

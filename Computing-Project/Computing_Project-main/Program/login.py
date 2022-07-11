@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from logindata import search
-from main import play
+from game import play
 
 
 class LoginWindow(tk.Tk):

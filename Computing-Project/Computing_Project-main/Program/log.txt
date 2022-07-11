@@ -4,3 +4,4 @@
 30/06/2022 Continued main program, collision detection  https://youtu.be/AY9MnQ4x3zk?t=5756
 01/07/2022 Finished 1.1 and 1.2 in the report
 07/07/2022 Continued learning pygame, score and game over screen  https://youtu.be/AY9MnQ4x3zk?t=7805
+11/07/2022 Converting game to OOP
