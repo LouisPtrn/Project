@@ -1,7 +1,7 @@
 # ============================================================================================================== #
 #                                             GAME PROGRAM
 # Written by: Louis Pattern     11/07/2022
-# Known bugs:     laser cannot be fired again until it reaches end of screen.
+# Known bugs:  No Collision with OOP, laser needs group class?
 # ============================================================================================================== #
 
 import pygame
