@@ -1,13 +1,12 @@
 # ============================================================================================================== #
 #                                             GAME PROGRAM
 # Written by: Louis Pattern     11/07/2022
-# Known bugs:  No Collision with OOP, laser needs group class?
+# Known bugs:  none
 # ============================================================================================================== #
 
 import pygame
 from sys import exit
 import random
-
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -52,138 +51,126 @@ class Player(pygame.sprite.Sprite):
         self.player_input()
 
 
-class Projectile(pygame.sprite.Sprite):
+class Lasers(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__()
         self.image = pygame.image.load("graphics/laser.png").convert_alpha()
         self.rect = self.image.get_rect(center=(x, y))
 
     def shoot(self):
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
-            self.rect.centerx += 2
+        self.rect.x += 24
+
+    def delete(self):
+        if self.rect.x > 1000 or not game_active:
+            self.kill()
 
     def update(self):
+        global lrect
         self.shoot()
+        self.delete()
+        lrect = self.rect
 
 
-class Game:
+class Enemies(pygame.sprite.Sprite):
     def __init__(self):
-        pygame.init()
-        self.screen = pygame.display.set_mode((960, 600))
-        pygame.display.set_caption("Space Game")
-        self.clock = pygame.time.Clock()
-        self.test_font = pygame.font.Font(None, 50)
-        self.play1 = True
-        self.score = 0
-        self.div_rect = pygame.Rect(-300, 290, 2000, 10)
-        self.text_surface = self.test_font.render("SPACE GAME", True, (180, 10, 10))
-        self.game_over = self.test_font.render("GAME OVER", True, (255, 0, 0))
-        self.score_surface = self.test_font.render(str(self.score), True, (60, 60, 200))
-        self.ast_surface = pygame.image.load("graphics/ast.png")
-        self.ast_surface.set_colorkey("white")
-        self.ast_surface = self.ast_surface.convert_alpha()
-        self.ast_rect = self.ast_surface.get_rect(center=(1000, 200))
-        self.laser_surface = pygame.image.load("graphics/laser.png").convert_alpha()
-        self.laser_rect = self.laser_surface.get_rect(center=(0, 0))
-        self.bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
-        # inv_frames = 0
-        self.shoot = False
-        self.game_active = True
+        super().__init__()
+        self.image = pygame.image.load("graphics/ast.png").convert_alpha()
+        self.image.set_colorkey("white")
+        self.rect = self.image.get_rect(center=(1000, random.randint(10, 590)))
 
-        self.player = pygame.sprite.GroupSingle()
-        self.player.add(Player())
+    def move(self):
+        self.rect.x -= 4
 
-        # self.lasers = pygame.sprite.Group()
-        # self.lasers.add(Lasers())
+    def die(self):
+        if self.rect.right < 1 or not game_active:
+            self.kill()
 
-        # Timer
-        self.timer = pygame.USEREVENT + 1
-        pygame.time.set_timer(self.timer, 1000)
+    def hit_player(self):
+        global game_active
+        if self.rect.colliderect(player.sprite.rect):
+            game_active = False
 
-    def play(self):
-        while self.play1:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    exit()
-                # if event.type == timer and game_active:
-                #     obstacle_rect_list.append(ast_surface.get_rect(center=(random.randint(0, 1000),
-                #                                                            random.randint(0, 1000))))
+    def update(self):
+        self.move()
+        self.hit_player()
+        self.die()
 
-                # if event.type == pygame.KEYDOWN:
-                #     if event.key == pygame.K_s:
-                #         print("move")
-                # if event.type == pygame.KEYUP:
-                #      print("No")
 
-            # screen.blit(ship_surface, (ship_x_pos, ship_y_pos))
+def play():
+    global game_active
+    global player
+    global laser
+    pygame.init()
+    screen = pygame.display.set_mode((960, 600))
+    pygame.display.set_caption("Space Game")
+    clock = pygame.time.Clock()
+    test_font = pygame.font.Font(None, 50)
+    play1 = True
+    score = 0
+    div_rect = pygame.Rect(-300, 290, 2000, 10)
+    text_surface = test_font.render("SPACE GAME", True, (180, 10, 10))
+    game_over = test_font.render("GAME OVER", True, (255, 0, 0))
+    score_surface = test_font.render(str(score), True, (60, 60, 200))
+    bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
+    game_active = True
+    player = pygame.sprite.GroupSingle()
+    player.add(Player())
+    laser = pygame.sprite.Group()
+    ast = pygame.sprite.Group()
+    cooldown = 0
 
-            if self.game_active:
+    while play1:
 
-                self.ast_rect.left += -3
-                if self.ast_rect.left < -200:
-                    self.ast_rect.left = 1100
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
 
-                # Enemies movement
+        if pygame.sprite.groupcollide(laser, ast, True, True):
+            score += 100
 
-                # if self.player.rect.colliderect(self.ast_rect):
-                #     self.game_active = False
-                #
-                # if self.laser_rect.colliderect(self.ast_rect):
-                #     self.score += 100
-                #     self.ast_rect.left = 1200
-                #     self.ast_rect.centery = random.randint(0, 500)
-                #
-                # if not self.shoot:
-                #     self.laser_rect.centerx = self.ship_rect.centerx
-                #     self.laser_rect.centery = self.ship_rect.centery
+        if game_active:
+            if random.randint(0, 30) == 0:
+                ast.add(Enemies())
 
-                keys = pygame.key.get_pressed()
 
-                #
-                # if self.shoot:
-                #     self.laser_rect.centerx += 10
-                #
-                # if self.laser_rect.left > 960:
-                #     self.shoot = False
+            keys = pygame.key.get_pressed()
 
-                pygame.draw.rect(self.screen, "#FFFFFF", self.div_rect)
-                self.screen.blit(self.bg_surface, (0, 0))
-                self.screen.blit(self.text_surface, (360, 100))
-                pygame.draw.rect(self.screen, "White", self.div_rect)
-                self.screen.blit(self.score_surface, (450, 280))
-                self.screen.blit(self.laser_surface, self.laser_rect)
-                # self.screen.blit(self.ship_surface, self.ship_rect)
-                self.player.draw(self.screen)
-                self.player.update()
+            if keys[pygame.K_SPACE] and cooldown < 1:
+                laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery))
+                cooldown = 16
 
-                # self.lasers.draw(self.screen)
-                # self.lasers.update()
+            pygame.draw.rect(screen, "#FFFFFF", div_rect)
+            screen.blit(bg_surface, (0, 0))
+            screen.blit(text_surface, (360, 100))
+            pygame.draw.rect(screen, "White", div_rect)
+            screen.blit(score_surface, (450, 280))
+            score_surface = test_font.render(str(score), True, (60, 60, 200))
 
-                self.screen.blit(self.ast_surface, self.ast_rect)
-                self.score_surface = self.test_font.render(str(self.score), True, (60, 60, 200))
+            laser.draw(screen)
+            laser.update()
+            ast.draw(screen)
+            ast.update()
+            player.draw(screen)
+            player.update()
+            cooldown -= 1
+        else:
+            screen.fill("Black")
+            screen.blit(game_over, (360, 250))
+            screen.blit(score_surface, (400, 150))
+            keys = pygame.key.get_pressed()
+            score = 0
+            if keys[pygame.K_RETURN]:
+                score = 0
+                game_active = True
+                player.sprite.rect.centery = 200
+                player.sprite.rect.centerx = 100
 
-            else:
-                self.screen.fill("Black")
-                self.screen.blit(self.game_over, (360, 250))
-                self.screen.blit(self.score_surface, (440, 150))
-                keys = pygame.key.get_pressed()
-                self.score = 0
-                if keys[pygame.K_SPACE]:
-                    self.player.centerx = 100
-                    self.player.centery = 300
-                    self.ast_rect.centerx = 1000
-                    self.ast_rect.centery = random.randint(200, 700)
-                    self.score = 0
-                    self.game_active = True
 
-            # Update everything
-            pygame.display.update()
-            self.clock.tick(60)  # Caps at 60 fps
+        # Update everything
+        pygame.display.update()
+        clock.tick(60)  # Caps at 60 fps
 
 
 if __name__ == "__main__":
-    SpaceGame = Game()
-    while True:
-        SpaceGame.play()
+    play()
