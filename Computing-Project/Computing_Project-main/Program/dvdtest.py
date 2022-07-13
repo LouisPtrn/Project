@@ -31,8 +31,7 @@ up = True
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            exit()
+            print("Get Trolled")
     screen.blit(dvd, (x, y))
 
     # if up and right:
