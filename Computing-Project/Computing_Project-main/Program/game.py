@@ -88,6 +88,79 @@ class Enemies(pygame.sprite.Sprite):  # Enemies and obstacles class
         self.move()
         self.die()
 
+class Option(pygame.sprite.Sprite):
+    def __init__(self, type):
+        super().__init__()
+        self.cycle = 0
+        self.timer = 0
+        self.toggle = True
+        if type == "play":
+            self.type = "play"
+            self.image_sprite = [pygame.image.load("graphics/menu/option_play.png"),
+                                 pygame.image.load("graphics/menu/option_play1.png"),
+                                 pygame.image.load("graphics/menu/option_play2.png"),
+                                 pygame.image.load("graphics/menu/option_play3.png"),
+                                 pygame.image.load("graphics/menu/option_play4.png")]
+
+            self.image = self.image_sprite[0]
+            self.rect = self.image.get_rect(center=(460, 300))
+
+        elif type == "settings":
+            self.type = "settings"
+            self.image_sprite = [pygame.image.load("graphics/menu/option_settings.png"),
+                                 pygame.image.load("graphics/menu/option_settings1.png"),
+                                 pygame.image.load("graphics/menu/option_settings2.png"),
+                                 pygame.image.load("graphics/menu/option_settings3.png"),
+                                 pygame.image.load("graphics/menu/option_settings4.png")]
+
+            self.image = self.image_sprite[0]
+            self.rect = self.image.get_rect(center=(460, 400))
+        else:
+            self.type = "versus"
+            self.image_sprite = [pygame.image.load("graphics/menu/option_versus.png"),
+                                 pygame.image.load("graphics/menu/option_versus1.png"),
+                                 pygame.image.load("graphics/menu/option_versus2.png"),
+                                 pygame.image.load("graphics/menu/option_versus3.png"),
+                                 pygame.image.load("graphics/menu/option_versus4.png")]
+
+            self.image = self.image_sprite[0]
+            self.rect = self.image.get_rect(center=(460, 500))
+    def animate(self, select):
+        if self.type == "play":
+            if select == 0:
+                self.image = self.image_sprite[self.cycle]
+            else:
+                self.image = self.image_sprite[0]
+        if self.type == "settings":
+            if select == 1:
+                self.image = self.image_sprite[self.cycle]
+            else:
+                self.image = self.image_sprite[0]
+        if self.type == "versus":
+            if select == 2:
+                self.image = self.image_sprite[self.cycle]
+            else:
+                self.image = self.image_sprite[0]
+    def animate_cycle(self):
+        if self.toggle:
+            self.cycle += 1
+        else:
+            self.cycle -= 1
+        if self.cycle >= 4:
+            self.toggle = False
+        if self.cycle <= 1:
+            self.toggle = True
+
+    def update(self, select):
+        self.animate(select)
+        self.timer -= 1
+        if self.timer <= 0:
+            self.timer = 8
+            self.animate_cycle()
+
+
+
+
 
 def play():
     pygame.init()
@@ -100,46 +173,73 @@ def play():
     div_rect = pygame.Rect(-300, 290, 2000, 10)
     text_surface = test_font.render("SPACE GAME", True, (180, 10, 10))
     game_over = test_font.render("GAME OVER", True, (255, 0, 0))
+    menu_text = test_font.render("MENU", False, (200, 200, 200), (0, 0, 0))
     score_surface = test_font.render(str(score), True, (60, 60, 200)).convert_alpha()
     bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
     player = pygame.sprite.GroupSingle()
     player.add(Player())
     laser = pygame.sprite.Group()
     ast = pygame.sprite.Group()
+    options = pygame.sprite.Group()
+    buttons = ["play", "settings", "versus"]
+    for i in buttons:
+        options.add(Option(i))
     cooldown = 0
-    game_active = True
-    play1 = True
+    game_state = 0
+    select = 0
+    play_game = True
 
-    while play1:  # Game loop
+
+    while play_game:  # Game loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and select > 0:
+                    select -= 1
+                if event.key == pygame.K_DOWN and select < 2:
+                    select += 1
 
-        if game_active:
+        # Main Menu
+        if game_state == 0:
+            screen.fill((0, 0, 0))
+            screen.blit(menu_text, (400, 160))
+            keys = pygame.key.get_pressed()
+            screen.blit(text_surface, (340, 100))
+            options.update(select)
+            options.draw(screen)
+
+            score = 0
+            if keys[pygame.K_SPACE] and select == 0:
+                score = 0
+                game_state = 1
+                player.sprite.rect.centery = 200  # Reset ship pos
+                player.sprite.rect.centerx = 100
+
+        # Gameplay
+        elif game_state == 1:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
                 laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery))
                 cooldown = 20
+            cooldown -= 1
 
             # Collision Detection
             if pygame.sprite.groupcollide(laser, ast, True, True):
                 score += 100
             if pygame.sprite.spritecollide(player.sprite, ast, False):
-                game_active = False
+                game_state = 2
 
             if random.randint(0, 30) == 0:
                 ast.add(Enemies())
 
-            cooldown -= 1
-
             # Drawing non - sprites
             pygame.draw.rect(screen, "#FFFFFF", div_rect)
             screen.blit(bg_surface, (0, 0))
-            screen.blit(text_surface, (360, 100))
             pygame.draw.rect(screen, "White", div_rect)
             screen.blit(score_surface, (450, 280))
-            score_surface = test_font.render(str(score), True, (60, 60, 200)).convert_alpha()
+            score_surface = test_font.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
             cooldown -= 1
             # Sprites drawing and updating
             laser.draw(screen)
@@ -160,7 +260,7 @@ def play():
             ast.empty()
             if keys[pygame.K_RETURN]:
                 score = 0
-                game_active = True
+                game_state = 0
                 player.sprite.rect.centery = 200  # Reset ship pos
                 player.sprite.rect.centerx = 100
 

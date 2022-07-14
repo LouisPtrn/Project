@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="">
+    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Fixed collision and lasers">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/dvdtest.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/dvdtest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/spacebg.png" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/spacebg.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/laser.png" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/laser.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -188,8 +188,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.game" />
-        <item itemvalue="Python.login" />
         <item itemvalue="Python.dvdtest" />
+        <item itemvalue="Python.login" />
         <item itemvalue="Python.oldgame" />
         <item itemvalue="Python.main" />
       </list>
@@ -234,7 +234,8 @@
       <workItem from="1657546055312" duration="1478000" />
       <workItem from="1657705334367" duration="2770000" />
       <workItem from="1657711475561" duration="1155000" />
-      <workItem from="1657712643024" duration="6780000" />
+      <workItem from="1657712643024" duration="6834000" />
+      <workItem from="1657796249261" duration="8654000" />
     </task>
     <task id="LOCAL-00001" summary="login gaming">
       <created>1655906528133</created>
@@ -376,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657551645894</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Fixed collision and lasers">
+      <created>1657720000666</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1657720000666</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,7 +420,8 @@
     <MESSAGE value="Pygame 3" />
     <MESSAGE value="Pygame OOP" />
     <MESSAGE value="Pygame OOP 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pygame OOP 2" />
+    <MESSAGE value="Fixed collision and lasers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed collision and lasers" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -429,9 +438,9 @@
     <SUITE FILE_PATH="coverage/Computing_Project$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1655900006236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$login__1_.coverage" NAME="login (1) Coverage Results" MODIFIED="1657279870159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$main.coverage" NAME="main Coverage Results" MODIFIED="1657545850804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$dvdtest.coverage" NAME="dvdtest Coverage Results" MODIFIED="1657707138822" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$login.coverage" NAME="login Coverage Results" MODIFIED="1657713110675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$game.coverage" NAME="game Coverage Results" MODIFIED="1657717989477" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$dvdtest.coverage" NAME="dvdtest Coverage Results" MODIFIED="1657805057180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$game.coverage" NAME="game Coverage Results" MODIFIED="1657805191293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$validation.coverage" NAME="validation Coverage Results" MODIFIED="1656588998965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1657540256808" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$logindata__1_.coverage" NAME="logindata (1) Coverage Results" MODIFIED="1655987679343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing_Project-main/Program" />
