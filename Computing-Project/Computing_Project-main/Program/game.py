@@ -103,7 +103,7 @@ class Option(pygame.sprite.Sprite):
                                  pygame.image.load("graphics/menu/option_play4.png")]
 
             self.image = self.image_sprite[0]
-            self.rect = self.image.get_rect(center=(460, 300))
+            self.rect = self.image.get_rect(center=(460, 260))
 
         elif type == "settings":
             self.type = "settings"
@@ -114,14 +114,24 @@ class Option(pygame.sprite.Sprite):
                                  pygame.image.load("graphics/menu/option_settings4.png")]
 
             self.image = self.image_sprite[0]
-            self.rect = self.image.get_rect(center=(460, 400))
-        else:
+            self.rect = self.image.get_rect(center=(460, 340))
+        elif type == "versus":
             self.type = "versus"
             self.image_sprite = [pygame.image.load("graphics/menu/option_versus.png"),
                                  pygame.image.load("graphics/menu/option_versus1.png"),
                                  pygame.image.load("graphics/menu/option_versus2.png"),
                                  pygame.image.load("graphics/menu/option_versus3.png"),
                                  pygame.image.load("graphics/menu/option_versus4.png")]
+
+            self.image = self.image_sprite[0]
+            self.rect = self.image.get_rect(center=(460, 420))
+        else:
+            self.type = "highscores"
+            self.image_sprite = [pygame.image.load("graphics/menu/option_highscores.png"),
+                                 pygame.image.load("graphics/menu/option_highscores1.png"),
+                                 pygame.image.load("graphics/menu/option_highscores2.png"),
+                                 pygame.image.load("graphics/menu/option_highscores3.png"),
+                                 pygame.image.load("graphics/menu/option_highscores4.png")]
 
             self.image = self.image_sprite[0]
             self.rect = self.image.get_rect(center=(460, 500))
@@ -138,6 +148,11 @@ class Option(pygame.sprite.Sprite):
                 self.image = self.image_sprite[0]
         if self.type == "versus":
             if select == 2:
+                self.image = self.image_sprite[self.cycle]
+            else:
+                self.image = self.image_sprite[0]
+        if self.type == "highscores":
+            if select == 3:
                 self.image = self.image_sprite[self.cycle]
             else:
                 self.image = self.image_sprite[0]
@@ -159,29 +174,27 @@ class Option(pygame.sprite.Sprite):
             self.animate_cycle()
 
 
-
-
-
 def play():
     pygame.init()
     screen = pygame.display.set_mode((960, 600))  # Game window
     pygame.display.set_caption("Space Game")
     clock = pygame.time.Clock()
 
-    test_font = pygame.font.Font(None, 50)
+    font1 = pygame.font.Font(None, 50)
+    font2 = pygame.font.Font(None, 100)
     score = 0
     div_rect = pygame.Rect(-300, 290, 2000, 10)
-    text_surface = test_font.render("SPACE GAME", True, (180, 10, 10))
-    game_over = test_font.render("GAME OVER", True, (255, 0, 0))
-    menu_text = test_font.render("MENU", False, (200, 200, 200), (0, 0, 0))
-    score_surface = test_font.render(str(score), True, (60, 60, 200)).convert_alpha()
+    text_surface = font1.render("SPACE GAME", True, (180, 10, 10))
+    game_over = font1.render("GAME OVER", True, (255, 0, 0))
+    menu_text = font2.render("MENU", False, (200, 200, 200), (0, 0, 0))
+    score_surface = font1.render(str(score), True, (60, 60, 200)).convert_alpha()
     bg_surface = pygame.image.load("graphics/spacebg.png").convert_alpha()
     player = pygame.sprite.GroupSingle()
     player.add(Player())
     laser = pygame.sprite.Group()
     ast = pygame.sprite.Group()
     options = pygame.sprite.Group()
-    buttons = ["play", "settings", "versus"]
+    buttons = ["play", "settings", "versus", "highscores"]
     for i in buttons:
         options.add(Option(i))
     cooldown = 0
@@ -198,15 +211,15 @@ def play():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_UP and select > 0:
                     select -= 1
-                if event.key == pygame.K_DOWN and select < 2:
+                if event.key == pygame.K_DOWN and select < 3:
                     select += 1
 
         # Main Menu
         if game_state == 0:
             screen.fill((0, 0, 0))
-            screen.blit(menu_text, (400, 160))
+            screen.blit(menu_text, (360, 120))
             keys = pygame.key.get_pressed()
-            screen.blit(text_surface, (340, 100))
+            screen.blit(text_surface, (340, 60))
             options.update(select)
             options.draw(screen)
 
@@ -239,7 +252,7 @@ def play():
             screen.blit(bg_surface, (0, 0))
             pygame.draw.rect(screen, "White", div_rect)
             screen.blit(score_surface, (450, 280))
-            score_surface = test_font.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
+            score_surface = font1.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
             cooldown -= 1
             # Sprites drawing and updating
             laser.draw(screen)
