@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Fixed collision and lasers">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/laser.png" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/graphics/laser.png" afterDir="false" />
-    </list>
+    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Added a proper menu" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -235,7 +230,7 @@
       <workItem from="1657705334367" duration="2770000" />
       <workItem from="1657711475561" duration="1155000" />
       <workItem from="1657712643024" duration="6834000" />
-      <workItem from="1657796249261" duration="8654000" />
+      <workItem from="1657796249261" duration="8688000" />
     </task>
     <task id="LOCAL-00001" summary="login gaming">
       <created>1655906528133</created>
@@ -384,7 +379,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657720000666</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Added a proper menu">
+      <created>1657805210609</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1657805210609</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,7 +423,8 @@
     <MESSAGE value="Pygame OOP" />
     <MESSAGE value="Pygame OOP 2" />
     <MESSAGE value="Fixed collision and lasers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed collision and lasers" />
+    <MESSAGE value="Added a proper menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a proper menu" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
