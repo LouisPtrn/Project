@@ -1,14 +1,14 @@
 # ============================================================================================================== #
 # This file will be used for logging in only.
 # Written by: Louis Pattern     24/06/2022
-# Known bugs: none
+# Known bugs: 0 When exiting game, quit button can be clicked multiple times causes many messages (FIXED)
 # ============================================================================================================== #
 
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
 from logindata import search
-from game import play
+import game
 
 
 class LoginWindow(tk.Tk):
@@ -19,9 +19,8 @@ class LoginWindow(tk.Tk):
         self.geometry("600x350")
         self.resizable(False, False)
         self.eval('tk::PlaceWindow . center')
-        self.iconbitmap("H:/Computing-Project/Computing-Project/Computing_Project-main/Program/graphics/yinyang.ico")
-        # Window icon  C:/Users/patte/Computing Project/Program/graphics/yinyang.ico
-
+        # Window icon
+        self.iconbitmap("graphics/yinyang.ico")
         # title
         self.label = ttk.Label(self, text='Welcome, Please Log In.', font=("Helvetica", 25, "bold"))
         self.label.pack()
@@ -36,14 +35,15 @@ class LoginWindow(tk.Tk):
 
         # login button
         self.button = ttk.Button(self, text='Login')
-        self.button['command'] = lambda: self.login()
+        self.button['command'] = lambda: self.log_in()
         self.button.place(x=475, y=300)
-        self.bind("<Return>", (lambda event: self.login()))
+        self.bind("<Return>", (lambda event: self.log_in()))
 
-        # cancel button
-        self.button2 = ttk.Button(self, text='Cancel', width=10)
+        # exit button
+        self.button2 = ttk.Button(self, text='Quit', width=10)
         self.button2['command'] = self.cancel
         self.button2.place(x=50, y=300)
+        self.bind("<Escape>", (lambda event: self.cancel()))
 
         # username and password text
         self.label = ttk.Label(self, text='User Name:', font=("Arial", 15))
@@ -64,16 +64,17 @@ class LoginWindow(tk.Tk):
             self.entry2.config(show="*")
             self.i = True
 
-    def login(self):
+    def log_in(self):
         username = self.entry1.get()
         password = self.entry2.get()
         if search(str(username), str(password), "Users"):
             tk.messagebox.showinfo(title='', message="Welcome " + username)
             LoginWindow.destroy(self)
-            play()
+            game.setup()
+            game.play()
+
         else:
             tk.messagebox.showinfo(title='', message="No")
-
 
     def cancel(self):
         ans = tk.messagebox.askyesno(title='', message='Exit?')
@@ -81,9 +82,10 @@ class LoginWindow(tk.Tk):
             LoginWindow.destroy(self)
 
 
-# admin screen, allows creation of users
+def create_window():
+    login = LoginWindow()
+    login.mainloop()
 
 
 if __name__ == "__main__":
-    login = LoginWindow()
-    login.mainloop()
+    create_window()

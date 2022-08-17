@@ -24,7 +24,7 @@ def is_length(data, length, opt):
             if len(data) <= length:
                 return True
             return False
-    except:
+    except :
         return "Error 1"
 
 
@@ -66,10 +66,10 @@ def is_valid_user(u, opt):
 
 
 if __name__ == "__main__":
-    # show_message("Test1", (is_length(True, 15, 3)), 2)
-    # if is_inrange("test", 1, 2):
-    #     show_message("Range", "Value is in range", 1)
-    # else:
-    #     show_message("Range", "Value is not in range", 3)
+    show_message("Test1", (is_length(True, 15, 3)), 2)
+    if is_inrange("test", 1, 2):
+        show_message("Range", "Value is in range", 1)
+    else:
+        show_message("Range", "Value is not in range", 3)
     print(is_valid_user("xXx_AbidIssaTheGenerous_xXX", "username"))
 
