@@ -4,11 +4,11 @@
 # Known bugs: none
 # ============================================================================================================== #
 
-from messages import *
+from datetime import *
+
 
 # length validation
 # parameters: data - data that needs to be validated  length(int) - length to compare data to
-
 
 def is_length(data, length, opt):
     try:
@@ -24,8 +24,8 @@ def is_length(data, length, opt):
             if len(data) <= length:
                 return True
             return False
-    except :
-        return "Error 1"
+    except Exception as ex:
+        return ex
 
 
 # range validation
@@ -34,11 +34,12 @@ def is_inrange(data, lo, hi):
         if (len(data) >= lo) and (len(data) <= hi):
             return True
         return False
-    except:
+    except ValueError:
         return "Error 2"
 
 
 # username and password validation
+# u - data to be validated, opt - validation option: username or password
 def is_valid_user(u, opt):
     if opt == "username":
         if isinstance(u, str):
@@ -65,11 +66,28 @@ def is_valid_user(u, opt):
     return valid
 
 
-if __name__ == "__main__":
-    show_message("Test1", (is_length(True, 15, 3)), 2)
-    if is_inrange("test", 1, 2):
-        show_message("Range", "Value is in range", 1)
-    else:
-        show_message("Range", "Value is not in range", 3)
-    print(is_valid_user("xXx_AbidIssaTheGenerous_xXX", "username"))
+# Checks is a given date is valid
+def is_valid_date(given_date):  # DD/MM/YYYY
+    try:
+        datetime.strptime(given_date, '%d/%m/%Y')
+        return True
+    except ValueError:
+        return False
 
+
+# Checks if a high score is valid - positive integer that isn't too high
+def is_valid_score(score):
+    if isinstance(score, int):
+        if 0 <= score < 100000:
+            return True
+    return False
+
+
+if __name__ == "__main__":
+    # show_message("Test1", (is_length(True, 15, 3)), 2)
+    # if is_inrange("test", 1, 2):
+    #     show_message("Range", "Value is in range", 1)
+    # else:
+    # if not is_valid_date("29/02/2005"):
+    #     show_message("Date", "Date is invalide", 3)
+    print(is_valid_score(99999))

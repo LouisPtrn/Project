@@ -1,15 +1,17 @@
 # ============================================================================================================== #
 # SPRITES AND CLASSES FILE
-# Written by: Louis Pattern     10/08/2022
+# Written by: Louis Pattern     30/08/2022
 # Known bugs: none
 # ============================================================================================================== #
 
 import pygame
+from pygame import mixer
 import random
 from settings import *
 
 
-class Player(pygame.sprite.Sprite):  # Spaceship class
+# Spaceship class controlled by the user
+class Player(pygame.sprite.Sprite):
     def __init__(self, wd, ht):
         super().__init__()
         self.wd = wd
@@ -60,7 +62,7 @@ class Player(pygame.sprite.Sprite):  # Spaceship class
 
     def death_check(self, li):
         if li <= 0:
-            self.kill()
+            self.take_dmg2()
 
     def update(self, lives):
         self.player_input()
@@ -153,7 +155,7 @@ class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
 
     def death_check(self, li):
         if li <= 0:
-            self.kill()
+            self.take_dmg2()
 
     def update(self, lives):
         self.player_input()
@@ -189,14 +191,19 @@ class Hearts(pygame.sprite.Sprite):  # Number of lives UI
         self.animate(lives, frames)
 
 
-class Lasers(pygame.sprite.Sprite):  # Playser weapon class
-    def __init__(self, x, y, wd, ht):
+# Playser weapon class
+class Lasers(pygame.sprite.Sprite):
+    def __init__(self, x, y, wd, ht, sound):
         super().__init__()
         self.wd = wd
         self.ht = ht
         self.surface = pygame.image.load("graphics/laser.png").convert_alpha()
         self.image = pygame.transform.scale(self.surface, (self.wd / 40, self.ht / 160))
         self.rect = self.image.get_rect(center=(x, y))
+        if sound:
+            mixer.music.load("audio/sound_shoot.wav")
+            mixer.music.set_volume(0.5)
+            mixer.music.play()
 
     def shoot(self):
         self.rect.x += self.wd/40
@@ -221,7 +228,8 @@ class EnemyLasers(Lasers):  # Enemy weapon class
             self.kill()
 
 
-class Enemies(pygame.sprite.Sprite):  # Enemies and obstacles class
+# Enemy obstacles class
+class Asteroids(pygame.sprite.Sprite):
     def __init__(self, wd, ht, y1, y2):
         super().__init__()
         self.wd = wd
@@ -235,14 +243,70 @@ class Enemies(pygame.sprite.Sprite):  # Enemies and obstacles class
         self.rect.x -= self.wd/250
 
     def die(self):
-        if self.rect.right < 0:
-            self.kill()
+        self.kill()
 
     def update(self):
         self.move()
-        self.die()
+        if self.rect.right < 1:
+            self.die()
 
 
+class Alien(pygame.sprite.Sprite):
+    def __init__(self, wd, ht):
+        super().__init__()
+        self.lives = 3
+        self.hit = False
+        self.wd = wd
+        self.ht = ht
+        self.surface = pygame.image.load("graphics/alien1.png").convert_alpha()
+        self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
+        self.image.set_colorkey("white")
+        self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
+
+    def move(self, px, py, p2x, p2y):
+        self.hit = False
+        if self.rect.centery < self.ht/2:
+            # player 1 side movement
+            if self.rect.centery < py:
+                self.rect.centery += self.ht / 300
+            elif self.rect.centery > py:
+                self.rect.centery -= self.ht / 300
+
+            if px > self.wd / 2:
+                self.rect.centerx -= self.wd / 500
+            elif px > self.wd / 10:
+                self.rect.centerx -= self.wd / px
+            else:
+                self.rect.centerx -= self.wd / 100
+
+        else:
+            # player 2 side movement
+            if self.rect.centery < p2y:
+                self.rect.centery += self.ht / 300
+            elif self.rect.centery > p2y:
+                self.rect.centery -= self.ht / 300
+
+            if p2x > self.wd / 2:
+                self.rect.centerx -= self.wd / 500
+            elif p2x > self.wd / 10:
+                self.rect.centerx -= self.wd / p2x
+            else:
+                self.rect.centerx -= self.wd / 100
+
+    def take_dmg(self, shot):
+        if shot and not self.hit:
+            self.lives -= 1
+            self.hit = True
+
+    def update(self, playerx, playery, player2x, player2y, is_shot):
+        self.take_dmg(is_shot)
+        self.move(playerx, playery, player2x, player2y)
+
+        if self.rect.centerx < 1 or self.lives == 0:
+            self.kill()
+
+
+# Buttons on the main menu
 class Option(pygame.sprite.Sprite):
     def __init__(self, variant, wd, ht):
         super().__init__()
@@ -344,6 +408,7 @@ class Option(pygame.sprite.Sprite):
             self.animate_cycle()
 
 
+# Buttons and animations for the settings file
 class Settings(pygame.sprite.Sprite):
     def __init__(self, variant, wd, ht):
         super().__init__()
@@ -437,6 +502,7 @@ class Settings(pygame.sprite.Sprite):
         self.action(row, col, delay)
 
 
+# Marker to show the currently active setting
 class SettingMarker(pygame.sprite.Sprite):
     def __init__(self, row, wd, ht):
         super().__init__()
@@ -456,3 +522,22 @@ class SettingMarker(pygame.sprite.Sprite):
 
     def update(self):
         self.move()
+
+
+# Text that displays the top 5 player's names with correspoding score
+class HighscoreRow(pygame.sprite.Sprite):
+    def __init__(self, num, wd, ht, name, score):
+        super().__init__()
+        self.num = num
+        self.name = name
+        self.score = score
+        y = (ht/3 + num*ht/10)
+        self.font = pygame.font.Font("graphics/fonts/ARCADE_R.ttf", round(wd / 24))
+        self.image = self.font.render(name + " " + str(score), False, (200, 200, 250), (0, 0, 0))
+        self.rect = self.image.get_rect(center=(wd/2, y))
+
+    def update(self):
+        if self.num == 0:
+            self.image = self.font.render(self.name + " " + str(self.score), False, (250, 250, 10), (0, 0, 0))
+        else:
+            self.image = self.font.render(self.name + " " + str(self.score), False, (200, 200, 200), (0, 0, 0))

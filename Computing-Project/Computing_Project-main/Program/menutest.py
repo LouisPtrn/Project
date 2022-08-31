@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import Menu
 
 root = tk.Tk()
-root.title = ("Menu test")
+root.title = "Menu test"
 menubar = Menu(root)
 root.config(menu=menubar)
 file_menu = Menu(menubar)

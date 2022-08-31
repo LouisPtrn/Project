@@ -63,6 +63,7 @@ def load_defualts():
 
 
 # Creates the text file after first launch
+# This file will be used to check whether the user is new or returning
 def remember_launch():
     with open("I_remember_you.TXT", "w") as f:
         f.write("")

@@ -19,8 +19,9 @@ def show_message(title, message, opt):
     elif opt == 3:
         messagebox.showwarning(title=title, message=message)
     elif opt == 4:
-        return(messagebox.askyesno(title=title, message=message))
+        return messagebox.askyesno(title=title, message=message)
     root.destroy()
+
 
 if __name__ == "__main__":
     show_message("Test", "Testing?", 4)

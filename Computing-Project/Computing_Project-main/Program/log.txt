@@ -31,3 +31,7 @@
 17/08/2022 Versus timer added which uses DIV 60 on the frame timer to get the number of seconds as the game is capped
            at 60 fps. Victory conditions for 2-player added (whoever survives longest or higher score if end of timer
            is reached). I will have to change some things when adding player vs AI controlled ship in the future.
+19/08/2022 Fixed a bug where player rects were being deleted at the end of the 2 player game. Positions, score, lives
+           and asteroids reset allowing for replayability.
+23/08/2022 Added aliens that behave differently depending on where the player is.
+30/08/2022 Used pyinstaller to create an exe file that runs the game without needing python or pycharm.

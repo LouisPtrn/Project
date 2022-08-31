@@ -7,7 +7,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
-from logindata import search
+from LoginData import search
 import game
 
 
@@ -85,6 +85,11 @@ class LoginWindow(tk.Tk):
 def create_window():
     login = LoginWindow()
     login.mainloop()
+
+
+def restart():
+    game.setup()
+    game.play()
 
 
 if __name__ == "__main__":
