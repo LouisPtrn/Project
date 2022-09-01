@@ -57,6 +57,7 @@ class LoginWindow(tk.Tk):
         self.check1.place(x=420, y=220)
 
     def togglepass(self):
+        # Show or hide password box
         if self.i:
             self.entry2.config(show="")
             self.i = False
