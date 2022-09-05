@@ -20,7 +20,7 @@ class LoginWindow(tk.Tk):
         self.resizable(False, False)
         self.eval('tk::PlaceWindow . center')
         # Window icon
-        self.iconbitmap("graphics/yinyang.ico")
+        self.iconbitmap("graphics/saturn.ico")
         # title
         self.label = ttk.Label(self, text='Welcome, Please Log In.', font=("Helvetica", 25, "bold"))
         self.label.pack()
@@ -81,6 +81,7 @@ class LoginWindow(tk.Tk):
         ans = tk.messagebox.askyesno(title='', message='Exit?')
         if ans:
             LoginWindow.destroy(self)
+            quit()
 
 
 def create_window():

@@ -28,7 +28,7 @@ def play():
     font2 = pygame.font.Font("graphics/fonts/ARCADE_N.ttf", round(width / 19))
     score = 0
     level = 1
-    versus_timer = 3600
+    game_timer = 3600
 
     div_rect = pygame.Rect(0, height / 2.1, width * 2, height / 25)
 
@@ -52,7 +52,7 @@ def play():
 
     score2_surface = font2.render(str(score), True, (60, 60, 200)).convert_alpha()
     score2_rect = score2_surface.get_rect(center=(width / 2, height / 1.5))
-    timer_surf = font2.render(str(versus_timer // 60), True, (20, 200, 20)).convert_alpha()
+    timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20)).convert_alpha()
     timer_rect = timer_surf.get_rect(center=(width / 2, height / 2))
 
     bg_image = pygame.image.load("graphics/spacebg.jpg").convert_alpha()
@@ -165,21 +165,16 @@ def play():
                 # Takes to settings screen
                 game_state = 3
                 set_delay = 10
+                timer_change = False
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 2 and start_delay <= 0:
                 # Takes to versus mode
-                versus_timer = 3600
-                lives = 3
-                lives_b = 3
-                score = 0
-                score2 = 0
-                game_state = 5
-                player1.sprite.rect.center = (width / 10, height / 4)
-                player2.sprite.rect.center = (width / 10, height / 1.25)
-                dif = get_setting("difficulty").upper()
+                game_timer = 3600
+                game_state = 7
+                start_delay = 60
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 3 and start_delay <= 0:
-                game_state = 7
+                game_state = 8
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 4 and start_delay <= 0:
                 pygame.quit()
@@ -192,76 +187,76 @@ def play():
 
         # Gameplay
         elif game_state == 1:
-            alien_shot = False
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
-                laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
-                cooldown = 20
-            cooldown -= 1
+            if level == 1:
+                alien_shot = False
+                game_timer -= 1
+                keys = pygame.key.get_pressed()
 
-            # Collision Detection
-            if pygame.sprite.groupcollide(laser, enemies, True, True):
-                score += 10
+                if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
+                    laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
+                    cooldown = 20
+                cooldown -= 1
 
-            if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
-               pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
-                lives -= 1
-                inv_frames = 120
+                # Collision Detection
+                if pygame.sprite.groupcollide(laser, enemies, True, True):
+                    score += 10
 
-            if random.randint(0, 30) == 0:
-                enemies.add(Asteroids(width, height, 0, height))
-                # aliens.add(Alien(width, height))
-            if random.randint(0, 15) == 0:
-                badlaser.add(EnemyLasers(width, random.randint(0, height), width, height, False))
+                if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
+                   pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
+                    lives -= 1
+                    inv_frames = 120
 
-            if pygame.sprite.groupcollide(laser, aliens, True, False):
-                alien_shot = True
-                score += 50
+                # Adding enemies
+                if game_timer % 200 == 0:
+                    attack_pattern1(enemies, width, height, random.randint(0, height))
 
-            if -inv_frames % 1000 == 500:
-                aliens.add(Alien(width, height))
+                if game_timer % 300 == 0:
+                    attack_pattern2(enemies, width, height, random.randint(0, height))
 
-            # Invincibility frames flashing animation
-            # Pycharm marks the passing of a sprite as a warning: "Expected type 'Player', got 'Sprite' instead"
-            # but the program still functions normally with no errors.
-            if inv_frames >= 0:
-                if inv_frames >= 100:
-                    Player.take_dmg2(player.sprite)
-                elif inv_frames >= 80:
-                    Player.take_dmg1(player.sprite)
-                elif inv_frames >= 60:
-                    Player.take_dmg2(player.sprite)
-                elif inv_frames >= 40:
-                    Player.take_dmg1(player.sprite)
-                elif inv_frames >= 20:
-                    Player.take_dmg2(player.sprite)
+                if random.randint(0, 15) == 0:
+                    badlaser.add(EnemyLasers(width, random.randint(0, height), width, height, False))
+
+                if pygame.sprite.groupcollide(laser, aliens, True, False):
+                    alien_shot = True
+                    score += 50
+
+                if game_timer % 400 == 0:
+                    aliens.add(Alien(width, height))
                 else:
-                    Player.take_dmg1(player.sprite)
-            else:
-                Player.take_dmg1(player.sprite)
+                    for alien in aliens:
+                        if alien_cooldown <= 0:
+                            badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
+                            if dif == "EASY":
+                                alien_cooldown = 50
+                            elif dif == "NORMAL":
+                                alien_cooldown = 30
+                            else:
+                                alien_cooldown = 10
 
-            # Drawing non - sprites
-            # pygame.draw.rect(screen, "#FFFFFF", div_rect)
-            screen.blit(bg_surface, (0, 0))
-            # pygame.draw.rect(screen, "White", div_rect)
-            screen.blit(score_surface, score_rect)
-            score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
+                invincibility(inv_frames, player.sprite)
 
-            inv_frames -= 1
-            # Sprites drawing and updating
-            player1_lives.draw(screen)
-            player1_lives.update(lives, inv_frames)
-            laser.draw(screen)
-            laser.update()
-            aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
-                          player.sprite.rect.centery, alien_shot)
+                # Drawing non - sprites
+                # pygame.draw.rect(screen, "#FFFFFF", div_rect)
+                screen.blit(bg_surface, (0, 0))
+                # pygame.draw.rect(screen, "White", div_rect)
+                screen.blit(score_surface, score_rect)
+                score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
 
-            aliens.draw(screen)
-            enemies.draw(screen)
-            enemies.update()
+                inv_frames -= 1
+                # Sprites drawing and updating
+                player1_lives.draw(screen)
+                player1_lives.update(lives, inv_frames)
+                laser.draw(screen)
+                laser.update()
+                aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
+                              player.sprite.rect.centery, alien_shot)
 
-            badlaser.draw(screen)
-            badlaser.update()
+                aliens.draw(screen)
+                enemies.draw(screen)
+                enemies.update()
+
+                badlaser.draw(screen)
+                badlaser.update()
 
             if lives > 0:
                 player.draw(screen)
@@ -302,7 +297,7 @@ def play():
             screen.blit(cog_surf, (width / 2, height / 16))
             set_delay -= 1
 
-            # Menu imput
+            # Menu input
             if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
                 game_state = 0
                 set_row = 0
@@ -332,10 +327,20 @@ def play():
         elif game_state == 5:
             inv_frames -= 1
             inv_frames_b -= 1
-            versus_timer -= 1
+            game_timer -= 1
             alien_shot = False
 
             keys = pygame.key.get_pressed()
+
+            if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
+                laser.add(Lasers(player1.sprite.rect.centerx, player1.sprite.rect.centery, width, height, True))
+                cooldown = 20
+            cooldown -= 1
+
+            if keys[pygame.K_KP0] and cooldown_b < 1:  # Shooting input + max fire rate
+                laser2.add(Lasers(player2.sprite.rect.centerx, player2.sprite.rect.centery, width, height, True))
+                cooldown_b = 20
+            cooldown_b -= 1
 
             if (pygame.sprite.spritecollide(player1.sprite, enemies, False) and inv_frames <= 0
                     or pygame.sprite.spritecollide(player1.sprite, aliens, False) and inv_frames <= 0
@@ -349,50 +354,11 @@ def play():
                 lives_b -= 1
                 inv_frames_b = 120
 
-            if inv_frames >= 0:
-                if inv_frames >= 100:
-                    Player.take_dmg2(player1.sprite)
-                elif inv_frames >= 80:
-                    Player.take_dmg1(player1.sprite)
-                elif inv_frames >= 60:
-                    Player.take_dmg2(player1.sprite)
-                elif inv_frames >= 40:
-                    Player.take_dmg1(player1.sprite)
-                elif inv_frames >= 20:
-                    Player.take_dmg2(player1.sprite)
-                else:
-                    Player.take_dmg1(player1.sprite)
-            else:
-                Player.take_dmg1(player1.sprite)
+            invincibility(inv_frames, player1.sprite)
+            invincibility(inv_frames_b, player2.sprite)
 
-            if inv_frames_b >= 0:
-                if inv_frames_b >= 100:
-                    Player.take_dmg2(player2.sprite)
-                elif inv_frames_b >= 80:
-                    Player.take_dmg1(player2.sprite)
-                elif inv_frames_b >= 60:
-                    Player.take_dmg2(player2.sprite)
-                elif inv_frames_b >= 40:
-                    Player.take_dmg1(player2.sprite)
-                elif inv_frames_b >= 20:
-                    Player.take_dmg2(player2.sprite)
-                else:
-                    Player.take_dmg1(player2.sprite)
-            else:
-                Player.take_dmg1(player2.sprite)
-
-            if versus_timer < 1:
+            if game_timer < 1:
                 game_state = 6
-
-            if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
-                laser.add(Lasers(player1.sprite.rect.centerx, player1.sprite.rect.centery, width, height, True))
-                cooldown = 20
-            cooldown -= 1
-
-            if keys[pygame.K_KP0] and cooldown_b < 1:  # Shooting input + max fire rate
-                laser2.add(Lasers(player2.sprite.rect.centerx, player2.sprite.rect.centery, width, height, True))
-                cooldown_b = 20
-            cooldown_b -= 1
 
             if len(laser2) > 0:
                 for lase in laser2:
@@ -415,10 +381,10 @@ def play():
                 score2 += 50
 
             if random.randint(0, 50) == 0:
-                enemies.add(Asteroids(width, height, height / 2, height))
-                enemies.add(Asteroids(width, height, 0, height / 2))
+                enemies.add(Asteroids(width, height, width*1.1, random.uniform(height*0.1, height*0.5)))
+                enemies.add(Asteroids(width, height, width * 1.1, random.uniform(height*0.6, height*0.9)))
 
-            if versus_timer % 300 == 0 and versus_timer < 3500:
+            if game_timer % 300 == 0 and game_timer < 3500:
                 aliens.add(Alien(width, height))
 
             else:
@@ -431,12 +397,13 @@ def play():
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10
+
             alien_cooldown -= 1
 
             score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
             score2_surface = font2.render(str(score2), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
 
-            timer_surf = font2.render(str(versus_timer // 60), True, (20, 200, 20), (0, 0, 50)).convert_alpha()
+            timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20), (0, 0, 50)).convert_alpha()
 
             screen.fill((0, 0, 0))
 
@@ -468,7 +435,7 @@ def play():
             pygame.draw.rect(screen, "#FFFFFF", div_rect)
             screen.blit(timer_surf, timer_rect)
 
-            if lives == 0 or lives_b == 0 or versus_timer <= 0:
+            if lives == 0 or lives_b == 0 or game_timer <= 0:
                 game_state = 6
 
         # Versus mode end screen
@@ -507,7 +474,36 @@ def play():
                 player.sprite.rect.centery = height / 5  # Reset ship pos
                 player.sprite.rect.centerx = width / 10
 
-        else:
+        elif game_state == 7:
+            # Versus mode setup
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_UP] and not timer_change and game_timer < 7200:
+                game_timer += 60
+                timer_change = True
+            if keys[pygame.K_DOWN] and not timer_change and game_timer > 60:
+                game_timer -= 60
+                timer_change = True
+            if not (keys[pygame.K_UP] or keys[pygame.K_DOWN]):
+                timer_change = False
+
+            if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
+                game_state = 0
+
+            lives = 3
+            lives_b = 3
+            score = 0
+            score2 = 0
+            timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20), (0, 0, 50)).convert_alpha()
+            player1.sprite.rect.center = (width / 10, height / 4)
+            player2.sprite.rect.center = (width / 10, height / 1.25)
+            dif = get_setting("difficulty").upper()
+            screen.fill("black")
+            screen.blit(timer_surf, timer_rect)
+            if keys[pygame.K_RETURN] and start_delay < 0:
+                game_state = 5
+            start_delay -= 1
+
+        elif game_state == 8:
             # Highscores screen
             keys = pygame.key.get_pressed()
             menu_text = font2.render("HIGHSCORES", False, (200, 200, 200), (0, 0, 0))
@@ -526,9 +522,42 @@ def play():
         clock.tick(60)  # Caps at 60 fps
 
 
+def invincibility(inv_frames, sprite):
+    # Invincibility frames flashing animation
+    # Pycharm marks the passing of a sprite as a warning: "Expected type 'Player', got 'Sprite' instead"
+    # but the program still functions normally with no errors.
+    if inv_frames >= 0:
+        if inv_frames >= 100:
+            Player.take_dmg2(sprite)
+        elif inv_frames >= 80:
+            Player.take_dmg1(sprite)
+        elif inv_frames >= 60:
+            Player.take_dmg2(sprite)
+        elif inv_frames >= 40:
+            Player.take_dmg1(sprite)
+        elif inv_frames >= 20:
+            Player.take_dmg2(sprite)
+        else:
+            Player.take_dmg1(sprite)
+    else:
+        Player.take_dmg1(sprite)
+
+
+def attack_pattern1(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.25, y))
+    sprite_group.add(Asteroids(width, height, width * 1.4, y))
+
+
+def attack_pattern2(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y*0.8))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y*1.2))
+
+
 def setup():
     if is_first_launch():
-        load_defualts()
+        load_defaults()
     remember_launch()
 
 

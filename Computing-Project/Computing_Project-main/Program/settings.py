@@ -4,15 +4,18 @@
 # Known bugs: none
 # ============================================================================================================== #
 
+# Dictionary for each line of the text file representing a setting
+st_dict = {"WIDTH": 0, "HEIGHT": 1, "DIFFICULTY": 2, "COLOUR": 3}
 
+
+# Returns the value for a given setting
 def get_setting(st):
-    # Returns the value for a given setting
+    global st_dict
+
     try:
         st = st.upper()
         lines = []
         item = ""
-        # Dictionary for each line of the text file representing a setting
-        st_dict = {"WIDTH": 0, "HEIGHT": 1, "DIFFICULTY": 2, "COLOUR": 3}
 
         with open("saved_settings.TXT") as f:
             for line in f:
@@ -28,10 +31,10 @@ def get_setting(st):
         return "Setting not found"
 
 
+# Changes a specific setting to a given value
 def save_setting(st, data):
     st = st.upper()
     lines = []
-    st_dict = {"WIDTH": 0, "HEIGHT": 1, "DIFFICULTY": 2, "COLOUR": 3}
 
     with open("saved_settings.TXT") as f:
         for line in f:
@@ -52,7 +55,7 @@ def save_setting(st, data):
             f.write(items + "\n")
 
 
-def load_defualts():
+def load_defaults():
     # Resets text file to default settings
     open("saved_settings.TXT", "w").close()
     with open("saved_settings.TXT", "a") as f:
@@ -81,4 +84,4 @@ def is_first_launch():
 
 if __name__ == "__main__":
     print(get_setting("colour"))
-    save_setting("colour", "True")
+    save_setting("colour", "False")

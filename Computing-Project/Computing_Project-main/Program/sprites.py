@@ -117,7 +117,7 @@ class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
     def player_input(self):  # Player 2 input
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RCTRL]:
+        if keys[pygame.K_RSHIFT]:
             if keys[pygame.K_DOWN] and self.rect.centery < self.ht and not keys[pygame.K_UP]:
                 self.rect.centery += self.ht/200
 
@@ -191,7 +191,7 @@ class Hearts(pygame.sprite.Sprite):  # Number of lives UI
         self.animate(lives, frames)
 
 
-# Playser weapon class
+# Player weapon class
 class Lasers(pygame.sprite.Sprite):
     def __init__(self, x, y, wd, ht, sound):
         super().__init__()
@@ -208,7 +208,7 @@ class Lasers(pygame.sprite.Sprite):
     def shoot(self):
         self.rect.x += self.wd/40
 
-    def delete(self):  # Deletes sprite when it goes off screen
+    def delete(self):  # Deletes sprite when it goes off-screen
         if self.rect.left > self.wd or self.rect.right < 0:
             self.kill()
 
@@ -217,27 +217,34 @@ class Lasers(pygame.sprite.Sprite):
         self.delete()
 
 
-class EnemyLasers(Lasers):  # Enemy weapon class
+# Enemy weapon class
+class EnemyLasers(Lasers):
     def shoot(self):
         surface = pygame.image.load("graphics/laser2.png").convert_alpha()
         self.image = pygame.transform.scale(surface, (self.wd / 40, self.ht / 180))
         self.rect.x -= self.wd/80
 
-    def delete(self):  # Deletes sprite when it goes off screen
+    def delete(self):  # Deletes sprite when it goes off-screen
         if self.rect.right < 0:
             self.kill()
 
 
+# Circular enemy bullets
+class EnemyBullets(pygame.sprite.Sprite):
+    def __int__(self):
+        pass
+
+
 # Enemy obstacles class
 class Asteroids(pygame.sprite.Sprite):
-    def __init__(self, wd, ht, y1, y2):
+    def __init__(self, wd, ht, x, y):
         super().__init__()
         self.wd = wd
         self.ht = ht
         self.surface = pygame.image.load("graphics/ast.png").convert_alpha()
         self.image = pygame.transform.scale(self.surface, (wd/12, ht/9))
         self.image.set_colorkey("white")
-        self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(y1+ht*0.07, y2-ht*0.07)))
+        self.rect = self.image.get_rect(center=(x, y))
 
     def move(self):
         self.rect.x -= self.wd/250
@@ -524,7 +531,7 @@ class SettingMarker(pygame.sprite.Sprite):
         self.move()
 
 
-# Text that displays the top 5 player's names with correspoding score
+# Text that displays the top 5 player's names with corresponding score
 class HighscoreRow(pygame.sprite.Sprite):
     def __init__(self, num, wd, ht, name, score):
         super().__init__()
