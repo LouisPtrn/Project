@@ -160,6 +160,7 @@ def play():
                 game_state = 4
                 player.sprite.rect.centery = height / 2  # Reset ship pos
                 player.sprite.rect.centerx = width / 10
+                alien_cooldown = 0
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 1 and start_delay <= 0:
                 # Takes to settings screen
@@ -214,7 +215,7 @@ def play():
                     attack_pattern2(enemies, width, height, random.randint(0, height))
 
                 if random.randint(0, 15) == 0:
-                    badlaser.add(EnemyLasers(width, random.randint(0, height), width, height, False))
+                    badlaser.add(EnemyBullets(width, height, 500))
 
                 if pygame.sprite.groupcollide(laser, aliens, True, False):
                     alien_shot = True
@@ -232,7 +233,7 @@ def play():
                                 alien_cooldown = 30
                             else:
                                 alien_cooldown = 10
-
+                alien_cooldown -= 1
                 invincibility(inv_frames, player.sprite)
 
                 # Drawing non - sprites
@@ -489,6 +490,7 @@ def play():
             if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
                 game_state = 0
 
+            aliens.empty()
             lives = 3
             lives_b = 3
             score = 0
@@ -550,9 +552,9 @@ def attack_pattern1(sprite_group, width, height, y):
 
 
 def attack_pattern2(sprite_group, width, height, y):
-    sprite_group.add(Asteroids(width, height, width * 1.1, y*0.8))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y*0.7))
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
-    sprite_group.add(Asteroids(width, height, width * 1.1, y*1.2))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y*1.3))
 
 
 def setup():

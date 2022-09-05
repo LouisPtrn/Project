@@ -231,8 +231,17 @@ class EnemyLasers(Lasers):
 
 # Circular enemy bullets
 class EnemyBullets(pygame.sprite.Sprite):
-    def __int__(self):
-        pass
+    def __init__(self, wd, ht, y):
+        super().__init__()
+        surface = pygame.image.load("graphics/circle_bullet.png")
+        self.image = pygame.transform.scale(surface, (wd/10, ht/10))
+        self.rect = self.image.get_rect(center=(wd, y))
+
+    def move(self):
+        self.rect.centerx -= 1
+
+    def update(self):
+        self.move()
 
 
 # Enemy obstacles class
