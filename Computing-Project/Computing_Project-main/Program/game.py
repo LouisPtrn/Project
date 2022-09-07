@@ -577,4 +577,4 @@ def setup():
 
 if __name__ == "__main__":
     setup()
-    play("LOUIS1")
+    play("Guest")
