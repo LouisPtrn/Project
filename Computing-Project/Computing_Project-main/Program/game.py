@@ -7,14 +7,16 @@
 from sys import exit
 import login
 from HighscoresData import *
+from Dates import *
 from messages import *
 import os
+
 
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"  # Hides pygame welcome message, must be before sprite import
 from sprites import *
 
 
-def play():
+def play(name):
     pygame.init()
     mixer.init()
     width = int(get_setting("WIDTH"))
@@ -117,6 +119,7 @@ def play():
 
     set_delay = 10
     play_game = True
+    saved = False
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -153,8 +156,10 @@ def play():
             score = 0
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
+                saved = False
                 i = 0
                 text_delay = 0
+                game_timer = 3600
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -193,6 +198,9 @@ def play():
                 game_timer -= 1
                 keys = pygame.key.get_pressed()
 
+                if game_timer <= 1:
+                    game_state = 9
+
                 if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
                     laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
                     cooldown = 20
@@ -214,7 +222,7 @@ def play():
                 if game_timer % 350 == 0:
                     attack_pattern2(enemies, width, height, random.randint(0, height))
 
-                if random.randint(0, game_timer) <= 50:
+                if random.randint(0, game_timer+1000) <= 50:
                     badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
 
                 if pygame.sprite.groupcollide(laser, aliens, True, False):
@@ -518,6 +526,10 @@ def play():
             screen.blit(menu_text, menu_rect)
             hs_rows.draw(screen)
             hs_rows.update()
+        elif game_state == 9:
+            screen.fill("pink")
+            if not saved:
+                enter_score(name, score, get_date())
 
         # Update everything
         pygame.display.update()
@@ -565,4 +577,4 @@ def setup():
 
 if __name__ == "__main__":
     setup()
-    play()
+    play("LOUIS1")

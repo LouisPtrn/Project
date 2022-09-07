@@ -72,7 +72,7 @@ class LoginWindow(tk.Tk):
             tk.messagebox.showinfo(title='', message="Welcome " + username)
             LoginWindow.destroy(self)
             game.setup()
-            game.play()
+            game.play(username)
 
         else:
             tk.messagebox.showinfo(title='', message="No")
