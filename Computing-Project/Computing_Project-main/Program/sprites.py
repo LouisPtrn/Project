@@ -234,11 +234,13 @@ class EnemyBullets(pygame.sprite.Sprite):
     def __init__(self, wd, ht, y):
         super().__init__()
         surface = pygame.image.load("graphics/circle_bullet.png")
-        self.image = pygame.transform.scale(surface, (wd/10, ht/10))
+        self.image = pygame.transform.scale(surface, (wd/70, ht/40))
         self.rect = self.image.get_rect(center=(wd, y))
+        self.dir = random.uniform(-2, 2)
 
     def move(self):
-        self.rect.centerx -= 1
+        self.rect.centerx -= 10 - abs(self.dir*self.dir)
+        self.rect.centery += self.dir
 
     def update(self):
         self.move()

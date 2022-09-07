@@ -208,14 +208,14 @@ def play():
                     inv_frames = 120
 
                 # Adding enemies
-                if game_timer % 200 == 0:
+                if game_timer % 250 == 0:
                     attack_pattern1(enemies, width, height, random.randint(0, height))
 
-                if game_timer % 300 == 0:
+                if game_timer % 350 == 0:
                     attack_pattern2(enemies, width, height, random.randint(0, height))
 
-                if random.randint(0, 15) == 0:
-                    badlaser.add(EnemyBullets(width, height, 500))
+                if random.randint(0, game_timer) <= 50:
+                    badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
 
                 if pygame.sprite.groupcollide(laser, aliens, True, False):
                     alien_shot = True
@@ -552,9 +552,9 @@ def attack_pattern1(sprite_group, width, height, y):
 
 
 def attack_pattern2(sprite_group, width, height, y):
-    sprite_group.add(Asteroids(width, height, width * 1.1, y*0.7))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y-0.2*height))
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
-    sprite_group.add(Asteroids(width, height, width * 1.1, y*1.3))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y+0.2*height))
 
 
 def setup():
