@@ -239,8 +239,11 @@ class EnemyBullets(pygame.sprite.Sprite):
         self.dir = random.uniform(-2, 2)
 
     def move(self):
-        self.rect.centerx -= 10 - abs(self.dir*self.dir)
-        self.rect.centery += self.dir
+        if self.rect.centerx < 0:
+            self.kill()
+        else:
+            self.rect.centerx -= 10 - abs(self.dir*self.dir)
+            self.rect.centery += self.dir
 
     def update(self):
         self.move()

@@ -527,9 +527,16 @@ def play(name):
             hs_rows.draw(screen)
             hs_rows.update()
         elif game_state == 9:
+            # Win screen
+            keys = pygame.key.get_pressed()
             screen.fill("pink")
+            aliens.empty()
+            enemies.empty()
             if not saved:
                 enter_score(name, score, get_date())
+            if keys[pygame.K_RETURN]:
+                game_state = 0
+                start_delay = 30
 
         # Update everything
         pygame.display.update()
