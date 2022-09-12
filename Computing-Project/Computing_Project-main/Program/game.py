@@ -66,6 +66,8 @@ def play(name):
     player1.add(PlayerA(width, height))
     player2 = pygame.sprite.GroupSingle()
     player2.add(PlayerB(width, height))
+    star = pygame.sprite.GroupSingle()
+    star.add(Pickup(width, height))
 
     player1_lives = pygame.sprite.GroupSingle()
     player1_lives.add(Hearts(width, height, True))
@@ -210,6 +212,8 @@ def play(name):
                 if pygame.sprite.groupcollide(laser, enemies, True, True):
                     score += 10
 
+                # if pygame.sprite.groupcollide(laser)
+
                 if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
                    pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
                     lives -= 1
@@ -263,7 +267,8 @@ def play(name):
                 aliens.draw(screen)
                 enemies.draw(screen)
                 enemies.update()
-
+                star.draw(screen)
+                star.update(width, height, game_timer)
                 badlaser.draw(screen)
                 badlaser.update()
 
@@ -275,10 +280,10 @@ def play(name):
 
         elif game_state == 2:
             # Game Over screen
+            keys = pygame.key.get_pressed()
             screen.fill("black")
             screen.blit(game_over, (width / 4, height / 2))
             screen.blit(score_surface, (width / 2.5, height / 4))
-            keys = pygame.key.get_pressed()
             score = 0
             laser.empty()  # Deletes all sprites on screen
             enemies.empty()
@@ -314,7 +319,7 @@ def play(name):
             if set_row == 1 and (keys[pygame.K_SPACE] or keys[pygame.K_RETURN]):
                 show_message("Restart required", "Restarting program", 1)
                 pygame.quit()
-                login.restart()
+                login.restart(name)
 
         # Level transition screen
         elif game_state == 4:
@@ -334,12 +339,11 @@ def play(name):
 
         # Versus mode gameplay
         elif game_state == 5:
+            keys = pygame.key.get_pressed()
             inv_frames -= 1
             inv_frames_b -= 1
             game_timer -= 1
             alien_shot = False
-
-            keys = pygame.key.get_pressed()
 
             if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
                 laser.add(Lasers(player1.sprite.rect.centerx, player1.sprite.rect.centery, width, height, True))
@@ -531,6 +535,7 @@ def play(name):
             keys = pygame.key.get_pressed()
             screen.fill("pink")
             aliens.empty()
+            badlaser.empty()
             enemies.empty()
             if not saved:
                 enter_score(name, score, get_date())

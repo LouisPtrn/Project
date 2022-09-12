@@ -89,9 +89,9 @@ def create_window():
     login.mainloop()
 
 
-def restart():
+def restart(username):
     game.setup()
-    game.play()
+    game.play(username)
 
 
 if __name__ == "__main__":

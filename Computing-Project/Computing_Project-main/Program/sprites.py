@@ -327,6 +327,27 @@ class Alien(pygame.sprite.Sprite):
             self.kill()
 
 
+class Pickup(pygame.sprite.Sprite):
+    def __init__(self, wd, ht):
+        super().__init__()
+        self.surface = pygame.image.load("graphics/star.png")
+        self.image = pygame.transform.scale(self.surface, (wd/32, ht/20))
+        self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
+
+    def move(self, width):
+        self.rect.centerx -= width/150
+
+    def reset(self, width, height):
+        self.rect.centerx = width*1.1
+        self.rect.centery = random.uniform(height*0.1, height*0.9)
+
+    def update(self, wd, ht, timer):
+        self.move(wd)
+        if timer % 500 == 0:
+            self.reset(wd, ht)
+
+
+
 # Buttons on the main menu
 class Option(pygame.sprite.Sprite):
     def __init__(self, variant, wd, ht):
@@ -521,7 +542,6 @@ class Settings(pygame.sprite.Sprite):
 
     def update(self, row, col, delay):
         self.action(row, col, delay)
-
 
 # Marker to show the currently active setting
 class SettingMarker(pygame.sprite.Sprite):

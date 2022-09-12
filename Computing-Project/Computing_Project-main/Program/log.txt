@@ -7,11 +7,11 @@
 11/07/2022 Converting game to OOP. Groupcollide used on lasers and asteroids because there can be many of
            them both on the screen at the sametime. Both are group sprites rather than single.
 20/07/2022 Option sprite used for main menu buttons, animation of arrows work on a 'cycle' function in the class
-01/08/2022 Moved sprites to seperate folder, started different window sizes implementation
+01/08/2022 Moved sprites to separate folder, started different window sizes implementation
 05/08/2022 Window sizing fully implemented, quit button on main menu added. Position, size and movement of every
            sprite is now a function of window width or height
 08/08/2022 Fixed a bunch of issues, added text file to save settings or load defaults, allowed quiting the game to
-           bring user back to Log-in screen. There was an issue of these two files importing eachother causing
+           bring user back to Log-in screen. There was an issue of these two files importing each other causing
            a recursion error, fixed by using (import ...) rather than (from ... import *)
 10/08/2022 Added settings screen with user input with arrow keys. Fixed an issue where it would take the user's input
            for every frame as another action - moved into the event loop.
@@ -20,18 +20,19 @@
 11/08/2022 User can now save settings to text file with the settings screen. A pointer for the current setting is still
            needed for everything other than colourblind setting. Window size also needs restart to take effect.
            Added a 10 frame delay before enter input can be taken. This prevents the user input when selecting
-           from changing a setting. This must also be implemented transitioning to and from gamplay.
+           from changing a setting. This must also be implemented transitioning to and from gameplay.
 12/08/2022 Fixed bugs with logging off from the game, return play function after quitting pygame. Removed messagebox
            after quitting game fixing multiple quit messagebox on login screen.
 13/08/2022 Added a class for enemy projectiles that inherits from player projectile class. Added frame delay to
            gameplay and main menu
 14/08/2022 Added a second player with different controls for versus mode.
-16/08/2022 Added two seperate functioning score counters for versus mode which tracks the score of each player
-           seperately (using two different 'laser' sprite groups)
+16/08/2022 Added two separate functioning score counters for versus mode which tracks the score of each player
+           separately (using two different 'laser' sprite groups)
 17/08/2022 Versus timer added which uses DIV 60 on the frame timer to get the number of seconds as the game is capped
            at 60 fps. Victory conditions for 2-player added (whoever survives longest or higher score if end of timer
            is reached). I will have to change some things when adding player vs AI controlled ship in the future.
 19/08/2022 Fixed a bug where player rects were being deleted at the end of the 2 player game. Positions, score, lives
-           and asteroids reset allowing for replayability.
+           and asteroids reset allowing for repeatability.
 23/08/2022 Added aliens that behave differently depending on where the player is.
 30/08/2022 Used pyinstaller to create an exe file that runs the game without needing python or pycharm.
+10/09/2022 Highscores are now saved to a database file when completing the game. The username and score is stored.
