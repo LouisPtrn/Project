@@ -1,4 +1,4 @@
-Window width: 1440
-Window height: 810
+Window width: 800
+Window height: 600
 Difficulty: Normal
 Colourblind mode: False

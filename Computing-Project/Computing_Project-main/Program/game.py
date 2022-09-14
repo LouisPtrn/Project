@@ -106,6 +106,7 @@ def play(name):
 
     # initialise variables
 
+    bg_speed = 1000
     score2 = 0
     lives = 3
     lives_b = 3
@@ -197,7 +198,7 @@ def play(name):
         # Gameplay
         elif game_state == 1:
             if level == 1:
-                bg_rect.centerx -= width/100
+                bg_rect.centerx -= width/bg_speed
                 if bg_rect.right < width:
                     bg_rect.left = 0
 
@@ -219,7 +220,7 @@ def play(name):
                     score += 10
 
                 if pygame.sprite.groupcollide(player, star, False, False):
-                    score += 10000
+                    score += 100
                     hide_star = True
 
                 if (pygame.sprite.spritecollide(player.sprite, enemies, False) or

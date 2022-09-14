@@ -337,14 +337,18 @@ class Pickup(pygame.sprite.Sprite):
     def move(self, width):
         self.rect.centerx -= width/150
 
-    def reset(self, width, height):
-        self.rect.centerx = width*1.1
-        self.rect.centery = random.uniform(height*0.1, height*0.9)
+    def reset(self, width, height, hide):
+        if hide:
+            self.rect.centerx = -100
+        else:
+            self.rect.centerx = width*1.1
+            self.rect.centery = random.uniform(height*0.1, height*0.9)
 
     def update(self, wd, ht, timer, hide):
         self.move(wd)
         if timer % 600 == 0 or hide:
-            self.reset(wd, ht)
+            self.reset(wd, ht, hide)
+
 
 
 
