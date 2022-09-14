@@ -58,7 +58,8 @@ def play(name):
     timer_rect = timer_surf.get_rect(center=(width / 2, height / 2))
 
     bg_image = pygame.image.load("graphics/spacebg.jpg").convert_alpha()
-    bg_surface = pygame.transform.scale(bg_image, (width, height))
+    bg_surface = pygame.transform.scale(bg_image, (width*4, height))
+    bg_rect = bg_surface.get_rect(center=(width/2, height/2))
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(width, height))
@@ -196,7 +197,12 @@ def play(name):
         # Gameplay
         elif game_state == 1:
             if level == 1:
+                bg_rect.centerx -= width/100
+                if bg_rect.right < width:
+                    bg_rect.left = 0
+
                 alien_shot = False
+                hide_star = False
                 game_timer -= 1
                 keys = pygame.key.get_pressed()
 
@@ -212,7 +218,9 @@ def play(name):
                 if pygame.sprite.groupcollide(laser, enemies, True, True):
                     score += 10
 
-                # if pygame.sprite.groupcollide(laser)
+                if pygame.sprite.groupcollide(player, star, False, False):
+                    score += 10000
+                    hide_star = True
 
                 if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
                    pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
@@ -250,7 +258,7 @@ def play(name):
 
                 # Drawing non - sprites
                 # pygame.draw.rect(screen, "#FFFFFF", div_rect)
-                screen.blit(bg_surface, (0, 0))
+                screen.blit(bg_surface, bg_rect)
                 # pygame.draw.rect(screen, "White", div_rect)
                 screen.blit(score_surface, score_rect)
                 score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
@@ -268,7 +276,7 @@ def play(name):
                 enemies.draw(screen)
                 enemies.update()
                 star.draw(screen)
-                star.update(width, height, game_timer)
+                star.update(width, height, game_timer, hide_star)
                 badlaser.draw(screen)
                 badlaser.update()
 
