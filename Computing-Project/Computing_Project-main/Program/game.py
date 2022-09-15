@@ -57,9 +57,11 @@ def play(name):
     timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20)).convert_alpha()
     timer_rect = timer_surf.get_rect(center=(width / 2, height / 2))
 
-    bg_image = pygame.image.load("graphics/spacebg.jpg").convert_alpha()
-    bg_surface = pygame.transform.scale(bg_image, (width*4, height))
-    bg_rect = bg_surface.get_rect(center=(width/2, height/2))
+    # bg_image = pygame.image.load("graphics/bg.png")
+    # bg_surface = pygame.transform.scale(bg_image, (width*4, height))
+    # bg_rect = bg_surface.get_rect(center=(width/2, height/2))
+    bg = pygame.sprite.GroupSingle()
+    bg.add(Background(width, height))
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(width, height))
@@ -106,7 +108,6 @@ def play(name):
 
     # initialise variables
 
-    bg_speed = 1000
     score2 = 0
     lives = 3
     lives_b = 3
@@ -198,10 +199,6 @@ def play(name):
         # Gameplay
         elif game_state == 1:
             if level == 1:
-                bg_rect.centerx -= width/bg_speed
-                if bg_rect.right < width:
-                    bg_rect.left = 0
-
                 alien_shot = False
                 hide_star = False
                 game_timer -= 1
@@ -259,7 +256,10 @@ def play(name):
 
                 # Drawing non - sprites
                 # pygame.draw.rect(screen, "#FFFFFF", div_rect)
-                screen.blit(bg_surface, bg_rect)
+
+                bg.draw(screen)
+                bg.update(width)
+
                 # pygame.draw.rect(screen, "White", div_rect)
                 screen.blit(score_surface, score_rect)
                 score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
@@ -280,6 +280,7 @@ def play(name):
                 star.update(width, height, game_timer, hide_star)
                 badlaser.draw(screen)
                 badlaser.update()
+
 
             if lives > 0:
                 player.draw(screen)
@@ -309,11 +310,12 @@ def play(name):
 
         elif game_state == 3:
             # Settings screen
+            colour = False
             keys = pygame.key.get_pressed()
             screen.fill((0, 0, 0))
             settings.update(set_row, set_col, set_delay)
             settings.draw(screen)
-            marker.update()
+            marker.update(colour)
             marker.draw(screen)
             screen.blit(settings_text, settings_rect)
             screen.blit(back_surf, (width / 1.2, height / 16))
@@ -321,6 +323,8 @@ def play(name):
             set_delay -= 1
 
             # Menu input
+            if keys[pygame.K_RETURN]:
+                colour = True
             if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
                 game_state = 0
                 set_row = 0
@@ -554,7 +558,7 @@ def play(name):
 
         # Update everything
         pygame.display.update()
-        clock.tick(60)  # Caps at 60 fps
+        clock.tick(66)  # Caps at 60 fps
 
 
 def invincibility(inv_frames, sprite):

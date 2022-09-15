@@ -36,3 +36,6 @@
 23/08/2022 Added aliens that behave differently depending on where the player is.
 30/08/2022 Used pyinstaller to create an exe file that runs the game without needing python or pycharm.
 10/09/2022 Highscores are now saved to a database file when completing the game. The username and score is stored.
+15/09/2022 Added new moving background but causes the warning message:
+           'libpng warning: iCCP: known incorrect sRGB profile'
+           Added colour hue changer for changing images for colourblindless.

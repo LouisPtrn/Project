@@ -4,10 +4,30 @@
 # Known bugs: none
 # ============================================================================================================== #
 
-import pygame
 from pygame import mixer
 import random
+from colour_changer import *
 from settings import *
+
+
+class Background(pygame.sprite.Sprite):
+    def __init__(self, width, height):
+        super().__init__()
+        surface = pygame.image.load("graphics/bg.png").convert_alpha()
+        self.image = pygame.transform.scale(surface, (width*20, height))
+
+        # var = pygame.PixelArray(self.image)
+        # var.replace(((0,0,0)), (255, 255, 255))
+
+        self.rect = self.image.get_rect(center=(width*10, height/2))
+
+    def scroll(self, wd):
+        self.rect.centerx -= wd*0.01
+        if self.rect.right <= wd:
+            self.rect.centerx = wd*10
+
+    def update(self, width):
+        self.scroll(width)
 
 
 # Spaceship class controlled by the user
@@ -350,8 +370,6 @@ class Pickup(pygame.sprite.Sprite):
             self.reset(wd, ht, hide)
 
 
-
-
 # Buttons on the main menu
 class Option(pygame.sprite.Sprite):
     def __init__(self, variant, wd, ht):
@@ -547,15 +565,17 @@ class Settings(pygame.sprite.Sprite):
     def update(self, row, col, delay):
         self.action(row, col, delay)
 
+
 # Marker to show the currently active setting
 class SettingMarker(pygame.sprite.Sprite):
     def __init__(self, row, wd, ht):
         super().__init__()
         self.row = row
         self.wd = wd
+        self.ht = ht
         self.image1 = pygame.image.load("graphics/menu/marker.png")
-        self.image = pygame.transform.scale(self.image1, (wd/26, ht/20))
-        self.rect = self.image.get_rect(center=(wd/2, (ht/6)*row + ht/4))
+        self.image = pygame.transform.scale(self.image1, (self.wd / 26, self.ht / 20))
+        self.rect = self.image.get_rect(center=(self.wd / 2, (self.ht / 6) * self.row + self.ht / 4))
 
     def move(self):
         if self.row == 0:
@@ -565,8 +585,16 @@ class SettingMarker(pygame.sprite.Sprite):
             col_dict = {"800": 0.39, "960": 0.53, "1440": 0.68, "1920": 0.83}
             self.rect.centerx = self.wd*col_dict[get_setting("width")]
 
-    def update(self):
+    def update_colour(self):
+        self.image1 = pygame.image.load("graphics/menu/marker.png")
+        if get_setting("colour") == "True":
+            self.image = change_hue(self.image1, 320)
+        self.image = pygame.transform.scale(self.image1, (self.wd / 26, self.ht / 20))
+
+    def update(self, change):
         self.move()
+        if change:
+            self.update_colour()
 
 
 # Text that displays the top 5 player's names with corresponding score
