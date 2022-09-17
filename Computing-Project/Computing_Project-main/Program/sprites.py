@@ -137,7 +137,7 @@ class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
     def player_input(self):  # Player 2 input
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RSHIFT]:
+        if keys[pygame.K_RCTRL]:
             if keys[pygame.K_DOWN] and self.rect.centery < self.ht and not keys[pygame.K_UP]:
                 self.rect.centery += self.ht/200
 
@@ -606,11 +606,12 @@ class HighscoreRow(pygame.sprite.Sprite):
         self.score = score
         y = (ht/3 + num*ht/10)
         self.font = pygame.font.Font("graphics/fonts/ARCADE_R.ttf", round(wd / 24))
-        self.image = self.font.render(name + " " + str(score), False, (200, 200, 250), (0, 0, 0))
-        self.rect = self.image.get_rect(center=(wd/2, y))
+        self.image = self.font.render(f"{num+1} {name} {score}", False, (200, 200, 200))
+        self.rect = self.image.get_rect(midleft=(wd/4, y))
+
 
     def update(self):
         if self.num == 0:
-            self.image = self.font.render(self.name + " " + str(self.score), False, (250, 250, 10), (0, 0, 0))
+            self.image = self.font.render(f"{self.num+1} {self.name} {self.score}!", False, (250, 200, 10))
         else:
-            self.image = self.font.render(self.name + " " + str(self.score), False, (200, 200, 200), (0, 0, 0))
+            self.image = self.font.render(f"{self.num+1} {self.name} {self.score}", False, (200, 200, 200))

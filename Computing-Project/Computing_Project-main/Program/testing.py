@@ -6,22 +6,23 @@
 
 import unittest
 from settings import *
+from validation import *
 
 
 class TestMethods(unittest.TestCase):
-    # Tests a setting that doesn't exist
-    def test_invalid_setting(self):
+    # -----------------------------------------------------------------------------
+    # TESTING SETTINGS
+    def test_invalid_setting(self):  # Tests a setting that doesn't exist
         self.assertEqual(get_setting("Non-existent setting"), "Setting not found")
 
-    # Testing saving and loading existent settings
-    def test_valid_setting(self):
+    def test_valid_setting(self):  # Testing saving and loading existent settings
         save_setting("difficulty", "Easy")
         self.assertEqual(get_setting("difficulty"), "Easy")
 
         save_setting("difficulty", "Normal")
         self.assertEqual(get_setting("difficulty"), "Normal")
 
-    def test_colour(self):
+    def test_colour(self):  # Testing saving and loading colour
         save_setting("colour", "True")
         data = (get_setting("colour"))
         if data == "True":
@@ -37,6 +38,16 @@ class TestMethods(unittest.TestCase):
         else:
             data = 0
         self.assertFalse(data)
+
+    # -----------------------------------------------------------------------------
+    # TESTING VALIDATION
+    def test_scores(self):
+        self.assertEqual(is_valid_score(1000), True)  # Valid score
+        self.assertEqual(is_valid_score(-100), False)  # Invalid score
+        self.assertEqual(is_valid_score(500.5), False)  # Invalid score
+        self.assertEqual(is_valid_score(0), True)  # Borderline
+
+    # -----------------------------------------------------------------------------
 
     def test_error(self):
         s = 'hello world'

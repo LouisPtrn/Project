@@ -504,10 +504,10 @@ def play(name):
             # Versus mode setup
             keys = pygame.key.get_pressed()
             if keys[pygame.K_UP] and not timer_change and game_timer < 7200:
-                game_timer += 60
+                game_timer += 300
                 timer_change = True
-            if keys[pygame.K_DOWN] and not timer_change and game_timer > 60:
-                game_timer -= 60
+            if keys[pygame.K_DOWN] and not timer_change and game_timer > 300:
+                game_timer -= 300
                 timer_change = True
             if not (keys[pygame.K_UP] or keys[pygame.K_DOWN]):
                 timer_change = False

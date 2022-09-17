@@ -80,8 +80,3 @@ def is_first_launch():
         return False
     except FileNotFoundError:
         return True
-
-
-if __name__ == "__main__":
-    print(get_setting("colour"))
-    save_setting("colour", "False")
