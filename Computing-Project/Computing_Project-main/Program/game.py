@@ -124,6 +124,7 @@ def play(name):
 
     set_delay = 10
     play_game = True
+    timer_change = False
     saved = False
 
     while play_game:  # Game loop
@@ -226,11 +227,14 @@ def play(name):
                     inv_frames = 120
 
                 # Adding enemies
-                if game_timer % 250 == 0:
+                if game_timer % 297 == 0:
                     attack_pattern1(enemies, width, height, random.randint(0, height))
 
                 if game_timer % 350 == 0:
                     attack_pattern2(enemies, width, height, random.randint(0, height))
+
+                if game_timer % 546 == 0:
+                    attack_pattern3(enemies, width, height, random.randint(0, height))
 
                 if random.randint(0, game_timer+1000) <= 50:
                     badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
@@ -281,7 +285,6 @@ def play(name):
                 badlaser.draw(screen)
                 badlaser.update()
 
-
             if lives > 0:
                 player.draw(screen)
                 player.update(lives)
@@ -297,6 +300,7 @@ def play(name):
             score = 0
             laser.empty()  # Deletes all sprites on screen
             enemies.empty()
+            aliens.empty()
             badlaser.empty()
             if keys[pygame.K_RETURN]:
                 select = 0
@@ -310,21 +314,15 @@ def play(name):
 
         elif game_state == 3:
             # Settings screen
-            colour = False
             keys = pygame.key.get_pressed()
-            screen.fill((0, 0, 0))
-            settings.update(set_row, set_col, set_delay)
-            settings.draw(screen)
-            marker.update(colour)
-            marker.draw(screen)
-            screen.blit(settings_text, settings_rect)
-            screen.blit(back_surf, (width / 1.2, height / 16))
-            screen.blit(cog_surf, (width / 2, height / 16))
+            colour = False
             set_delay -= 1
 
             # Menu input
-            if keys[pygame.K_RETURN]:
+            settings.update(set_row, set_col, set_delay)
+            if keys[pygame.K_RETURN] or keys[pygame.K_SPACE]:
                 colour = True
+
             if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
                 game_state = 0
                 set_row = 0
@@ -333,6 +331,14 @@ def play(name):
                 show_message("Restart required", "Restarting program", 1)
                 pygame.quit()
                 login.restart(name)
+
+            screen.fill((0, 0, 0))
+            settings.draw(screen)
+            marker.update(colour)
+            marker.draw(screen)
+            screen.blit(settings_text, settings_rect)
+            screen.blit(back_surf, (width / 1.2, height / 16))
+            screen.blit(cog_surf, (width / 2, height / 16))
 
         # Level transition screen
         elif game_state == 4:
@@ -589,9 +595,15 @@ def attack_pattern1(sprite_group, width, height, y):
 
 
 def attack_pattern2(sprite_group, width, height, y):
-    sprite_group.add(Asteroids(width, height, width * 1.1, y-0.2*height))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y-(0.2*height)))
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
-    sprite_group.add(Asteroids(width, height, width * 1.1, y+0.2*height))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y+(0.2*height)))
+
+
+def attack_pattern3(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.2, y+(0.2*height)))
+    sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.3*height)))
 
 
 def setup():

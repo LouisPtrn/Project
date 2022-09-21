@@ -15,14 +15,13 @@ class Background(pygame.sprite.Sprite):
         super().__init__()
         surface = pygame.image.load("graphics/bg.png").convert_alpha()
         self.image = pygame.transform.scale(surface, (width*20, height))
-
         # var = pygame.PixelArray(self.image)
         # var.replace(((0,0,0)), (255, 255, 255))
 
         self.rect = self.image.get_rect(center=(width*10, height/2))
 
     def scroll(self, wd):
-        self.rect.centerx -= wd*0.01
+        self.rect.centerx -= wd*0.008
         if self.rect.right <= wd:
             self.rect.centerx = wd*10
 
@@ -608,7 +607,6 @@ class HighscoreRow(pygame.sprite.Sprite):
         self.font = pygame.font.Font("graphics/fonts/ARCADE_R.ttf", round(wd / 24))
         self.image = self.font.render(f"{num+1} {name} {score}", False, (200, 200, 200))
         self.rect = self.image.get_rect(midleft=(wd/4, y))
-
 
     def update(self):
         if self.num == 0:

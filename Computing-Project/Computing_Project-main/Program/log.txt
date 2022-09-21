@@ -38,4 +38,6 @@
 10/09/2022 Highscores are now saved to a database file when completing the game. The username and score is stored.
 15/09/2022 Added new moving background but causes the warning message:
            'libpng warning: iCCP: known incorrect sRGB profile'
-           Added colour hue changer for changing images for colourblindless.
+           Added colour hue changer function for changing images for coluorblindness. This goes through the image
+           add applies a hue to each pixel so will cause lag if it is done every frame.
+18/09/2022
