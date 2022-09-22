@@ -61,7 +61,7 @@ def play(name):
     # bg_surface = pygame.transform.scale(bg_image, (width*4, height))
     # bg_rect = bg_surface.get_rect(center=(width/2, height/2))
     bg = pygame.sprite.GroupSingle()
-    bg.add(Background(width, height))
+    bg.add(Background(width, height, 1))
 
     player = pygame.sprite.GroupSingle()
     player.add(Player(width, height))
@@ -126,6 +126,7 @@ def play(name):
     play_game = True
     timer_change = False
     saved = False
+    changed = False
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -165,7 +166,7 @@ def play(name):
                 saved = False
                 i = 0
                 text_delay = 0
-                game_timer = 3600
+                game_timer = 2700
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -199,92 +200,95 @@ def play(name):
 
         # Gameplay
         elif game_state == 1:
-            if level == 1:
-                alien_shot = False
-                hide_star = False
-                game_timer -= 1
-                keys = pygame.key.get_pressed()
+            alien_shot = False
+            hide_star = False
+            game_timer -= 1
+            keys = pygame.key.get_pressed()
 
-                if game_timer <= 1:
-                    game_state = 9
+            if game_timer <= 1:
+                level += 1
+                game_timer = 3600
+                text_delay = 0
+                level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
+                i = 0
+                game_state = 4
 
-                if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
-                    laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
-                    cooldown = 20
-                cooldown -= 1
+            if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
+                laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
+                cooldown = 20
+            cooldown -= 1
 
-                # Collision Detection
-                if pygame.sprite.groupcollide(laser, enemies, True, True):
-                    score += 10
+            # Collision Detection
+            if pygame.sprite.groupcollide(laser, enemies, True, True):
+                score += 10
 
-                if pygame.sprite.groupcollide(player, star, False, False):
-                    score += 100
-                    hide_star = True
+            if pygame.sprite.groupcollide(player, star, False, False):
+                score += 100
+                hide_star = True
 
-                if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
-                   pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
-                    lives -= 1
-                    inv_frames = 120
+            if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
+               pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
+                lives -= 1
+                inv_frames = 120
 
-                # Adding enemies
-                if game_timer % 297 == 0:
-                    attack_pattern1(enemies, width, height, random.randint(0, height))
+            # Adding enemies
+            if game_timer % 297 == 0:
+                attack_pattern1(enemies, width, height, random.randint(0, height))
 
-                if game_timer % 350 == 0:
-                    attack_pattern2(enemies, width, height, random.randint(0, height))
+            if game_timer % 350 == 0:
+                attack_pattern2(enemies, width, height, random.randint(0, height))
 
-                if game_timer % 546 == 0:
-                    attack_pattern3(enemies, width, height, random.randint(0, height))
+            if game_timer % 547 == 0:
+                attack_pattern3(enemies, width, height, random.randint(0, height))
 
-                if random.randint(0, game_timer+1000) <= 50:
-                    badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
+            if random.randint(0, game_timer+1000) <= 50:
+                badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
 
-                if pygame.sprite.groupcollide(laser, aliens, True, False):
-                    alien_shot = True
-                    score += 50
+            if pygame.sprite.groupcollide(laser, aliens, True, False):
+                alien_shot = True
+                score += 50
 
-                if game_timer % 400 == 0:
-                    aliens.add(Alien(width, height))
-                else:
-                    for alien in aliens:
-                        if alien_cooldown <= 0:
-                            badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
-                            if dif == "EASY":
-                                alien_cooldown = 50
-                            elif dif == "NORMAL":
-                                alien_cooldown = 30
-                            else:
-                                alien_cooldown = 10
-                alien_cooldown -= 1
-                invincibility(inv_frames, player.sprite)
+            if game_timer % 400 == 0:
+                aliens.add(Alien(width, height))
+            else:
+                for alien in aliens:
+                    if alien_cooldown <= 0:
+                        badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
+                        if dif == "EASY":
+                            alien_cooldown = 50
+                        elif dif == "NORMAL":
+                            alien_cooldown = 30
+                        else:
+                            alien_cooldown = 10
+            alien_cooldown -= 1
+            invincibility(inv_frames, player.sprite)
 
-                # Drawing non - sprites
-                # pygame.draw.rect(screen, "#FFFFFF", div_rect)
+            # Drawing non - sprites
+            # pygame.draw.rect(screen, "#FFFFFF", div_rect)
 
-                bg.draw(screen)
-                bg.update(width)
+            bg.draw(screen)
+            bg.update(width)
 
-                # pygame.draw.rect(screen, "White", div_rect)
-                screen.blit(score_surface, score_rect)
-                score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
+            # pygame.draw.rect(screen, "White", div_rect)
+            screen.blit(score_surface, score_rect)
+            score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
 
-                inv_frames -= 1
-                # Sprites drawing and updating
-                player1_lives.draw(screen)
-                player1_lives.update(lives, inv_frames)
-                laser.draw(screen)
-                laser.update()
-                aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
-                              player.sprite.rect.centery, alien_shot)
+            inv_frames -= 1
+            # Sprites drawing and updating
+            player1_lives.draw(screen)
+            player1_lives.update(lives, inv_frames)
+            laser.draw(screen)
+            laser.update()
+            aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
+                          player.sprite.rect.centery, alien_shot)
 
-                aliens.draw(screen)
-                enemies.draw(screen)
-                enemies.update()
-                star.draw(screen)
-                star.update(width, height, game_timer, hide_star)
-                badlaser.draw(screen)
-                badlaser.update()
-
+            aliens.draw(screen)
+            enemies.draw(screen)
+            enemies.update()
+            star.draw(screen)
+            star.update(width, height, game_timer, hide_star)
+            badlaser.draw(screen)
+            badlaser.update()
             if lives > 0:
                 player.draw(screen)
                 player.update(lives)
@@ -298,6 +302,8 @@ def play(name):
             screen.blit(game_over, (width / 4, height / 2))
             screen.blit(score_surface, (width / 2.5, height / 4))
             score = 0
+            level = 1
+            changed = False
             laser.empty()  # Deletes all sprites on screen
             enemies.empty()
             aliens.empty()
@@ -342,8 +348,13 @@ def play(name):
 
         # Level transition screen
         elif game_state == 4:
-
             screen.fill((0, 0, 0))
+
+            if level == 2 and not changed:
+                bg.empty()
+                bg.add(Background(width, height, level))
+                changed = True
+
             text = "LEVEL " + str(level)
             if text_delay >= 10:
                 if i <= len(text):
@@ -353,6 +364,7 @@ def play(name):
                     text_delay = 0
                 elif text_delay >= 50:
                     game_state = 1
+
             text_delay += 1
             screen.blit(level_text, level_rect)
 
@@ -552,7 +564,11 @@ def play(name):
         elif game_state == 9:
             # Win screen
             keys = pygame.key.get_pressed()
-            screen.fill("pink")
+            screen.fill("black")
+            score_rect = score_surface.get_rect(center=(width/2, height/2))
+            screen.blit(score_surface, score_rect)
+
+            laser.empty()
             aliens.empty()
             badlaser.empty()
             enemies.empty()
@@ -588,22 +604,25 @@ def invincibility(inv_frames, sprite):
         Player.take_dmg1(sprite)
 
 
+# Three enemies in horizontal line
 def attack_pattern1(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
     sprite_group.add(Asteroids(width, height, width * 1.25, y))
     sprite_group.add(Asteroids(width, height, width * 1.4, y))
 
 
+# Three enemies in vertical line
 def attack_pattern2(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.1, y-(0.2*height)))
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
     sprite_group.add(Asteroids(width, height, width * 1.1, y+(0.2*height)))
 
 
+# Three enemies in diagonal line
 def attack_pattern3(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
     sprite_group.add(Asteroids(width, height, width * 1.2, y+(0.2*height)))
-    sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.3*height)))
+    sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.4*height)))
 
 
 def setup():

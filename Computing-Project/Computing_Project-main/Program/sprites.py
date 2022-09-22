@@ -11,14 +11,18 @@ from settings import *
 
 
 class Background(pygame.sprite.Sprite):
-    def __init__(self, width, height):
+    def __init__(self, width, height, level):
         super().__init__()
-        surface = pygame.image.load("graphics/bg.png").convert_alpha()
+        if level == 1:
+            surface = pygame.image.load("graphics/bg.png").convert_alpha()
+        else:
+            surface = pygame.image.load("graphics/bg2.jpg").convert_alpha()
+
         self.image = pygame.transform.scale(surface, (width*20, height))
         # var = pygame.PixelArray(self.image)
         # var.replace(((0,0,0)), (255, 255, 255))
-
         self.rect = self.image.get_rect(center=(width*10, height/2))
+
 
     def scroll(self, wd):
         self.rect.centerx -= wd*0.008
