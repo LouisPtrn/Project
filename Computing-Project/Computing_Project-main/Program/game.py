@@ -37,8 +37,6 @@ def play(name):
     text_surface = font1.render("SPACE GAME", True, (180, 10, 10))
     text_rect = text_surface.get_rect(center=(width / 2, height / 8))
     game_over = font2.render("GAME OVER", True, (255, 0, 0))
-    # menu_text = font2.render("MENU", False, (200, 200, 200), (0, 0, 0))
-    # menu_rect = menu_text.get_rect(center=(width / 2, height / 4))
     settings_text = font2.render("SETTINGS", False, (200, 200, 200), (0, 0, 0))
     settings_rect = settings_text.get_rect(center=(width / 4, height / 8))
     level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
@@ -77,6 +75,8 @@ def play(name):
     player2_lives = pygame.sprite.GroupSingle()
     player2_lives.add(Hearts(width, height, False))
 
+    text = pygame.sprite.GroupSingle
+    text.add = (Text(width,height,"help",1,10))
     laser = pygame.sprite.Group()
     laser2 = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
@@ -86,6 +86,7 @@ def play(name):
     marker = pygame.sprite.Group()
     hs_rows = pygame.sprite.Group()
     badlaser = pygame.sprite.Group()
+
 
     buttons = ["play", "settings", "versus", "highscores", "exit"]
     set_buttons = ["difficulty", "resolution", "colourblind", "controls"]
@@ -160,6 +161,8 @@ def play(name):
             screen.blit(text_surface, text_rect)
             options.update(select)
             options.draw(screen)
+            text.update()
+            text.draw(screen)
             score = 0
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
@@ -232,18 +235,19 @@ def play(name):
                 inv_frames = 120
 
             # Adding enemies
-            if game_timer % 297 == 0:
+            if game_timer % 352 == 0 and game_timer > 250:
                 attack_pattern1(enemies, width, height, random.randint(0, height))
 
-            if game_timer % 350 == 0:
+            if game_timer % 401 == 0 and game_timer > 250:
                 attack_pattern2(enemies, width, height, random.randint(0, height))
 
-            if game_timer % 547 == 0:
+            if game_timer % 547 == 0 and game_timer > 250:
                 attack_pattern3(enemies, width, height, random.randint(0, height))
 
-            if random.randint(0, game_timer+1000) <= 50:
+            if random.randint(0, game_timer+1000) <= 50 and game_timer > 250:
                 badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
 
+            # Alien hit detection
             if pygame.sprite.groupcollide(laser, aliens, True, False):
                 alien_shot = True
                 score += 50
@@ -297,10 +301,15 @@ def play(name):
 
         elif game_state == 2:
             # Game Over screen
+            if not saved:
+                enter_score(name, score, get_date())
+                saved = True
+
             keys = pygame.key.get_pressed()
             screen.fill("black")
             screen.blit(game_over, (width / 4, height / 2))
             screen.blit(score_surface, (width / 2.5, height / 4))
+
             score = 0
             level = 1
             changed = False
@@ -308,6 +317,7 @@ def play(name):
             enemies.empty()
             aliens.empty()
             badlaser.empty()
+
             if keys[pygame.K_RETURN]:
                 select = 0
                 start_delay = 30
@@ -574,6 +584,7 @@ def play(name):
             enemies.empty()
             if not saved:
                 enter_score(name, score, get_date())
+                saved = True
             if keys[pygame.K_RETURN]:
                 game_state = 0
                 start_delay = 30
