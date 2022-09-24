@@ -75,8 +75,9 @@ def play(name):
     player2_lives = pygame.sprite.GroupSingle()
     player2_lives.add(Hearts(width, height, False))
 
-    text = pygame.sprite.GroupSingle
-    text.add = (Text(width,height,"help",1,10))
+    message = pygame.sprite.GroupSingle()
+    message.add(Texts(width, height, "word", font2, 0.1))
+
     laser = pygame.sprite.Group()
     laser2 = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
@@ -127,7 +128,7 @@ def play(name):
     play_game = True
     timer_change = False
     saved = False
-    changed = False
+    bg_changed = False
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -161,8 +162,7 @@ def play(name):
             screen.blit(text_surface, text_rect)
             options.update(select)
             options.draw(screen)
-            text.update()
-            text.draw(screen)
+
             score = 0
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
@@ -198,12 +198,12 @@ def play(name):
                 login2 = login.LoginWindow()
                 login2.mainloop()
                 return ()
-
             start_delay -= 1
 
         # Gameplay
         elif game_state == 1:
             alien_shot = False
+            bg_changed = False
             hide_star = False
             game_timer -= 1
             keys = pygame.key.get_pressed()
@@ -312,7 +312,7 @@ def play(name):
 
             score = 0
             level = 1
-            changed = False
+            bg_changed = False
             laser.empty()  # Deletes all sprites on screen
             enemies.empty()
             aliens.empty()
@@ -324,6 +324,7 @@ def play(name):
                 score = 0
                 lives = 3
                 inv_frames = 0
+                game_state = 0
                 game_state = 0
                 player.sprite.rect.centery = 200  # Reset ship pos
                 player.sprite.rect.centerx = 100
@@ -360,10 +361,16 @@ def play(name):
         elif game_state == 4:
             screen.fill((0, 0, 0))
 
-            if level == 2 and not changed:
+            if not bg_changed:
+                mixer.music.load("audio/music_1.mp3")
+                mixer.music.set_volume(0.5)
+                mixer.music.play()
                 bg.empty()
                 bg.add(Background(width, height, level))
-                changed = True
+                bg_changed = True
+            if level == 1:
+                mixer.music.load("audio/music_2.mp3")
+                mixer.music.play()
 
             text = "LEVEL " + str(level)
             if text_delay >= 10:
@@ -497,19 +504,32 @@ def play(name):
             keys = pygame.key.get_pressed()
 
             if lives_b == 0:
+                # Plr 1 victory
                 screen.fill("red")
+                message.update("Red wins!", font2, 0.2, True)
+                message.draw(screen)
             elif lives == 0:
+                # Plr 2 victory
                 screen.fill("blue")
+                message.update("Blue wins!", font2, random.uniform(0,0.5), True)
+                message.draw(screen)
             else:
                 if score > score2:
                     # Plr 1 victory
                     screen.fill("red")
+                    message.update("Red wins!", font2, 0.2, True)
+                    message.draw(screen)
+
                 elif score2 > score:
                     # Plr 2 victory
                     screen.fill("blue")
+                    message.update("Blue wins!", font2, 0.2, True)
+                    message.draw(screen)
                 else:
                     # Draw
                     screen.fill("black")
+                    message.update("Draw", font2, 0.2, True)
+                    message.draw(screen)
 
             laser.empty()  # Deletes all sprites on screen
             laser2.empty()

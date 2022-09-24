@@ -223,9 +223,9 @@ class Lasers(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.surface, (self.wd / 40, self.ht / 160))
         self.rect = self.image.get_rect(center=(x, y))
         if sound:
-            mixer.music.load("audio/sound_shoot.wav")
-            mixer.music.set_volume(0.5)
-            mixer.music.play()
+            mixer.set_num_channels(10)
+            mixer.Channel(1).set_volume(0.5)
+            mixer.Channel(1).play(pygame.mixer.Sound('audio/sound_shoot.wav'))
 
     def shoot(self):
         self.rect.x += self.wd/40
@@ -618,22 +618,22 @@ class HighscoreRow(pygame.sprite.Sprite):
             self.image = self.font.render(f"{self.num+1} {self.name} {self.score}", False, (200, 200, 200))
 
 
-class Text(pygame.sprite.Sprite):
+class Texts(pygame.sprite.Sprite):
     def __init__(self, wd, ht, word, font, size):
         super().__init__()
-        font1 = pygame.font.Font("graphics/fonts/ARCADE_I.ttf", round(wd*size))
-        font2 = pygame.font.Font("graphics/fonts/ARCADE_N.ttf", round(wd*size))
+        self.wd = wd
+        self.ht = ht
+        self.surface = font.render(str(word), False, (200, 200, 200))
+        self.image = pygame.transform.scale(self.surface, (ht*size, wd*size))
+        self.rect = self.image.get_rect(center=(wd/2,ht/2))
 
-        if font == 1:
-            self.image = font1.render(word, False, (200, 200, 200), (0, 0, 0))
-            self.image = pygame.image.load("graphics/bg.png")
+    def change(self, word, font, size):
+        self.surface = font.render(word, False, (200, 200, 200))
+        self.image = pygame.transform.scale(self.surface, (self.wd * size * 2, self.ht * size))
+        self.rect = self.image.get_rect(center=(self.wd / 2, self.ht / 2))
+
+    def update(self, word, font, size, is_shown):
+        if is_shown:
+            self.change(word, font, size)
         else:
-            self.image = font2.render(word, False, (200, 200, 200), (0, 0, 0))
-        self.rect = self.image.get_rect()
-
-    def change(self):
-        self.image = pygame.image.load("graphics/bg.png")
-
-    def update(self, test):
-        if test:
-            self.change()
+            self.image = font.render("", False, (0, 0, 0))
