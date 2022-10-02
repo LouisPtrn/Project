@@ -192,8 +192,12 @@ class Hearts(pygame.sprite.Sprite):  # Number of lives UI
         self.images = [pygame.image.load("graphics/hearts1.png"),
                        pygame.image.load("graphics/hearts2.png"),
                        pygame.image.load("graphics/hearts3.png"),
+                       pygame.image.load("graphics/hearts4.png"),
+                       pygame.image.load("graphics/hearts5.png"),
                        pygame.image.load("graphics/hearts1.5.png"),
-                       pygame.image.load("graphics/hearts2.5.png")]
+                       pygame.image.load("graphics/hearts2.5.png"),
+                       pygame.image.load("graphics/hearts3.5.png"),
+                       pygame.image.load("graphics/hearts4.5.png")]
 
         self.image = pygame.transform.scale(self.images[2], (wd/3, ht/10))
         if plr:
@@ -204,10 +208,14 @@ class Hearts(pygame.sprite.Sprite):  # Number of lives UI
     def animate(self, lvs, inv):  # Inv frames prevent multiple lives lost at once
         if inv <= 90:
             self.image = pygame.transform.scale(self.images[lvs-1], (self.wd/3, self.ht/10))
+        elif lvs == 1:
+            self.image = pygame.transform.scale(self.images[-4], (self.wd/3, self.ht/10))
         elif lvs == 2:
-            self.image = pygame.transform.scale(self.images[-1], (self.wd/3, self.ht/10))
-        else:
+            self.image = pygame.transform.scale(self.images[-3], (self.wd/3, self.ht/10))
+        elif lvs == 3:
             self.image = pygame.transform.scale(self.images[-2], (self.wd/3, self.ht/10))
+        elif lvs == 4:
+            self.image = pygame.transform.scale(self.images[-1], (self.wd/3, self.ht/10))
 
     def update(self, lives, frames):
         self.animate(lives, frames)
@@ -352,6 +360,7 @@ class Alien(pygame.sprite.Sprite):
 class Pickup(pygame.sprite.Sprite):
     def __init__(self, wd, ht):
         super().__init__()
+        self.type = "star"
         self.surface = pygame.image.load("graphics/star.png")
         self.image = pygame.transform.scale(self.surface, (wd/32, ht/20))
         self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
@@ -359,7 +368,24 @@ class Pickup(pygame.sprite.Sprite):
     def move(self, width):
         self.rect.centerx -= width/150
 
+    def change(self, wd, ht, type):
+        # changes type of pickup, heart will give the player a life rather
+        # than points
+        if type == "heart":
+            self.type = "heart"
+            self.surface = pygame.image.load("graphics/smallheart.png")
+            self.image = pygame.transform.scale(self.surface, (wd/32, ht/20))
+        else:
+            self.type = "star"
+            self.surface = pygame.image.load("graphics/star.png")
+            self.image = pygame.transform.scale(self.surface, (wd / 32, ht / 20))
+
     def reset(self, width, height, hide):
+        if random.randint(0,5) == 5:
+            self.change(width, height, "heart")
+        else:
+            self.change(width, height, "star")
+
         if hide:
             self.rect.centerx = -100
         else:

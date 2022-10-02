@@ -88,7 +88,6 @@ def play(name):
     hs_rows = pygame.sprite.Group()
     badlaser = pygame.sprite.Group()
 
-
     buttons = ["play", "settings", "versus", "highscores", "exit"]
     set_buttons = ["difficulty", "resolution", "colourblind", "controls"]
 
@@ -108,11 +107,19 @@ def play(name):
 
     dif = get_setting("difficulty").upper()
 
+    if dif == "EASY":
+        lives = 5
+        lives_b = 5
+    elif dif == "NORMAL":
+        lives = 3
+        lives_b = 3
+    else:
+        lives = 2
+        lives_b = 2
+
     # initialise variables
 
     score2 = 0
-    lives = 3
-    lives_b = 3
     inv_frames = 0
     inv_frames_b = 0
     cooldown = 0
@@ -167,9 +174,17 @@ def play(name):
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
                 saved = False
+                dif = get_setting("difficulty").upper()
+                if dif == "EASY":
+                    lives = 5
+                elif dif == "NORMAL":
+                    lives = 3
+                else:
+                    lives = 2
+
                 i = 0
                 text_delay = 0
-                game_timer = 2700
+                game_timer = 27
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -208,6 +223,11 @@ def play(name):
             game_timer -= 1
             keys = pygame.key.get_pressed()
 
+            if level == 1:
+                mixer.music.set_volume(1)
+            else:
+                mixer.music.set_volume(0.3)
+
             if game_timer <= 1:
                 level += 1
                 game_timer = 3600
@@ -226,8 +246,13 @@ def play(name):
                 score += 10
 
             if pygame.sprite.groupcollide(player, star, False, False):
-                score += 100
-                hide_star = True
+                if star.sprite.__getattribute__("type") == "star":
+                    score += 100
+                    hide_star = True
+                else:
+                    hide_star = True
+                    if lives < 5:
+                        lives += 1
 
             if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
                pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
@@ -264,6 +289,7 @@ def play(name):
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10
+
             alien_cooldown -= 1
             invincibility(inv_frames, player.sprite)
 
@@ -322,9 +348,7 @@ def play(name):
                 select = 0
                 start_delay = 30
                 score = 0
-                lives = 3
                 inv_frames = 0
-                game_state = 0
                 game_state = 0
                 player.sprite.rect.centery = 200  # Reset ship pos
                 player.sprite.rect.centerx = 100
@@ -363,13 +387,14 @@ def play(name):
 
             if not bg_changed:
                 mixer.music.load("audio/music_1.mp3")
-                mixer.music.set_volume(0.5)
+                mixer.music.set_volume(0)
                 mixer.music.play()
                 bg.empty()
                 bg.add(Background(width, height, level))
                 bg_changed = True
             if level == 1:
                 mixer.music.load("audio/music_2.mp3")
+                mixer.music.set_volume(0)
                 mixer.music.play()
 
             text = "LEVEL " + str(level)
@@ -452,9 +477,9 @@ def play(name):
                 for alien in aliens:
                     if alien_cooldown <= 0:
                         badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
-                        if dif == "EASY":
+                        if get_setting("difficulty").upper() == "EASY":
                             alien_cooldown = 50
-                        elif dif == "NORMAL":
+                        elif get_setting("difficulty") == "NORMAL":
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10

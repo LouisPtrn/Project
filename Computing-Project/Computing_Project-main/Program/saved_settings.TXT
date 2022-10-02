@@ -1,4 +1,4 @@
 Window width: 1440
 Window height: 810
-Difficulty: Normal
-Colourblind mode: True
+Difficulty: Easy
+Colourblind mode: False
