@@ -381,7 +381,7 @@ class Pickup(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.surface, (wd / 32, ht / 20))
 
     def reset(self, width, height, hide):
-        if random.randint(0,5) == 5:
+        if random.randint(0,4) == 0:
             self.change(width, height, "heart")
         else:
             self.change(width, height, "star")
@@ -391,6 +391,12 @@ class Pickup(pygame.sprite.Sprite):
         else:
             self.rect.centerx = width*1.1
             self.rect.centery = random.uniform(height*0.1, height*0.9)
+        self.update_colour(width, height)
+
+    def update_colour(self, width, height):
+        if get_setting("colour") == "True" and self.type == "heart":
+            self.image = change_hue(self.surface, 280)
+        self.image = pygame.transform.scale(self.surface, (width/32, height/20))
 
     def update(self, wd, ht, timer, hide):
         self.move(wd)

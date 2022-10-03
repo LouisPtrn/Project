@@ -158,6 +158,15 @@ def play(name):
                 if event.key == pygame.K_DOWN and set_row < 2:
                     set_row += 1
                     set_col = 0
+            if event.type == pygame.KEYDOWN and (game_state == 1):
+                if event.key == pygame.K_ESCAPE:
+                    game_state = 10
+                    text_delay = 40
+            if event.type == pygame.KEYDOWN and (game_state == 10):
+                if event.key == pygame.K_ESCAPE and text_delay <= 0:
+                    game_state = 1
+                if event.key == pygame.K_BACKSPACE and text_delay <= 0:
+                    game_state = 0
 
         # Main Menu
         if game_state == 0:
@@ -170,7 +179,8 @@ def play(name):
             options.update(select)
             options.draw(screen)
 
-            score = 0
+            hs_rows.empty()
+            hs_rows = update_scores(hs_rows, width, height)
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
                 saved = False
@@ -184,7 +194,7 @@ def play(name):
 
                 i = 0
                 text_delay = 0
-                game_timer = 27
+                game_timer = 2700 # 45 seconds
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -229,12 +239,15 @@ def play(name):
                 mixer.music.set_volume(0.3)
 
             if game_timer <= 1:
-                level += 1
-                game_timer = 3600
+                game_timer = 3600 # 60 seconds
                 text_delay = 0
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 i = 0
-                game_state = 4
+                if level == 2:
+                    game_state = 9
+                else:
+                    game_state = 4
+                level += 1
 
             if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
                 laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
@@ -243,11 +256,11 @@ def play(name):
 
             # Collision Detection
             if pygame.sprite.groupcollide(laser, enemies, True, True):
-                score += 10
+                score += 100
 
             if pygame.sprite.groupcollide(player, star, False, False):
                 if star.sprite.__getattribute__("type") == "star":
-                    score += 100
+                    score += 200
                     hide_star = True
                 else:
                     hide_star = True
@@ -275,9 +288,11 @@ def play(name):
             # Alien hit detection
             if pygame.sprite.groupcollide(laser, aliens, True, False):
                 alien_shot = True
-                score += 50
+                score += 100
 
             if game_timer % 400 == 0:
+                aliens.add(Alien(width, height))
+            elif game_timer % 579 == 0 and dif == "HARD":
                 aliens.add(Alien(width, height))
             else:
                 for alien in aliens:
@@ -536,7 +551,7 @@ def play(name):
             elif lives == 0:
                 # Plr 2 victory
                 screen.fill("blue")
-                message.update("Blue wins!", font2, random.uniform(0,0.5), True)
+                message.update("Blue wins!", font2, 0.2, True)
                 message.draw(screen)
             else:
                 if score > score2:
@@ -589,8 +604,18 @@ def play(name):
                 game_state = 0
 
             aliens.empty()
-            lives = 3
-            lives_b = 3
+
+            dif = get_setting("difficulty").upper()
+            if dif == "EASY":
+                lives = 5
+                lives_b = 5
+            elif dif == "NORMAL":
+                lives = 3
+                lives_b = 3
+            else:
+                lives = 2
+                lives_b = 2
+
             score = 0
             score2 = 0
             timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20), (0, 0, 50)).convert_alpha()
@@ -616,11 +641,21 @@ def play(name):
             screen.blit(menu_text, menu_rect)
             hs_rows.draw(screen)
             hs_rows.update()
+
         elif game_state == 9:
             # Win screen
             keys = pygame.key.get_pressed()
+            game_timer += 1
+
             screen.fill("black")
-            score_rect = score_surface.get_rect(center=(width/2, height/2))
+            score_rect = score_surface.get_rect(center=(width/2, height/1.5))
+
+            if game_timer % 40 >= 20:
+                message.update("You win!", font2, 0.2, False)
+            else:
+                message.update("You win!", font2, 0.2, True)
+
+            message.draw(screen)
             screen.blit(score_surface, score_rect)
 
             laser.empty()
@@ -633,6 +668,10 @@ def play(name):
             if keys[pygame.K_RETURN]:
                 game_state = 0
                 start_delay = 30
+        elif game_state == 10:
+            text_delay -= 1
+            message.update("PAUSED", font1, 0.15, True)
+            message.draw(screen)
 
         # Update everything
         pygame.display.update()
@@ -680,6 +719,14 @@ def attack_pattern3(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.2, y+(0.2*height)))
     sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.4*height)))
 
+def update_scores(hs_rows, width, height):
+    name_list = get_names()
+    score_list = get_scores()
+
+    for i in range(5):
+        hs_rows.add(HighscoreRow(i, width, height, name_list[i], score_list[i]))
+
+    return hs_rows
 
 def setup():
     if is_first_launch():
