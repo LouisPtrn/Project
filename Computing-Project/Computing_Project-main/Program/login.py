@@ -9,6 +9,7 @@ from tkinter import ttk
 from tkinter.messagebox import showinfo
 from LoginData import search
 import game
+import AdminControl
 
 
 class LoginWindow(tk.Tk):
@@ -73,7 +74,10 @@ class LoginWindow(tk.Tk):
             LoginWindow.destroy(self)
             game.setup()
             game.play(username)
-
+        elif search(str(username), str(password), "Admins"):
+            tk.messagebox.showinfo(title='', message="Welcome admin " + username)
+            LoginWindow.destroy(self)
+            AdminControl.create_window()
         else:
             tk.messagebox.showinfo(title='', message="No")
 

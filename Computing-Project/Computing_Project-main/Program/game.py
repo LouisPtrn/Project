@@ -194,7 +194,8 @@ def play(name):
 
                 i = 0
                 text_delay = 0
-                game_timer = 2700 # 45 seconds
+                level = 1
+                game_timer = 2700  # 45 seconds
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
