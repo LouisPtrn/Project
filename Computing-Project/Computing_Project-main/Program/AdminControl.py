@@ -17,6 +17,7 @@ class AdminWindow(tk.Tk):
         super().__init__()
         self.menubar = Menu(self)
         self.title("Admin Window")
+        self.config(bg='#CDE2FF')
         self.geometry("600x360")
         self.resizable(False, False)
         self.eval('tk::PlaceWindow . center')
@@ -32,11 +33,16 @@ class AdminWindow(tk.Tk):
         self.entry2.config(show="*")
         self.i = True
 
-        # login button
+        # create user button
         self.button = ttk.Button(self, text='Create User')
         self.button['command'] = lambda: self.create_user()
         self.button.place(x=475, y=300)
         self.bind("<Return>", (lambda event: self.create_user()))
+
+        # delete user button
+        self.button = ttk.Button(self, text='Delete User')
+        self.button['command'] = lambda: self.delete_user()
+        self.button.place(x=50, y=300)
 
         # exit dropdown menu
         self.config(menu=self.menubar)
@@ -71,6 +77,10 @@ class AdminWindow(tk.Tk):
             show_message("Success", "Entered user", 1)
         else:
             show_message("Error", "Invalid user", 3)
+
+    def delete_user(self):
+        username = self.entry1.get()
+        LoginData.delete_user(username)
 
     def go_back(self):
         AdminWindow.destroy(self)

@@ -195,7 +195,7 @@ def play(name):
                 i = 0
                 text_delay = 0
                 level = 1
-                game_timer = 2700  # 45 seconds
+                game_timer = 27  # 45 seconds
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -240,7 +240,7 @@ def play(name):
                 mixer.music.set_volume(0.3)
 
             if game_timer <= 1:
-                game_timer = 3600 # 60 seconds
+                game_timer = 3600  # 60 seconds
                 text_delay = 0
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 i = 0
@@ -292,9 +292,9 @@ def play(name):
                 score += 100
 
             if game_timer % 400 == 0:
-                aliens.add(Alien(width, height))
+                aliens.add(Alien(width, height, "normal"))
             elif game_timer % 579 == 0 and dif == "HARD":
-                aliens.add(Alien(width, height))
+                aliens.add(Alien(width, height, "normal"))
             else:
                 for alien in aliens:
                     if alien_cooldown <= 0:
@@ -305,6 +305,9 @@ def play(name):
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10
+
+            if game_timer == 1200 and level == 2:
+                aliens.add(Alien(width, height, "boss"))
 
             alien_cooldown -= 1
             invincibility(inv_frames, player.sprite)
@@ -487,7 +490,7 @@ def play(name):
                 enemies.add(Asteroids(width, height, width * 1.1, random.uniform(height*0.6, height*0.9)))
 
             if game_timer % 300 == 0 and game_timer < 3500:
-                aliens.add(Alien(width, height))
+                aliens.add(Alien(width, height, "normal"))
 
             else:
                 for alien in aliens:
@@ -682,7 +685,7 @@ def play(name):
 def invincibility(inv_frames, sprite):
     # Invincibility frames flashing animation
     # Pycharm marks the passing of a sprite as a warning: "Expected type 'Player', got 'Sprite' instead"
-    # but the program still functions normally with no errors.
+    # but this still functions normally with no bugs.
     if inv_frames >= 0:
         if inv_frames >= 100:
             Player.take_dmg2(sprite)
@@ -720,6 +723,7 @@ def attack_pattern3(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.2, y+(0.2*height)))
     sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.4*height)))
 
+
 def update_scores(hs_rows, width, height):
     name_list = get_names()
     score_list = get_scores()
@@ -728,6 +732,7 @@ def update_scores(hs_rows, width, height):
         hs_rows.add(HighscoreRow(i, width, height, name_list[i], score_list[i]))
 
     return hs_rows
+
 
 def setup():
     if is_first_launch():

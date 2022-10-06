@@ -228,12 +228,14 @@ class Lasers(pygame.sprite.Sprite):
         self.wd = wd
         self.ht = ht
         self.surface = pygame.image.load("graphics/laser.png").convert_alpha()
-        self.image = pygame.transform.scale(self.surface, (self.wd / 40, self.ht / 160))
-        self.rect = self.image.get_rect(center=(x, y))
+        self.image = pygame.transform.scale(self.surface, (wd / 40, ht / 160))
+
         if sound:
             mixer.set_num_channels(10)
             mixer.Channel(1).set_volume(0.5)
             mixer.Channel(1).play(pygame.mixer.Sound('audio/sound_shoot.wav'))
+
+        self.rect = self.image.get_rect(center=(x, y))
 
     def shoot(self):
         self.rect.x += self.wd/40
@@ -302,52 +304,70 @@ class Asteroids(pygame.sprite.Sprite):
             self.die()
 
 
+# Alien and boss class
 class Alien(pygame.sprite.Sprite):
-    def __init__(self, wd, ht):
+    def __init__(self, wd, ht, alien_type):
         super().__init__()
-        self.lives = 3
-        self.hit = False
+        self.type = alien_type
         self.wd = wd
         self.ht = ht
-        self.surface = pygame.image.load("graphics/alien1.png").convert_alpha()
-        self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
-        self.image.set_colorkey("white")
-        self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
+
+        if alien_type == "normal":
+            self.lives = 3
+            self.hit = False
+
+            self.surface = pygame.image.load("graphics/alien1.png").convert_alpha()
+            self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
+            self.image.set_colorkey("white")
+            self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
+        else:
+            self.lives = 30
+            self.hit = False
+            self.surface = pygame.image.load("graphics/boss_1.png")
+            self.image = pygame.transform.scale(self.surface, (wd / 4, ht / 4))
+            self.rect = self.image.get_rect(center=(wd * 1.1, ht * 0.5))
 
     def move(self, px, py, p2x, p2y):
         self.hit = False
-        if self.rect.centery < self.ht/2:
-            # player 1 side movement
-            if self.rect.centery < py:
-                self.rect.centery += self.ht / 300
-            elif self.rect.centery > py:
-                self.rect.centery -= self.ht / 300
+        if self.type == "normal":
+            if self.rect.centery < self.ht/2:
+                # player 1 side movement
+                if self.rect.centery < py:
+                    self.rect.centery += self.ht / 300
+                elif self.rect.centery > py:
+                    self.rect.centery -= self.ht / 300
 
-            if px > self.wd / 2:
-                self.rect.centerx -= self.wd / 500
-            elif px > self.wd / 10:
-                self.rect.centerx -= self.wd / px
+                if px > self.wd / 2:
+                    self.rect.centerx -= self.wd / 500
+                elif px > self.wd / 10:
+                    self.rect.centerx -= self.wd / px
+                else:
+                    self.rect.centerx -= self.wd / 100
+
             else:
-                self.rect.centerx -= self.wd / 100
+                # player 2 side movement
+                if self.rect.centery < p2y:
+                    self.rect.centery += self.ht / 300
+                elif self.rect.centery > p2y:
+                    self.rect.centery -= self.ht / 300
 
-        else:
-            # player 2 side movement
-            if self.rect.centery < p2y:
-                self.rect.centery += self.ht / 300
-            elif self.rect.centery > p2y:
-                self.rect.centery -= self.ht / 300
+                if p2x > self.wd / 2:
+                    self.rect.centerx -= self.wd / 500
+                elif p2x > self.wd / 10:
+                    self.rect.centerx -= self.wd / p2x
+                else:
+                    self.rect.centerx -= self.wd / 100
 
-            if p2x > self.wd / 2:
-                self.rect.centerx -= self.wd / 500
-            elif p2x > self.wd / 10:
-                self.rect.centerx -= self.wd / p2x
-            else:
-                self.rect.centerx -= self.wd / 100
+        elif self.type == "boss":
+            self.rect.centerx -= self.wd/1000
 
     def take_dmg(self, shot):
         if shot and not self.hit:
             self.lives -= 1
             self.hit = True
+        if self.lives == 0 and self.type == "boss":
+            # score += 10000
+            pass
 
     def update(self, playerx, playery, player2x, player2y, is_shot):
         self.take_dmg(is_shot)
@@ -368,10 +388,10 @@ class Pickup(pygame.sprite.Sprite):
     def move(self, width):
         self.rect.centerx -= width/150
 
-    def change(self, wd, ht, type):
+    def change(self, wd, ht, pickup_type):
         # changes type of pickup, heart will give the player a life rather
         # than points
-        if type == "heart":
+        if pickup_type == "heart":
             self.type = "heart"
             self.surface = pygame.image.load("graphics/smallheart.png")
             self.image = pygame.transform.scale(self.surface, (wd/32, ht/20))
@@ -381,7 +401,7 @@ class Pickup(pygame.sprite.Sprite):
             self.image = pygame.transform.scale(self.surface, (wd / 32, ht / 20))
 
     def reset(self, width, height, hide):
-        if random.randint(0,4) == 0:
+        if random.randint(0, 4) == 0:
             self.change(width, height, "heart")
         else:
             self.change(width, height, "star")
@@ -657,7 +677,7 @@ class Texts(pygame.sprite.Sprite):
         self.ht = ht
         self.surface = font.render(str(word), False, (200, 200, 200))
         self.image = pygame.transform.scale(self.surface, (ht*size, wd*size))
-        self.rect = self.image.get_rect(center=(wd/2,ht/2))
+        self.rect = self.image.get_rect(center=(wd/2, ht/2))
 
     def change(self, word, font, size):
         self.surface = font.render(word, False, (200, 200, 200))

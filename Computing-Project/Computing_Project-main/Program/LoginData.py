@@ -28,6 +28,7 @@ def createtable():
 
 
 def enter_user(u, p):
+    # Validation performed on username and password before they are entered
     val_u = validation.is_valid_user(u, "username")
     val_p = validation.is_valid_user(p, "password")
     if val_u and val_p:
@@ -39,11 +40,11 @@ def enter_user(u, p):
             con.close()
             return True
         except Exception as ex:
-            print(ex)
+            show_message("Error creating user", ex, 2)
             con.close()
             return False
     else:
-        print("not valid")
+        return False
 
 
 def search(u, p, table):
@@ -63,24 +64,42 @@ def search(u, p, table):
     return found
 
 
-def delete_user(u):
-    try:
-        con = sqlite3.connect("login.db")
-        cursor = con.cursor()
-        # Deleting single record now
-        sql = "DELETE FROM Users WHERE Username=?"
-        cursor.execute(sql, (u,))
-        con.commit()
-        cursor.close()
-        con.close()
+def is_existent_user(u):
+    con = sqlite3.connect("login.db")
+    cursor = con.cursor()
+    cursor.execute("SELECT * FROM Users")
+    records = cursor.fetchall()
+    found = False
+    for row in records:
+        if row[0] == u:
+            found = True
+    cursor.close()
+    con.close()
+    return found
 
-    except sqlite3.Error as error:
-        # Displays popup message rather than printing
-        show_message("Error", "Failed to delete record from sqlite table: " + str(error), 1)
+
+def delete_user(u):
+    if is_existent_user(u):
+        try:
+            con = sqlite3.connect("login.db")
+            cursor = con.cursor()
+            # Deleting single record now
+            sql = "DELETE FROM Users WHERE Username=?"
+            cursor.execute(sql, (u,))
+            con.commit()
+            cursor.close()
+            con.close()
+            show_message("Success", "User deleted ", 1)
+
+        except sqlite3.Error as error:
+            # Displays popup message rather than printing
+            show_message("Error", "Failed to delete record from sqlite table: " + str(error), 2)
+    else:
+        show_message("Error", "User does not exist", 3)
 
 
 if __name__ == "__main__":
     createtable()
-    # enter_user("Richard_11", "Password1")
-    # delete_user("Richard_11")
-    delete_user(int)
+    enter_user("Richard_11", "Password1")
+    delete_user("Richard_11")
+    # delete_user(int)

@@ -54,10 +54,10 @@ class LoginWindow(tk.Tk):
 
         # show password checkbox
         self.check1 = tk.Checkbutton(self, text='Show Password', onvalue=True, offvalue=False)
-        self.check1['command'] = lambda: self.togglepass()
+        self.check1['command'] = lambda: self.toggle_pass()
         self.check1.place(x=420, y=220)
 
-    def togglepass(self):
+    def toggle_pass(self):
         # Show or hide password box
         if self.i:
             self.entry2.config(show="")
