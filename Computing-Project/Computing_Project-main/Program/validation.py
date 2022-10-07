@@ -43,7 +43,7 @@ def is_inrange(data, lo, hi):
 def is_valid_user(u, opt):
     if opt == "username":
         if isinstance(u, str):
-            if len(u) > 3:
+            if len(u) > 3 and len(u) <= 20:
                 u = u.upper()
                 characters = []
                 for i in range(65, 91):
@@ -78,7 +78,7 @@ def is_valid_date(given_date):  # DD/MM/YYYY
 # Checks if a high score is valid - positive integer that isn't too high
 def is_valid_score(score):
     if isinstance(score, int):
-        if 0 <= score < 100000:
+        if 0 <= score < 1000000:
             return True
     return False
 
@@ -90,4 +90,4 @@ if __name__ == "__main__":
     # else:
     # if not is_valid_date("29/02/2005"):
     #     show_message("Date", "Date is invalide", 3)
-    print(is_valid_score(99999))
+    pass

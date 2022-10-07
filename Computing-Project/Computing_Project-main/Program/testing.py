@@ -46,7 +46,22 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(is_valid_score(-100), False)  # Invalid score
         self.assertEqual(is_valid_score(500.5), False)  # Invalid score
         self.assertEqual(is_valid_score(0), True)  # Borderline
+        self.assertEqual(is_valid_score(999999), True)  # Borderline
 
+    # testing dates dd/mm/yyyy format
+    def test_dates(self):
+        self.assertEqual(is_valid_date("01/01/2001"), True)  # Valid date
+        self.assertEqual(is_valid_date("29/02/2004"), True)  # Valid date
+        self.assertEqual(is_valid_date("40/10/1000"), False)  # Invalid date
+        self.assertEqual(is_valid_date("31/09/2015"), False)  # Invalid date
+        self.assertEqual(is_valid_date("30/12/9999"), True)  # Extreme
+
+    # testing usernames
+    def test_users(self):
+        self.assertEqual(is_valid_user("Bob_12542", "username"), True)  # Valid username
+        self.assertEqual(is_valid_user("L1", "username"), False)  # Invalid username, too short
+        self.assertEqual(is_valid_user("qwertyuiop_asdfghjklzxc", "username"), False)  # Invalid username, too long
+        self.assertEqual(is_valid_user("qwertyuiop_asgdhjlkl", "username"), True)  # Borderline
     # -----------------------------------------------------------------------------
 
     def test_error(self):
