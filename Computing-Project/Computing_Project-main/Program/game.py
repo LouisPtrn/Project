@@ -195,7 +195,7 @@ def play(name):
                 i = 0
                 text_delay = 0
                 level = 1
-                game_timer = 27  # 45 seconds
+                game_timer = 2700  # 45 seconds
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
                 score = 0
                 game_state = 4
@@ -292,22 +292,31 @@ def play(name):
                 score += 100
 
             if game_timer % 400 == 0:
-                aliens.add(Alien(width, height, "normal"))
+                aliens.add(Alien(width, height, "boss"))
             elif game_timer % 579 == 0 and dif == "HARD":
                 aliens.add(Alien(width, height, "normal"))
             else:
                 for alien in aliens:
-                    if alien_cooldown <= 0:
+                    if alien_cooldown <= 0 and alien.__getattribute__("type") == "normal":
                         badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
+
                         if dif == "EASY":
                             alien_cooldown = 50
                         elif dif == "NORMAL":
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10
+                    if alien_cooldown % 10 == 0 and alien.__getattribute__("type") == "boss":
+                        badlaser.add(EnemyLasers(alien.rect.centerx,
+                                                 alien.rect.centery + (height / random.randint(7, 9)), width, height,
+                                                 False))
+                        badlaser.add(EnemyLasers(alien.rect.centerx,
+                                                 alien.rect.centery - (height / random.randint(7, 9)), width, height,
+                                                 False))
 
             if game_timer == 1200 and level == 2:
                 aliens.add(Alien(width, height, "boss"))
+                boss_timer = 200
 
             alien_cooldown -= 1
             invincibility(inv_frames, player.sprite)
@@ -329,7 +338,7 @@ def play(name):
             laser.draw(screen)
             laser.update()
             aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
-                          player.sprite.rect.centery, alien_shot)
+                          player.sprite.rect.centery, alien_shot, game_timer)
 
             aliens.draw(screen)
             enemies.draw(screen)
@@ -518,7 +527,7 @@ def play(name):
             enemies.update()
             enemies.draw(screen)
             aliens.update(player1.sprite.rect.centerx, player1.sprite.rect.centery, player2.sprite.rect.centerx,
-                          player2.sprite.rect.centery, alien_shot)
+                          player2.sprite.rect.centery, alien_shot, game_timer)
             aliens.draw(screen)
 
             player1_lives.draw(screen)
@@ -610,6 +619,7 @@ def play(name):
             aliens.empty()
 
             dif = get_setting("difficulty").upper()
+
             if dif == "EASY":
                 lives = 5
                 lives_b = 5

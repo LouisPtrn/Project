@@ -323,8 +323,16 @@ class Alien(pygame.sprite.Sprite):
         else:
             self.lives = 30
             self.hit = False
-            self.surface = pygame.image.load("graphics/boss_1.png")
-            self.image = pygame.transform.scale(self.surface, (wd / 4, ht / 4))
+            self.surface_list = [pygame.image.load("graphics/boss_frame_0.gif"),
+                                 pygame.image.load("graphics/boss_frame_2.gif"),
+                                 pygame.image.load("graphics/boss_frame_3.gif"),
+                                 pygame.image.load("graphics/boss_frame_4.gif"),
+                                 pygame.image.load("graphics/boss_frame_5.gif"),
+                                 pygame.image.load("graphics/boss_frame_6.gif"),
+                                 pygame.image.load("graphics/boss_frame_7.gif"),
+                                 pygame.image.load("graphics/boss_frame_8.gif")]
+
+            self.image = pygame.transform.scale(self.surface_list[0], (wd / 4, ht / 4))
             self.rect = self.image.get_rect(center=(wd * 1.1, ht * 0.5))
 
     def move(self, px, py, p2x, p2y):
@@ -359,7 +367,7 @@ class Alien(pygame.sprite.Sprite):
                     self.rect.centerx -= self.wd / 100
 
         elif self.type == "boss":
-            self.rect.centerx -= self.wd/1000
+            self.rect.centerx -= self.wd/2000
 
     def take_dmg(self, shot):
         if shot and not self.hit:
@@ -369,9 +377,17 @@ class Alien(pygame.sprite.Sprite):
             # score += 10000
             pass
 
-    def update(self, playerx, playery, player2x, player2y, is_shot):
+    def animate(self, timer):
+        n = (timer % 16)//2
+        self.image = pygame.transform.scale(self.surface_list[n], (self.wd / 4, self.ht / 4))
+        self.image.set_colorkey("black")
+
+    def update(self, playerx, playery, player2x, player2y, is_shot, timer):
         self.take_dmg(is_shot)
         self.move(playerx, playery, player2x, player2y)
+
+        if self.type == "boss":
+            self.animate(timer)
 
         if self.rect.centerx < 1 or self.lives == 0:
             self.kill()

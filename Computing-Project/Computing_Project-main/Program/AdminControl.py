@@ -31,6 +31,9 @@ class AdminWindow(tk.Tk):
         self.entry2 = tk.Entry(self, bd=6, width=40)
         self.entry2.place(x=250, y=150)
         self.entry2.config(show="*")
+        self.entry3 = tk.Entry(self, bd=6, width=40)
+        self.entry3.place(x=250, y=180)
+        self.entry3.config(show="*")
         self.i = True
 
         # create user button
@@ -56,6 +59,8 @@ class AdminWindow(tk.Tk):
         self.label.place(x=75, y=100)
         self.label = ttk.Label(self, text='Password:', font=("Arial", 15))
         self.label.place(x=75, y=150)
+        self.label = ttk.Label(self, text='Re-enter password', font=("Arial", 15))
+        self.label.place(x=75, y=180)
 
         # show password checkbox
         self.check1 = tk.Checkbutton(self, text='Show Password', onvalue=True, offvalue=False)
@@ -73,10 +78,15 @@ class AdminWindow(tk.Tk):
     def create_user(self):
         username = self.entry1.get()
         password = self.entry2.get()
-        if LoginData.enter_user(username, password):
-            show_message("Success", "Entered user", 1)
+        confirm = self.entry3.get()
+        # Checks the passwords match before attempting to create user
+        if password == confirm:
+            if LoginData.enter_user(username, password):
+                show_message("Success", "Entered user", 1)
+            else:
+                show_message("Error", "Invalid user", 3)
         else:
-            show_message("Error", "Invalid user", 3)
+            show_message("Error", "Passwords do not match", 3)
 
     def delete_user(self):
         username = self.entry1.get()
