@@ -76,18 +76,9 @@ def is_valid_date(given_date):  # DD/MM/YYYY
 
 
 # Checks if a high score is valid - positive integer that isn't too high
+# 0 is still a valid score
 def is_valid_score(score):
     if isinstance(score, int):
         if 0 <= score < 1000000:
             return True
     return False
-
-
-if __name__ == "__main__":
-    # show_message("Test1", (is_length(True, 15, 3)), 2)
-    # if is_inrange("test", 1, 2):
-    #     show_message("Range", "Value is in range", 1)
-    # else:
-    # if not is_valid_date("29/02/2005"):
-    #     show_message("Date", "Date is invalide", 3)
-    pass

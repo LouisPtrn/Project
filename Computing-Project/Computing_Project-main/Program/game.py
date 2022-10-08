@@ -5,14 +5,15 @@
 # ============================================================================================================== #
 
 from sys import exit
+
 import login
 from HighscoresData import *
 from Dates import *
 from messages import *
 import os
 
-
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"  # Hides pygame welcome message, must be before sprite import
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"  # Hides pygame welcome message, must be before pygame import
+import pygame.mixer_music
 from sprites import *
 
 
@@ -55,9 +56,6 @@ def play(name):
     timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20)).convert_alpha()
     timer_rect = timer_surf.get_rect(center=(width / 2, height / 2))
 
-    # bg_image = pygame.image.load("graphics/bg.png")
-    # bg_surface = pygame.transform.scale(bg_image, (width*4, height))
-    # bg_rect = bg_surface.get_rect(center=(width/2, height/2))
     bg = pygame.sprite.GroupSingle()
     bg.add(Background(width, height, 1))
 
@@ -136,6 +134,7 @@ def play(name):
     timer_change = False
     saved = False
     bg_changed = False
+    boss_active = False
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -184,6 +183,7 @@ def play(name):
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 0 and start_delay <= 0:  # Play game
                 saved = False
+                boss_active = False
                 dif = get_setting("difficulty").upper()
                 if dif == "EASY":
                     lives = 5
@@ -197,6 +197,7 @@ def play(name):
                 level = 1
                 game_timer = 2700  # 45 seconds
                 level_text = font2.render("", False, (255, 255, 255), (0, 0, 0))
+                score_rect = score_surface.get_rect(center=(width / 2, height / 10))
                 score = 0
                 game_state = 4
                 player.sprite.rect.centery = height / 2  # Reset ship pos
@@ -252,7 +253,12 @@ def play(name):
 
             if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
                 laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height, True))
-                cooldown = 20
+                if dif == "HARD":
+                    cooldown = 18
+                elif dif == "NORMAL":
+                    cooldown = 12
+                else:
+                    cooldown = 10
             cooldown -= 1
 
             # Collision Detection
@@ -261,7 +267,7 @@ def play(name):
 
             if pygame.sprite.groupcollide(player, star, False, False):
                 if star.sprite.__getattribute__("type") == "star":
-                    score += 200
+                    score += 1000
                     hide_star = True
                 else:
                     hide_star = True
@@ -269,7 +275,8 @@ def play(name):
                         lives += 1
 
             if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
-               pygame.sprite.spritecollide(player.sprite, badlaser, False)) and inv_frames <= 0:
+               pygame.sprite.spritecollide(player.sprite, badlaser, False) or
+               pygame.sprite.spritecollide(player.sprite, aliens, False)) and inv_frames <= 0:
                 lives -= 1
                 inv_frames = 120
 
@@ -283,16 +290,17 @@ def play(name):
             if game_timer % 547 == 0 and game_timer > 250:
                 attack_pattern3(enemies, width, height, random.randint(0, height))
 
-            if random.randint(0, game_timer+1000) <= 50 and game_timer > 250:
-                badlaser.add(EnemyBullets(width, height, random.uniform(height*0.1, height*0.9)))
+            if random.randint(0, game_timer + 1000) <= 50 and game_timer > 250:
+                badlaser.add(EnemyBullets(width, height, random.uniform(height * 0.1, height * 0.9)))
 
             # Alien hit detection
             if pygame.sprite.groupcollide(laser, aliens, True, False):
                 alien_shot = True
                 score += 100
 
-            if game_timer % 400 == 0:
-                aliens.add(Alien(width, height, "boss"))
+            if game_timer % 421 == 0:
+                aliens.add(Alien(width, height, "normal"))
+
             elif game_timer % 579 == 0 and dif == "HARD":
                 aliens.add(Alien(width, height, "normal"))
             else:
@@ -306,7 +314,9 @@ def play(name):
                             alien_cooldown = 30
                         else:
                             alien_cooldown = 10
-                    if alien_cooldown % 10 == 0 and alien.__getattribute__("type") == "boss":
+                    if (alien.__getattribute__("type") == "boss") and ((0 >= boss_timer >= -150) or
+                                                                       (-250 >= boss_timer >= -2000)) and \
+                            boss_timer % 3 == 0:
                         badlaser.add(EnemyLasers(alien.rect.centerx,
                                                  alien.rect.centery + (height / random.randint(7, 9)), width, height,
                                                  False))
@@ -314,27 +324,31 @@ def play(name):
                                                  alien.rect.centery - (height / random.randint(7, 9)), width, height,
                                                  False))
 
-            if game_timer == 1200 and level == 2:
+            if game_timer == 1800 and level == 2:
                 aliens.add(Alien(width, height, "boss"))
-                boss_timer = 200
+                boss_active = True
+                boss_timer = 300
 
             alien_cooldown -= 1
             invincibility(inv_frames, player.sprite)
 
-            # Drawing non - sprites
-            # pygame.draw.rect(screen, "#FFFFFF", div_rect)
+            if boss_active:
+                boss_timer -= 1
+                if len(aliens) == 0:
+                    boss_active = False
+                    score += 5000
+                    boss_timer = 200
+            elif level == 2 and game_timer < 1800:
+                boss_timer += 1
+                if boss_timer > 400:
+                    game_state = 9
 
+            # Draw background first
             bg.draw(screen)
             bg.update(width)
 
-            # pygame.draw.rect(screen, "White", div_rect)
-            screen.blit(score_surface, score_rect)
-            score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
-
             inv_frames -= 1
             # Sprites drawing and updating
-            player1_lives.draw(screen)
-            player1_lives.update(lives, inv_frames)
             laser.draw(screen)
             laser.update()
             aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
@@ -347,11 +361,16 @@ def play(name):
             star.update(width, height, game_timer, hide_star)
             badlaser.draw(screen)
             badlaser.update()
+
             if lives > 0:
                 player.draw(screen)
                 player.update(lives)
             else:
                 game_state = 2
+            screen.blit(score_surface, score_rect)
+            score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
+            player1_lives.update(lives, inv_frames)
+            player1_lives.draw(screen)
 
         elif game_state == 2:
             # Game Over screen
@@ -441,6 +460,7 @@ def play(name):
         # Versus mode gameplay
         elif game_state == 5:
             keys = pygame.key.get_pressed()
+            mixer.music.set_volume(0.8)
             inv_frames -= 1
             inv_frames_b -= 1
             game_timer -= 1
@@ -495,8 +515,8 @@ def play(name):
                 score2 += 50
 
             if random.randint(0, 50) == 0:
-                enemies.add(Asteroids(width, height, width*1.1, random.uniform(height*0.1, height*0.5)))
-                enemies.add(Asteroids(width, height, width * 1.1, random.uniform(height*0.6, height*0.9)))
+                enemies.add(Asteroids(width, height, width * 1.1, random.uniform(height * 0.1, height * 0.5)))
+                enemies.add(Asteroids(width, height, width * 1.1, random.uniform(height * 0.6, height * 0.9)))
 
             if game_timer % 300 == 0 and game_timer < 3500:
                 aliens.add(Alien(width, height, "normal"))
@@ -506,11 +526,11 @@ def play(name):
                     if alien_cooldown <= 0:
                         badlaser.add(EnemyLasers(alien.rect.centerx, alien.rect.centery, width, height, True))
                         if get_setting("difficulty").upper() == "EASY":
-                            alien_cooldown = 50
+                            alien_cooldown = 60
                         elif get_setting("difficulty") == "NORMAL":
-                            alien_cooldown = 30
+                            alien_cooldown = 40
                         else:
-                            alien_cooldown = 10
+                            alien_cooldown = 20
 
             alien_cooldown -= 1
 
@@ -616,8 +636,11 @@ def play(name):
             if keys[pygame.K_BACKSPACE] or keys[pygame.K_ESCAPE]:
                 game_state = 0
 
-            aliens.empty()
+            mixer.music.load("audio/music_3.mp3")
+            mixer.music.set_volume(0)
+            mixer.music.play()
 
+            aliens.empty()
             dif = get_setting("difficulty").upper()
 
             if dif == "EASY":
@@ -635,9 +658,13 @@ def play(name):
             timer_surf = font2.render(str(game_timer // 60), True, (20, 200, 20), (0, 0, 50)).convert_alpha()
             player1.sprite.rect.center = (width / 10, height / 4)
             player2.sprite.rect.center = (width / 10, height / 1.25)
-            dif = get_setting("difficulty").upper()
+
             screen.fill("black")
             screen.blit(timer_surf, timer_rect)
+            message.update("Set timer", font2, 0.14, True)
+            message.sprite.rect.centery = height/4
+            message.draw(screen)
+
             if keys[pygame.K_RETURN] and start_delay < 0:
                 game_state = 5
             start_delay -= 1
@@ -662,7 +689,7 @@ def play(name):
             game_timer += 1
 
             screen.fill("black")
-            score_rect = score_surface.get_rect(center=(width/2, height/1.5))
+            score_rect = score_surface.get_rect(center=(width / 2, height / 1.5))
 
             if game_timer % 40 >= 20:
                 message.update("You win!", font2, 0.2, False)
@@ -682,7 +709,10 @@ def play(name):
             if keys[pygame.K_RETURN]:
                 game_state = 0
                 start_delay = 30
+
+        # Pause screen
         elif game_state == 10:
+            pygame.mixer_music.set_volume(0)
             text_delay -= 1
             message.update("PAUSED", font1, 0.15, True)
             message.draw(screen)
@@ -722,16 +752,16 @@ def attack_pattern1(sprite_group, width, height, y):
 
 # Three enemies in vertical line
 def attack_pattern2(sprite_group, width, height, y):
-    sprite_group.add(Asteroids(width, height, width * 1.1, y-(0.2*height)))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y - (0.2 * height)))
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
-    sprite_group.add(Asteroids(width, height, width * 1.1, y+(0.2*height)))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y + (0.2 * height)))
 
 
 # Three enemies in diagonal line
 def attack_pattern3(sprite_group, width, height, y):
     sprite_group.add(Asteroids(width, height, width * 1.1, y))
-    sprite_group.add(Asteroids(width, height, width * 1.2, y+(0.2*height)))
-    sprite_group.add(Asteroids(width, height, width * 1.3, y+(0.4*height)))
+    sprite_group.add(Asteroids(width, height, width * 1.2, y + (0.2 * height)))
+    sprite_group.add(Asteroids(width, height, width * 1.3, y + (0.4 * height)))
 
 
 def update_scores(hs_rows, width, height):

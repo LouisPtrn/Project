@@ -40,4 +40,5 @@
            'libpng warning: iCCP: known incorrect sRGB profile'
            Added colour hue changer function for changing images for coluorblindness. This goes through the image
            add applies a hue to each pixel so will cause lag if it is done every frame.
-18/09/2022
+18/09/2022 Linked Admin panel to database to allow creation of new users and deletion of existing users. Passowrd
+           confirmation added which checks password with re-entered password to check they are the same.

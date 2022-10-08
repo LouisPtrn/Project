@@ -100,6 +100,3 @@ def delete_user(u):
 
 if __name__ == "__main__":
     createtable()
-    enter_user("Richard_11", "Password1")
-    delete_user("Richard_11")
-    # delete_user(int)

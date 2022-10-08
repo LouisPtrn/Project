@@ -32,7 +32,7 @@ class LoginWindow(tk.Tk):
         self.entry2 = tk.Entry(self, bd=6, width=40)
         self.entry2.place(x=250, y=150)
         self.entry2.config(show="*")
-        self.i = True
+        self.hidden = True
 
         # login button
         self.button = ttk.Button(self, text='Login')
@@ -59,12 +59,12 @@ class LoginWindow(tk.Tk):
 
     def toggle_pass(self):
         # Show or hide password box
-        if self.i:
+        if self.hidden:
             self.entry2.config(show="")
-            self.i = False
+            self.hidden = False
         else:
             self.entry2.config(show="*")
-            self.i = True
+            self.hidden = True
 
     def log_in(self):
         username = self.entry1.get()

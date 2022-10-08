@@ -5,6 +5,8 @@
 # ============================================================================================================== #
 
 from login import *
+import HighscoresData
 
 if __name__ == "__main__":
+    HighscoresData.createtable()
     create_window()

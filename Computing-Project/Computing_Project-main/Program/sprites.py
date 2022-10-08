@@ -235,6 +235,10 @@ class Lasers(pygame.sprite.Sprite):
             mixer.Channel(1).set_volume(0.5)
             mixer.Channel(1).play(pygame.mixer.Sound('audio/sound_shoot.wav'))
 
+        if get_setting("colour") == "True":
+            self.image = change_hue(self.surface, 320)
+            self.image = pygame.transform.scale(self.surface, (self.wd / 40, self.ht / 160))
+
         self.rect = self.image.get_rect(center=(x, y))
 
     def shoot(self):
@@ -321,7 +325,7 @@ class Alien(pygame.sprite.Sprite):
             self.image.set_colorkey("white")
             self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
         else:
-            self.lives = 30
+            self.lives = 70
             self.hit = False
             self.surface_list = [pygame.image.load("graphics/boss_frame_0.gif"),
                                  pygame.image.load("graphics/boss_frame_2.gif"),

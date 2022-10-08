@@ -17,7 +17,8 @@ def createtable():
                 Score INT                NOT NULL,
                 Date TEXT(16)               NOT NULL);''')
     # add default data
-
+    for i in range(5):
+        enter_score(" ", 0, Dates.get_date())
     con.commit()
     con.close()
 
@@ -75,5 +76,3 @@ def get_scores():
 
 if __name__ == "__main__":
     createtable()
-    print(get_scores())
-

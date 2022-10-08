@@ -1,6 +1,6 @@
 # ============================================================================================================== #
 # Admin window file
-# Written by: Louis Pattern     23/08/2022
+# Written by: Louis Pattern     29/09/2022
 # Known bugs:
 # ============================================================================================================== #
 
@@ -34,7 +34,7 @@ class AdminWindow(tk.Tk):
         self.entry3 = tk.Entry(self, bd=6, width=40)
         self.entry3.place(x=250, y=180)
         self.entry3.config(show="*")
-        self.i = True
+        self.hidden = True
 
         # create user button
         self.button = ttk.Button(self, text='Create User')
@@ -68,17 +68,18 @@ class AdminWindow(tk.Tk):
         self.check1.place(x=420, y=220)
 
     def togglepass(self):
-        if self.i:
+        if self.hidden:
             self.entry2.config(show="")
-            self.i = False
+            self.hidden = False
         else:
             self.entry2.config(show="*")
-            self.i = True
+            self.hidden = True
 
     def create_user(self):
         username = self.entry1.get()
         password = self.entry2.get()
         confirm = self.entry3.get()
+
         # Checks the passwords match before attempting to create user
         if password == confirm:
             if LoginData.enter_user(username, password):
