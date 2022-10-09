@@ -7,6 +7,7 @@
 import unittest
 from settings import *
 from validation import *
+from LoginData import *
 
 
 class TestMethods(unittest.TestCase):
@@ -62,14 +63,25 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(is_valid_user("L1", "username"), False)  # Invalid username, too short
         self.assertEqual(is_valid_user("qwertyuiop_asdfghjklzxc", "username"), False)  # Invalid username, too long
         self.assertEqual(is_valid_user("qwertyuiop_asgdhjlkl", "username"), True)  # Borderline
-    # -----------------------------------------------------------------------------
 
-    def test_error(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+    def test_passwords(self):
+        self.assertEqual(is_valid_user("XQloP7*jsalHp!", "password"), True)  # Valid password
+        self.assertEqual(is_valid_user("12345", "password"), False)  # Invalid Password
+        self.assertEqual(is_valid_user(10000000000000, "password"), False)  # Invalid Password
+
+    # -----------------------------------------------------------------------------
+    # TESTING USERS DB
+
+    def test_existent_user(self):
+        enter_user("LouisPattern13", "iloveunittesting")
+        self.assertEqual(is_existent_user("LouisPattern13"), True)  # Existent user
+        delete_user("LouisPattern13")
+        self.assertEqual(is_existent_user("LouisPattern13"), False)  # Non-existent user
+
+    def test_enter_user(self):
+        self.assertEqual(enter_user("Inval", "bad"), False)  # Trying to enter invalid data
+
+    # -----------------------------------------------------------------------------
 
 
 if __name__ == '__main__':

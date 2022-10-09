@@ -19,8 +19,7 @@ class Background(pygame.sprite.Sprite):
             surface = pygame.image.load("graphics/bg2.jpg").convert_alpha()
 
         self.image = pygame.transform.scale(surface, (width*20, height))
-        # var = pygame.PixelArray(self.image)
-        # var.replace(((0,0,0)), (255, 255, 255))
+
         self.rect = self.image.get_rect(center=(width*10, height/2))
 
     def scroll(self, wd):
@@ -690,6 +689,7 @@ class HighscoreRow(pygame.sprite.Sprite):
             self.image = self.font.render(f"{self.num+1} {self.name} {self.score}", False, (200, 200, 200))
 
 
+# A message on screen that can be hidden or shown
 class Texts(pygame.sprite.Sprite):
     def __init__(self, wd, ht, word, font, size):
         super().__init__()

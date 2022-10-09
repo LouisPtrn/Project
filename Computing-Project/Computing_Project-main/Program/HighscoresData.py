@@ -9,7 +9,7 @@ import Dates
 import validation
 
 
-def createtable():
+def create_h_table():
     con = sqlite3.connect("Highscores.db")
     con.execute('''CREATE TABLE IF NOT EXISTS Highscores
                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -75,4 +75,4 @@ def get_scores():
 
 
 if __name__ == "__main__":
-    createtable()
+    create_h_table()

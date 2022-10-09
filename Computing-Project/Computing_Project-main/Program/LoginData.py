@@ -8,22 +8,19 @@ import validation
 from messages import *
 
 
-def createtable():
+def create_table():
     con = sqlite3.connect("login.db")
     con.execute('''CREATE TABLE IF NOT EXISTS Users
                 (Username INT PRIMARY KEY NOT NULL,
                 Password TEXT                NOT NULL);''')
-    # add test data
-    # con.execute('''insert into users  (Username, Password) values (?, ?)''',
-    #              ("LouisP", "4321"))
-    # con.commit()
+
     con.execute('''CREATE TABLE IF NOT EXISTS Admins
                     (Username INT PRIMARY KEY NOT NULL,
                     Password TEXT                NOT NULL);''')
-    # add test data
-    # con.execute('''insert into Admins  (Username, Password) values (?, ?)''',
-    #              ("Admin0001", "12345678"))
-    # con.commit()
+    # add initial data
+    con.execute('''insert into Admins  (Username, Password) values (?, ?)''',
+                ("AdminLouis_0001", "IHaveNoHandsAndIMustCode"))
+    con.commit()
     con.close()
 
 
@@ -99,4 +96,4 @@ def delete_user(u):
 
 
 if __name__ == "__main__":
-    createtable()
+    create_table()

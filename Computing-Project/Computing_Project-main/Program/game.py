@@ -777,6 +777,7 @@ def update_scores(hs_rows, width, height):
 def setup():
     if is_first_launch():
         load_defaults()
+        create_h_table()
     remember_launch()
 
 
