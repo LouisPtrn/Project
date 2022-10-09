@@ -244,7 +244,7 @@ class Lasers(pygame.sprite.Sprite):
         self.rect.x += self.wd/40
 
     def delete(self):  # Deletes sprite when it goes off-screen
-        if self.rect.left > self.wd or self.rect.right < 0:
+        if self.rect.right > self.wd or self.rect.right < 0:
             self.kill()
 
     def update(self):
@@ -324,7 +324,7 @@ class Alien(pygame.sprite.Sprite):
             self.image.set_colorkey("white")
             self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
         else:
-            self.lives = 70
+            self.lives = 50
             self.hit = False
             self.surface_list = [pygame.image.load("graphics/boss_frame_0.gif"),
                                  pygame.image.load("graphics/boss_frame_2.gif"),
@@ -376,9 +376,6 @@ class Alien(pygame.sprite.Sprite):
         if shot and not self.hit:
             self.lives -= 1
             self.hit = True
-        if self.lives == 0 and self.type == "boss":
-            # score += 10000
-            pass
 
     def animate(self, timer):
         n = (timer % 16)//2
@@ -680,7 +677,7 @@ class HighscoreRow(pygame.sprite.Sprite):
         y = (ht/3 + num*ht/10)
         self.font = pygame.font.Font("graphics/fonts/ARCADE_R.ttf", round(wd / 24))
         self.image = self.font.render(f"{num+1} {name} {score}", False, (200, 200, 200))
-        self.rect = self.image.get_rect(midleft=(wd/4, y))
+        self.rect = self.image.get_rect(midleft=(wd/8, y))
 
     def update(self):
         if self.num == 0:

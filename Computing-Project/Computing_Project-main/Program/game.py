@@ -215,6 +215,8 @@ def play(name):
                 game_timer = 3600
                 game_state = 7
                 start_delay = 60
+                score_rect = score_surface.get_rect(center=(width / 2, height / 10))
+                score2_rect = score2_surface.get_rect(center=(width / 2, height / 1.5))
 
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 3 and start_delay <= 0:
                 game_state = 8
@@ -256,7 +258,7 @@ def play(name):
                 if dif == "HARD":
                     cooldown = 18
                 elif dif == "NORMAL":
-                    cooldown = 12
+                    cooldown = 14
                 else:
                     cooldown = 10
             cooldown -= 1
@@ -300,9 +302,9 @@ def play(name):
 
             if game_timer % 421 == 0:
                 aliens.add(Alien(width, height, "normal"))
-
             elif game_timer % 579 == 0 and dif == "HARD":
                 aliens.add(Alien(width, height, "normal"))
+
             else:
                 for alien in aliens:
                     if alien_cooldown <= 0 and alien.__getattribute__("type") == "normal":
@@ -313,7 +315,7 @@ def play(name):
                         elif dif == "NORMAL":
                             alien_cooldown = 30
                         else:
-                            alien_cooldown = 10
+                            alien_cooldown = 20
                     if (alien.__getattribute__("type") == "boss") and ((0 >= boss_timer >= -150) or
                                                                        (-250 >= boss_timer >= -2000)) and \
                             boss_timer % 3 == 0:
