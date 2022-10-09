@@ -1,4 +1,5 @@
 # Computing_Project
 This is my A lvl computer science project
-To play the game, just run the exe file in program.
-An admin must first create a user before they can log in and play the game.
+To run the program as a user run Space Game. 
+
+To play the game as Guest run Space Game - Play as Guest
