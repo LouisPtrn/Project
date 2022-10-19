@@ -10,6 +10,12 @@ from tkinter import messagebox
 from messages import *
 import LoginData
 import login
+import HighscoresData
+
+
+def reset_hs():
+    HighscoresData.reset_scores()
+    show_message("Done", "Highscores reset!", 1)
 
 
 class AdminWindow(tk.Tk):
@@ -51,7 +57,9 @@ class AdminWindow(tk.Tk):
         self.config(menu=self.menubar)
         file_menu = Menu(self.menubar)
         file_menu.add_command(label='User Menu', command=self.go_back)
+        file_menu.add_command(label='Reset scores', command=reset_hs)
         file_menu.add_command(label='Quit', command=self.destroy)
+
         self.menubar.add_cascade(label="File", menu=file_menu, underline=0)
 
         # username and password text

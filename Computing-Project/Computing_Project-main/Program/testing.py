@@ -1,5 +1,5 @@
 # ============================================================================================================== #
-# This file is used for unit testing
+# This file is used for unit testing modules and functions
 # Written by: Louis Pattern     10/09/2022
 # Known bugs: none
 # ============================================================================================================== #
@@ -8,6 +8,7 @@ import unittest
 from settings import *
 from validation import *
 from LoginData import *
+from HighscoresData import *
 
 
 class TestMethods(unittest.TestCase):
@@ -70,7 +71,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(is_valid_user(10000000000000, "password"), False)  # Invalid Password
 
     # -----------------------------------------------------------------------------
-    # TESTING USERS DB
+    # TESTING DB
 
     def test_existent_user(self):
         enter_user("LouisPattern13", "iloveunittesting")
@@ -80,7 +81,12 @@ class TestMethods(unittest.TestCase):
 
     def test_enter_user(self):
         self.assertEqual(enter_user("Inval", "bad"), False)  # Trying to enter invalid data
+        self.assertEqual(enter_user("Valid_12345", "ComputerScience015"), True)  # Trying to enter valid data
+        delete_user("Valid_12345")
 
+    def test_enter_score(self):
+        self.assertEqual(enter_score("User", -100, "Invalid Date"), "Not valid")  # Trying to enter invalid score
+        self.assertEqual(enter_score("Test_User", 1000, "01/01/2005"), "Entered successfully")  # Valid score and date
     # -----------------------------------------------------------------------------
 
 

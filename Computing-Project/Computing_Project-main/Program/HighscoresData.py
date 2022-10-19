@@ -4,18 +4,19 @@
 # ============================================================================================================== #
 
 import sqlite3
-
 import Dates
 import validation
 
 
 def create_h_table():
-    con = sqlite3.connect("Highscores.db")
+    con = sqlite3.connect("LoginScores.db")
+    con.execute("PRAGMA foreign_keys = 1")
     con.execute('''CREATE TABLE IF NOT EXISTS Highscores
                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
                 Name INT(24)                 NOT NULL,
                 Score INT                NOT NULL,
-                Date TEXT(16)               NOT NULL);''')
+                Date TEXT(16)               NOT NULL,
+                FOREIGN KEY (Name) REFERENCES Users(Username));''')
     # add default data
     for i in range(5):
         enter_score(" ", 0, Dates.get_date())
@@ -27,7 +28,7 @@ def enter_score(name, score, date):
     val_d = validation.is_valid_date(date)
     val_s = validation.is_valid_score(score)
     if val_d and val_s:
-        con = sqlite3.connect("Highscores.db")
+        con = sqlite3.connect("LoginScores.db")
         try:
             con.execute('''insert into Highscores (Name, Score, Date) values (?, ?, ?)''',
                         (name, score, date))
@@ -45,7 +46,7 @@ def enter_score(name, score, date):
 # Returns a list of names in descending score order
 def get_names():
     names = []
-    con = sqlite3.connect("Highscores.db")
+    con = sqlite3.connect("LoginScores.db")
     cursor = con.cursor()
 
     cursor.execute("SELECT * FROM Highscores ORDER BY Score DESC")
@@ -61,7 +62,7 @@ def get_names():
 # Returns the list of scores in descending score order
 def get_scores():
     scores = []
-    con = sqlite3.connect("Highscores.db")
+    con = sqlite3.connect("LoginScores.db")
     cursor = con.cursor()
 
     cursor.execute("SELECT * FROM Highscores ORDER BY Score DESC")
@@ -74,5 +75,13 @@ def get_scores():
     return scores
 
 
-if __name__ == "__main__":
+def reset_scores():
+    con = sqlite3.connect("LoginScores.db")
+    cursor = con.cursor()
+    cursor.execute("DROP TABLE Highscores")
     create_h_table()
+
+
+if __name__ == "__main__":
+    # create_h_table()
+    reset_scores()
