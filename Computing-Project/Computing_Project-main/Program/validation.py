@@ -43,7 +43,7 @@ def is_inrange(data, lo, hi):
 def is_valid_user(u, opt):
     if opt == "username":
         if isinstance(u, str):
-            if len(u) > 3 and len(u) <= 20:
+            if 3 < len(u) <= 18:
                 u = u.upper()
                 characters = []
                 for i in range(65, 91):
