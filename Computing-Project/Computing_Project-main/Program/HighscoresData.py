@@ -13,7 +13,7 @@ def create_h_table():
     con.execute("PRAGMA foreign_keys = 1")
     con.execute('''CREATE TABLE IF NOT EXISTS Highscores
                 (ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                Name INT(24)                 NOT NULL,
+                Name VARCHAR                 NOT NULL,
                 Score INT                NOT NULL,
                 Date TEXT(16)               NOT NULL,
                 FOREIGN KEY (Name) REFERENCES Users(Username));''')
@@ -83,5 +83,5 @@ def reset_scores():
 
 
 if __name__ == "__main__":
-    # create_h_table()
+    create_h_table()
     reset_scores()

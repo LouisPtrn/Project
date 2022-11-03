@@ -12,11 +12,11 @@ from messages import *
 def create_table():
     con = sqlite3.connect("LoginScores.db")
     con.execute('''CREATE TABLE IF NOT EXISTS Users
-                (Username INT PRIMARY KEY NOT NULL,
+                (Username VARCHAR PRIMARY KEY NOT NULL,
                 Password TEXT                NOT NULL);''')
 
     con.execute('''CREATE TABLE IF NOT EXISTS Admins
-                    (Username INT PRIMARY KEY NOT NULL,
+                    (Username VARCHAR PRIMARY KEY NOT NULL,
                     Password TEXT                NOT NULL);''')
     # add initial data
     hashable_pw = bytes("IHaveNoHandsAndIMustCode", encoding='utf-8')
@@ -102,5 +102,5 @@ def delete_user(u):
 
 
 if __name__ == "__main__":
-    # create_table()
+    create_table()
     print(search("Dave_112233", "123456789", "Users"))

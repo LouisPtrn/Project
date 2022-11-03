@@ -63,7 +63,7 @@ class TestMethods(unittest.TestCase):
         self.assertEqual(is_valid_user("Bob_12542", "username"), True)  # Valid username
         self.assertEqual(is_valid_user("L1", "username"), False)  # Invalid username, too short
         self.assertEqual(is_valid_user("qwertyuiop_asdfghjklzxc", "username"), False)  # Invalid username, too long
-        self.assertEqual(is_valid_user("qwertyuiop_asgdhjlkl", "username"), True)  # Borderline
+        self.assertEqual(is_valid_user("qwertyuiop_asgdhjlh", "username"), True)  # Borderline
 
     def test_passwords(self):
         self.assertEqual(is_valid_user("XQloP7*jsalHp!", "password"), True)  # Valid password
