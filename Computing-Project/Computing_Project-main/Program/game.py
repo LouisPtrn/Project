@@ -142,10 +142,18 @@ def play(name):
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN and game_state == 0:
-                if event.key == pygame.K_UP and select > 0:
-                    select -= 1
-                if event.key == pygame.K_DOWN and select < 4:
-                    select += 1
+                if event.key == pygame.K_UP:
+                    if select > 0:
+                        select -= 1
+                    else:
+                        select = 4
+
+                if event.key == pygame.K_DOWN:
+                    if select < 4:
+                        select += 1
+                    else:
+                        select = 0
+
             if event.type == pygame.KEYDOWN and game_state == 3:
                 if event.key == pygame.K_LEFT:
                     set_col -= 1
