@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Design section windows design">
+    <list default="true" id="0ff759a2-1259-41d6-b819-06745ec4f0e3" name="Default Changelist" comment="Updated main menu and added more diagrams to design.">
+      <change afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/AItest.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/I_remember_you.TXT" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Report/~$uis_Pattern_design.docx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/LoginScores.db" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/LoginScores.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/saved_settings.TXT" beforeDir="false" afterPath="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/saved_settings.TXT" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,8 +43,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;H:/CS Project&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+    &quot;last_opened_file_path&quot;: &quot;H:/Project&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
   }
 }</component>
   <component name="PyConsoleOptionsProvider">
@@ -62,7 +64,29 @@
       <recent name="H:\Computing-Project\Computing-Project\Computing_Project-main\Program" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.AdminControl">
+  <component name="RunManager" selected="Python.AItest">
+    <configuration name="AItest" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Computing-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/AItest.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="AdminControl" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Computing-Project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -77,50 +101,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/AdminControl.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="HighscoresData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Computing-Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/HighscoresData.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="LoginData" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Computing-Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/LoginData.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -173,20 +153,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests in testing.py" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="Computing-Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program/testing.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
     <list>
+      <item itemvalue="Python.AItest" />
+      <item itemvalue="Python.game" />
       <item itemvalue="Python.login" />
       <item itemvalue="Python.AdminControl" />
-      <item itemvalue="Python.HighscoresData" />
-      <item itemvalue="Python.LoginData" />
-      <item itemvalue="Python.game" />
+      <item itemvalue="Python tests.Python tests in testing.py" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.AItest" />
+        <item itemvalue="Python.game" />
         <item itemvalue="Python.AdminControl" />
         <item itemvalue="Python.login" />
-        <item itemvalue="Python.HighscoresData" />
-        <item itemvalue="Python.LoginData" />
-        <item itemvalue="Python.game" />
+        <item itemvalue="Python tests.Python tests in testing.py" />
       </list>
     </recent_temporary>
   </component>
@@ -238,6 +233,29 @@
       <workItem from="1667824666233" duration="77000" />
       <workItem from="1667828950407" duration="1905000" />
       <workItem from="1667999114657" duration="433000" />
+      <workItem from="1667999558363" duration="28000" />
+      <workItem from="1667999594420" duration="74000" />
+      <workItem from="1668084979484" duration="1032000" />
+      <workItem from="1668163800118" duration="3065000" />
+      <workItem from="1668168238837" duration="73000" />
+      <workItem from="1668168400567" duration="934000" />
+      <workItem from="1668169817093" duration="27000" />
+      <workItem from="1668596597300" duration="1364000" />
+      <workItem from="1668602374311" duration="60000" />
+      <workItem from="1668604732019" duration="3422000" />
+      <workItem from="1668690089051" duration="2461000" />
+      <workItem from="1668693937583" duration="42000" />
+      <workItem from="1669372332975" duration="3868000" />
+      <workItem from="1669377931865" duration="1001000" />
+      <workItem from="1669983242748" duration="617000" />
+      <workItem from="1670248675473" duration="6000" />
+      <workItem from="1670248751940" duration="604000" />
+      <workItem from="1670250192236" duration="9000" />
+      <workItem from="1670417073827" duration="1647000" />
+      <workItem from="1670418898324" duration="510000" />
+      <workItem from="1670581760524" duration="6449000" />
+      <workItem from="1671023794511" duration="395000" />
+      <workItem from="1671024292455" duration="4588000" />
     </task>
     <task id="LOCAL-00001" summary="login gaming">
       <created>1655906528133</created>
@@ -428,7 +446,63 @@
       <option name="project" value="LOCAL" />
       <updated>1667831048314</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Design section windows design">
+      <created>1667999570273</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1667999570273</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Design section windows design 3">
+      <created>1668168253112</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1668168253112</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Final section of design">
+      <created>1668169832251</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1668169832251</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Game menu design">
+      <created>1668610893270</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1668610893270</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Game menu design 2">
+      <created>1668693962980</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1668693962980</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Game menu design 2">
+      <created>1669377908929</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1669377908929</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Added more sprites to diagram">
+      <created>1670418661888</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1670418661888</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Updated main menu and added more diagrams to design.">
+      <created>1670587880050</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1670587880050</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -468,7 +542,13 @@
     <MESSAGE value="Added a proper menu with animations" />
     <MESSAGE value="Design section classes diagram 2" />
     <MESSAGE value="Design section windows design" />
-    <option name="LAST_COMMIT_MESSAGE" value="Design section windows design" />
+    <MESSAGE value="Design section windows design 3" />
+    <MESSAGE value="Final section of design" />
+    <MESSAGE value="Game menu design" />
+    <MESSAGE value="Game menu design 2" />
+    <MESSAGE value="Added more sprites to diagram" />
+    <MESSAGE value="Updated main menu and added more diagrams to design." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated main menu and added more diagrams to design." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -487,16 +567,17 @@
     <SUITE FILE_PATH="coverage/dvdtest_py$LoginData.coverage" NAME="LoginData Coverage Results" MODIFIED="1667485405781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$oldgame.coverage" NAME="oldgame Coverage Results" MODIFIED="1657705373787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1657540256808" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$login.coverage" NAME="login Coverage Results" MODIFIED="1667564441291" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$login.coverage" NAME="login Coverage Results" MODIFIED="1670584728495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$login__1_.coverage" NAME="login (1) Coverage Results" MODIFIED="1657279870159" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$dvdtest.coverage" NAME="dvdtest Coverage Results" MODIFIED="1657805057180" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$logindata__1_.coverage" NAME="logindata (1) Coverage Results" MODIFIED="1655987679343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$AItest.coverage" NAME="AItest Coverage Results" MODIFIED="1671028358786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$main.coverage" NAME="main Coverage Results" MODIFIED="1657545850804" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/Computing_Project$logindata.coverage" NAME="logindata Coverage Results" MODIFIED="1655900006236" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$game.coverage" NAME="game Coverage Results" MODIFIED="1667485363651" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$game.coverage" NAME="game Coverage Results" MODIFIED="1671026696031" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$validation.coverage" NAME="validation Coverage Results" MODIFIED="1656588998965" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
     <SUITE FILE_PATH="coverage/dvdtest_py$Dates.coverage" NAME="Dates Coverage Results" MODIFIED="1666177577338" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$AdminControl.coverage" NAME="AdminControl Coverage Results" MODIFIED="1667828999265" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
-    <SUITE FILE_PATH="coverage/dvdtest_py$.coverage" NAME=" Coverage Results" MODIFIED="1667485054631" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$AdminControl.coverage" NAME="AdminControl Coverage Results" MODIFIED="1670585005001" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
+    <SUITE FILE_PATH="coverage/dvdtest_py$.coverage" NAME=" Coverage Results" MODIFIED="1668165153809" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Computing-Project/Computing_Project-main/Program" />
   </component>
 </project>
