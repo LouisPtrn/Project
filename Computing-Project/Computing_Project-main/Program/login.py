@@ -79,7 +79,7 @@ class LoginWindow(tk.Tk):
             LoginWindow.destroy(self)
             AdminControl.create_window()
         else:
-            tk.messagebox.showinfo(title='', message="Icorrect details")
+            tk.messagebox.showinfo(title='', message="Incorrect details")
 
     def cancel(self):
         ans = tk.messagebox.askyesno(title='', message='Exit?')
