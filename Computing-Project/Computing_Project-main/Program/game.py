@@ -8,7 +8,7 @@ from sys import exit
 
 import login
 from HighscoresData import *
-from Dates import *
+from dates import *
 from messages import *
 import os
 
