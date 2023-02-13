@@ -7,6 +7,8 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showinfo
+from tkinter import Menu
+from tkinter.colorchooser import askcolor
 from LoginData import search
 import game
 import AdminControl
@@ -16,6 +18,7 @@ class LoginWindow(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        self.menubar = Menu(self)
         self.title("Login Window")
         self.geometry("600x350")
         self.resizable(False, False)
@@ -57,6 +60,20 @@ class LoginWindow(tk.Tk):
         self.check1['command'] = lambda: self.toggle_pass()
         self.check1.place(x=420, y=220)
 
+        # dropdown menu
+        self.config(menu=self.menubar)
+        file_menu = Menu(self.menubar)
+        file_menu.add_command(label='Change colour ', command=lambda: self.change_color())
+        file_menu.add_command(label='Quit', command=self.destroy)
+
+        self.menubar.add_cascade(label="Options", menu=file_menu, underline=0)
+
+        with open("colour.TXT") as f:
+            lines = []
+            for line in f:
+                lines.append(line.strip())
+            self.configure(bg=lines[0])
+
     def toggle_pass(self):
         # Show or hide password box
         if self.hidden:
@@ -87,6 +104,13 @@ class LoginWindow(tk.Tk):
             LoginWindow.destroy(self)
             quit()
 
+    def change_color(self):
+        colors = askcolor(title="Colour Chooser")
+        self.configure(bg=colors[1])
+        if colors[1]:
+            with open("colour.TXT", "w") as f:
+                f.write(colors[1])
+
 
 def create_window():
     login = LoginWindow()
@@ -100,3 +124,129 @@ def restart(username):
 
 if __name__ == "__main__":
     create_window()
+
+
+class LoginWindow(tk.Tk):
+    def __init__(self):
+        super().__init__()
+
+        self.menubar = Menu(self)
+        self.title("Login Window")
+        self.geometry("600x350")
+        self.resizable(False, False) # Window not resizable
+        self.eval('tk::PlaceWindow . center') # Appears in centre
+        # Window icon
+        self.iconbitmap("graphics/saturn.ico")
+        # title
+        self.label = ttk.Label(self, text='Welcome, Please Log In.', font=("Helvetica", 25, "bold"))
+        self.label.pack()
+
+        # text entry boxes
+        self.entry1 = tk.Entry(self, bd=6, width=40)
+        self.entry1.place(x=250, y=100)
+        self.entry2 = tk.Entry(self, bd=6, width=40)
+        self.entry2.place(x=250, y=150)
+        self.entry2.config(show="*")
+        self.hidden = True
+
+        # login button
+        self.button = ttk.Button(self, text='Login')
+        self.button['command'] = lambda: self.log_in()
+        self.button.place(x=475, y=300)
+        self.bind("<Return>", (lambda event: self.log_in())) # Binds enter key to log in
+
+        # exit button
+        self.button2 = ttk.Button(self, text='Quit', width=10)
+        self.button2['command'] = self.cancel
+        self.button2.place(x=50, y=300)
+        self.bind("<Escape>", (lambda event: self.cancel())) # Binds escape key to exit
+
+        # username and password text
+        self.label = ttk.Label(self, text='User Name:', font=("Arial", 15))
+        self.label.place(x=75, y=100)
+        self.label = ttk.Label(self, text='Password:', font=("Arial", 15))
+        self.label.place(x=75, y=150)
+
+        # show password checkbox
+        self.check1 = tk.Checkbutton(self, text='Show Password', onvalue=True, offvalue=False)
+        self.check1['command'] = lambda: self.toggle_pass()
+        self.check1.place(x=420, y=220)
+
+        # dropdown menu
+        self.config(menu=self.menubar)
+        file_menu = Menu(self.menubar)
+        file_menu.add_command(label='Change colour ', command=lambda: self.change_color())
+        file_menu.add_command(label='Quit', command=self.destroy)
+
+        self.menubar.add_cascade(label="Options", menu=file_menu, underline=0)
+
+        # Read saved colour from text file and set as bg
+        with open("colour.TXT") as f:
+            lines = []
+            for line in f:
+                lines.append(line.strip())
+            self.configure(bg=lines[0])
+
+    def toggle_pass(self):
+        # Show or hide password box
+        if self.hidden:
+            self.entry2.config(show="")
+            self.hidden = False
+        else:
+            self.entry2.config(show="*")
+            self.hidden = True
+
+    def log_in(self):
+        username = self.entry1.get()
+        password = self.entry2.get()
+        if search(str(username), str(password), "Users"):
+            show_message("", "Welcome " + str(username), 1)
+            LoginWindow.destroy(self)
+            # Closes login and takes the user to the game (implement later)
+        else:
+            show_message("", "Incorrect details", 1)
+
+    def cancel(self):
+        ans = show_message("", "Exit?", 4)
+        if ans:
+            LoginWindow.destroy(self)
+            quit()
+
+    def change_color(self):
+        colors = askcolor(title="Colour Chooser") # Colour picker window
+        self.configure(bg=colors[1])
+        if colors[1]:
+            with open("colour.TXT", "w") as f:
+                f.write(colors[1])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
