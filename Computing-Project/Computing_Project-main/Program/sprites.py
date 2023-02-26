@@ -47,27 +47,55 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_LSHIFT]:
             if keys[pygame.K_s] and self.rect.centery < self.ht and not keys[pygame.K_w]:
-                self.rect.centery += self.ht/200
+                if keys[pygame.K_a]:
+                    self.rect.centery += ((self.ht / (100))/1.414)*0.5
+                    self.rect.centerx -= ((self.wd / (178))/1.414)*0.5
+                elif keys[pygame.K_d]:
+                    self.rect.centery += ((self.ht / (100))/1.414)*0.5
+                    self.rect.centerx += ((self.wd / (178))/1.414)*0.5
+                else:
+                    self.rect.centery += self.ht/100*0.5
 
-            if keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                self.rect.centery -= self.ht/200
+            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
+                if keys[pygame.K_a]:
+                    self.rect.centery -= ((self.ht / (100))/1.414)*0.5
+                    self.rect.centerx -= ((self.wd / (178))/1.414)*0.5
+                elif keys[pygame.K_d]:
+                    self.rect.centery -= ((self.ht / (100))/1.414)*0.5
+                    self.rect.centerx += ((self.wd / (178))/1.414)*0.5
+                else:
+                    self.rect.centery -= self.ht/100*0.5
 
-            if keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd/356
-
-            if keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd/356
-        else:
-            if keys[pygame.K_s] and self.rect.centery < self.ht and not keys[pygame.K_w]:
-                self.rect.centery += self.ht/100
-
-            if keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                self.rect.centery -= self.ht/100
-
-            if keys[pygame.K_d] and not keys[pygame.K_a]:
+            elif keys[pygame.K_d] and not keys[pygame.K_a]:
                 self.rect.centerx += self.wd/178
 
-            if keys[pygame.K_a] and not keys[pygame.K_d]:
+            elif keys[pygame.K_a] and not keys[pygame.K_d]:
+                self.rect.centerx -= self.wd/178
+        else:
+            if keys[pygame.K_s] and self.rect.centery < self.ht and not keys[pygame.K_w]:
+                if keys[pygame.K_a]:
+                    self.rect.centery += (self.ht / (100))/1.414
+                    self.rect.centerx -= (self.wd / (178))/1.414
+                elif keys[pygame.K_d]:
+                    self.rect.centery += (self.ht / (100))/1.414
+                    self.rect.centerx += (self.wd / (178))/1.414
+                else:
+                    self.rect.centery += self.ht/100
+
+            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
+                if keys[pygame.K_a]:
+                    self.rect.centery -= (self.ht / (100))/1.414
+                    self.rect.centerx -= (self.wd / (178))/1.414
+                elif keys[pygame.K_d]:
+                    self.rect.centery -= (self.ht / (100))/1.414
+                    self.rect.centerx += (self.wd / (178))/1.414
+                else:
+                    self.rect.centery -= self.ht/100
+
+            elif keys[pygame.K_d] and not keys[pygame.K_a]:
+                self.rect.centerx += self.wd/178
+
+            elif keys[pygame.K_a] and not keys[pygame.K_d]:
                 self.rect.centerx -= self.wd/178
 
         if self.rect.left > self.wd:
@@ -96,28 +124,56 @@ class PlayerA(Player):
 
         if keys[pygame.K_LSHIFT]:
             if keys[pygame.K_s] and self.rect.centery < self.ht/2.25 and not keys[pygame.K_w]:
-                self.rect.centery += self.ht/200
+                if keys[pygame.K_a]:
+                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
+                elif keys[pygame.K_d]:
+                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
+                else:
+                    self.rect.centery += self.ht / 100 * 0.5
 
-            if keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                self.rect.centery -= self.ht/200
+            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
+                if keys[pygame.K_a]:
+                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
+                elif keys[pygame.K_d]:
+                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
+                else:
+                    self.rect.centery -= self.ht / 100 * 0.5
 
-            if keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd/356
+            elif keys[pygame.K_d] and not keys[pygame.K_a]:
+                self.rect.centerx += self.wd / 178
 
-            if keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd/356
+            elif keys[pygame.K_a] and not keys[pygame.K_d]:
+                self.rect.centerx -= self.wd / 178
         else:
             if keys[pygame.K_s] and self.rect.centery < self.ht/2.25 and not keys[pygame.K_w]:
-                self.rect.centery += self.ht/100
+                if keys[pygame.K_a]:
+                    self.rect.centery += (self.ht / (100)) / 1.414
+                    self.rect.centerx -= (self.wd / (178)) / 1.414
+                elif keys[pygame.K_d]:
+                    self.rect.centery += (self.ht / (100)) / 1.414
+                    self.rect.centerx += (self.wd / (178)) / 1.414
+                else:
+                    self.rect.centery += self.ht / 100
 
-            if keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                self.rect.centery -= self.ht/100
+            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
+                if keys[pygame.K_a]:
+                    self.rect.centery -= (self.ht / (100)) / 1.414
+                    self.rect.centerx -= (self.wd / (178)) / 1.414
+                elif keys[pygame.K_d]:
+                    self.rect.centery -= (self.ht / (100)) / 1.414
+                    self.rect.centerx += (self.wd / (178)) / 1.414
+                else:
+                    self.rect.centery -= self.ht / 100
 
-            if keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd/178
+            elif keys[pygame.K_d] and not keys[pygame.K_a]:
+                self.rect.centerx += self.wd / 178
 
-            if keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd/178
+            elif keys[pygame.K_a] and not keys[pygame.K_d]:
+                self.rect.centerx -= self.wd / 178
 
         if self.rect.left > self.wd:
             self.rect.right = 0
@@ -139,29 +195,57 @@ class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RCTRL]:
-            if keys[pygame.K_DOWN] and self.rect.centery < self.ht and not keys[pygame.K_UP]:
-                self.rect.centery += self.ht/200
+            if keys[pygame.K_DOWN] and self.rect.centery < 0 and not keys[pygame.K_UP]:
+                if keys[pygame.K_LEFT]:
+                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
+                elif keys[pygame.K_RIGHT]:
+                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
+                else:
+                    self.rect.centery += self.ht / 100 * 0.5
 
-            if keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
-                self.rect.centery -= self.ht/200
+            elif keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
+                if keys[pygame.K_LEFT]:
+                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
+                elif keys[pygame.K_RIGHT]:
+                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
+                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
+                else:
+                    self.rect.centery -= self.ht / 100 * 0.5
 
-            if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-                self.rect.centerx += self.wd/356
+            elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+                self.rect.centerx += self.wd / 178
 
-            if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-                self.rect.centerx -= self.wd/356
+            elif keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+                self.rect.centerx -= self.wd / 178
         else:
             if keys[pygame.K_DOWN] and self.rect.centery < self.ht and not keys[pygame.K_UP]:
-                self.rect.centery += self.ht/100
+                if keys[pygame.K_LEFT]:
+                    self.rect.centery += (self.ht / (100)) / 1.414
+                    self.rect.centerx -= (self.wd / (178)) / 1.414
+                elif keys[pygame.K_RIGHT]:
+                    self.rect.centery += (self.ht / (100)) / 1.414
+                    self.rect.centerx += (self.wd / (178)) / 1.414
+                else:
+                    self.rect.centery += self.ht / 100
 
-            if keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
-                self.rect.centery -= self.ht/100
+            elif keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
+                if keys[pygame.K_LEFT]:
+                    self.rect.centery -= (self.ht / (100)) / 1.414
+                    self.rect.centerx -= (self.wd / (178)) / 1.414
+                elif keys[pygame.K_RIGHT]:
+                    self.rect.centery -= (self.ht / (100)) / 1.414
+                    self.rect.centerx += (self.wd / (178)) / 1.414
+                else:
+                    self.rect.centery -= self.ht / 100
 
-            if keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-                self.rect.centerx += self.wd/178
+            elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
+                self.rect.centerx += self.wd / 178
 
-            if keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-                self.rect.centerx -= self.wd/178
+            elif keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
+                self.rect.centerx -= self.wd / 178
 
         if self.rect.left > self.wd:
             self.rect.right = 0
