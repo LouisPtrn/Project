@@ -71,7 +71,7 @@ def is_valid_date(given_date):  # DD/MM/YYYY
     try:
         datetime.strptime(given_date, '%d/%m/%Y')
         return True
-    except ValueError:
+    except TypeError:
         return False
 
 
