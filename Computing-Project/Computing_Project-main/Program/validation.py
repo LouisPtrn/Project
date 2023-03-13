@@ -43,7 +43,7 @@ def is_inrange(data, lo, hi):
 def is_valid_user(u, opt):
     if opt == "username":
         if isinstance(u, str):
-            if 3 < len(u) <= 20:
+            if is_inrange(u, 3, 20):
                 u = u.upper()
                 characters = []
                 for i in range(65, 91):
@@ -61,7 +61,7 @@ def is_valid_user(u, opt):
             valid = False
     else:
         valid = False
-        if isinstance(u, str) and len(u) > 7:
+        if isinstance(u, str) and is_inrange(u, 8, 255):
             valid = True
     return valid
 
@@ -71,7 +71,7 @@ def is_valid_date(given_date):  # DD/MM/YYYY
     try:
         datetime.strptime(given_date, '%d/%m/%Y')
         return True
-    except TypeError:
+    except Exception as ex:
         return False
 
 
@@ -82,3 +82,5 @@ def is_valid_score(score):
         if 0 <= score < 1000000:
             return True
     return False
+
+print(is_valid_date(100))

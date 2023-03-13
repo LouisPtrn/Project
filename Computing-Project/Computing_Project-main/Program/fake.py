@@ -1,4 +1,5 @@
 import unittest
+from validation import *
 
 def is_inrange(data, lo, hi):
     try:
@@ -25,26 +26,55 @@ def is_length(data, length, opt):
     except Exception as ex:
         return ex
 
+def is_valid_user(u, opt):
+    if opt == "username":
+        if isinstance(u, str):
+            if is_inrange(u, 3, 20):
+                u = u.upper()
+                characters = []
+                for i in range(65, 91):
+                    characters.append(chr(i))
+                for i in range(48, 58):
+                    characters.append(chr(i))
+                characters.append("_")
+                valid = True
+                for n in range(len(u)):
+                    if not u[n] in characters:
+                        valid = False
+            else:
+                valid = False
+        else:
+            valid = False
+    else:
+        valid = False
+        if isinstance(u, str) and is_inrange(u, 8, 255):
+            valid = True
+    return valid
+
+
 class TestMethods(unittest.TestCase):
     # -----------------------------------------------------------------------------
     # TESTING VALIDATION
-    def test_is_inrange(self):
-        data_list = ["test", "1"]
-        for data in data_list:
-            self.assertTrue(is_inrange(data, 1, 10))
-        self.assertFalse(is_inrange("test", 10, 20))
-        self.assertEqual(is_inrange(1, 1, 5), "Error")
 
-    def test_is_length(self):
-        length_list = [4,1,10]
-        for opt in range(1,4):
-            self.assertTrue(is_length("test", length_list[opt-1], opt))
+    # testing dates dd/mm/yyyy format
+    def test_dates(self):
+        self.assertTrue(is_valid_date("01/01/2001"))  # Valid date
+        self.assertFalse(is_valid_date("32/13/2001"))  # Invalid date
+        self.assertFalse(is_valid_date(2))  # Invalid date, wrong type
+        self.assertTrue(is_valid_date("30/12/9999"))  # Extreme (but valid)
 
-        length_list = [5, 5, 1]
-        for opt in range(1,4):
-            self.assertFalse(is_length("test", length_list[opt-1], opt))
+    # testing usernames
+    def test_users(self):
+        self.assertTrue(is_valid_user("test_user1", "username"))  # Valid username
+        self.assertFalse(is_valid_user("username_exceeding_chr_limit", "username"))  # Invalid username - too long
+        self.assertFalse(is_valid_user(10, "username"))  # Invalid username - wrong type
 
-        self.assertIsNot(is_length(1, 2, 1), True)
-        self.assertIsNot(is_length(1, 2, 1), False)
+    # testing passwords
+    def test_passwords(self):
+        self.assertTrue(is_valid_user("test_password1", "password"))  # Valid password
+        self.assertFalse(is_valid_user("test", "password"))  # Invalid password - too short
+        self.assertFalse(is_valid_user(True, "password"))  # Invalid password - wrong type
+        self.assertTrue(is_valid_user("test1234", "password"))  # Borderline valid
 
-
+if __name__ == "__main__":
+    unittest.main()
