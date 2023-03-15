@@ -1,6 +1,7 @@
 from sys import exit
 from validation import *
 import pygame
+import random
 import os
 
 def is_inrange(data, lo, hi):
@@ -110,53 +111,105 @@ class Player(pygame.sprite.Sprite):
         self.player_input()
 
 
+class Lasers(pygame.sprite.Sprite):
+    def __init__(self, x, y, wd, ht):
+        super().__init__()
+        self.wd = wd
+        self.ht = ht
+        self.surface = pygame.image.load("graphics/laser.png").convert_alpha()
+        self.image = pygame.transform.scale(self.surface, (wd / 40, ht / 160))
+        self.rect = self.image.get_rect(center=(x, y))
+
+    def shoot(self):
+        self.rect.x += self.wd/40
+
+    def delete(self):  # Deletes sprite when it goes off-screen
+        if self.rect.right > self.wd or self.rect.right < 0:
+            self.kill()
+
+    def update(self):
+        self.shoot()
+        self.delete()
+
+
+class Alien(pygame.sprite.Sprite):
+    def __init__(self, wd, ht, alien_type):
+        super().__init__()
+        self.type = alien_type
+        self.wd = wd
+        self.ht = ht
+
+        if alien_type == "normal":
+            self.lives = 3
+            self.surface = pygame.image.load("graphics/alien1.png") #.convert_alpha()
+            self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
+            self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
+
+    def move(self):
+        if self.type == "normal":
+            self.rect.centerx -= self.wd / 500
+
+    def update(self, timer):
+        self.move()
+
+        # Alien death when it goes off-screen or when it's health is 0
+        if self.rect.centerx < 1 or self.lives <= 0:
+            self.kill()
+
+
 def play():
+    width = 960
+    height = 540
     play_game = True
+    game_timer = 3600
     pygame.init()
-    screen = pygame.display.set_mode((1000, 600))
+    screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Space Game")
     clock = pygame.time.Clock()
     player = pygame.sprite.GroupSingle()
-    player.add(Player(1000, 600))
+    player.add(Player(width, height))
+    laser = pygame.sprite.Group()
+    aliens = pygame.sprite.Group()
+    cooldown = 0
 
     while play_game:  # Game loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_SPACE] and cooldown < 1:  # Shooting input + max fire rate
+            laser.add(Lasers(player.sprite.rect.centerx, player.sprite.rect.centery, width, height))
+            cooldown = 10
+        cooldown -= 1
+
+        if game_timer % 200 == 0:  # Adding aliens
+            aliens.add(Alien(width, height, "normal"))
+
+        # Alien hit detection
+        for n in laser:
+            for alien in aliens:
+                if pygame.sprite.collide_rect(n, alien):
+                    n.kill()
+                    alien.__setattr__("lives", alien.__getattribute__("lives") - 1)
+
+        game_timer -= 1
         # Update everything
         screen.fill("black")
         player.draw(screen)
+        laser.draw(screen)
+        aliens.update(game_timer)
+
+        aliens.draw(screen)
         player.update()
+        laser.update()
         pygame.display.update()
-        clock.tick(60) # Caps at 60 fps
+        clock.tick(60)  # Caps at 60 fps
+
 
 if __name__ == "__main__":
     play()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
