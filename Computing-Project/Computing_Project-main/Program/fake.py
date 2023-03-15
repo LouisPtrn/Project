@@ -77,35 +77,28 @@ class Player(pygame.sprite.Sprite):
         if dx != 0 and dy != 0:
             self.direction /= 1.41421
 
+        if self.rect.centery < 0 and keys[pygame.K_w]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
+        if self.rect.centery > self.ht and keys[pygame.K_s]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
         # Focus active when shift is held
         if keys[pygame.K_LSHIFT]:
             self.position += self.direction * 4
         else:
             self.position += self.direction * 8
 
+        if self.rect.left > self.wd:
+            self.rect.right = 0
+            self.position.x = self.rect.x
+        elif self.rect.right < 0:
+            self.rect.left = self.wd
+            self.position.x = self.rect.x
+
         # Set rect position to position vector
         self.rect.x = round(self.position.x)
         self.rect.y = round(self.position.y)
-
-        if self.rect.left > self.wd:
-            self.rect.right = 0
-        if self.rect.right < 0:
-            self.rect.left = self.wd
-
-        if self.rect.left > self.wd:
-            self.rect.right = 0
-        if self.rect.right < 0:
-            self.rect.left = self.wd
-
-    # def take_dmg1(self):
-    #     self.image = pygame.transform.scale(self.image_sprite, (self.wd/11, self.ht/11))
-    #
-    # def take_dmg2(self):
-    #     self.image = pygame.transform.scale(self.image_inv, (self.wd/11, self.ht/11))
-
-    # def death_check(self, li):
-    #     if li <= 0:
-    #         self.take_dmg2()
 
     def update(self):
         self.player_input()
@@ -141,20 +134,56 @@ class Alien(pygame.sprite.Sprite):
 
         if alien_type == "normal":
             self.lives = 3
-            self.surface = pygame.image.load("graphics/alien1.png") #.convert_alpha()
+            self.surface = pygame.image.load("graphics/alien1.png").convert_alpha()
             self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
+            self.image.set_colorkey("white")
             self.rect = self.image.get_rect(center=(wd*1.1, random.uniform(ht*0.1, ht*0.9)))
 
-    def move(self):
+    def move(self, px, py):
         if self.type == "normal":
             self.rect.centerx -= self.wd / 500
+        # player 1 side movement
+        if self.rect.centery < py:
+            self.rect.centery += self.ht / 300
+        elif self.rect.centery > py:
+            self.rect.centery -= self.ht / 300
 
-    def update(self, timer):
-        self.move()
+        if px > self.wd / 2:
+            self.rect.centerx -= self.wd / 500
+        elif px > self.wd / 10:
+            self.rect.centerx -= self.wd / px
+        else:
+            self.rect.centerx -= self.wd / 100
+
+    def update(self, playerx, playery, timer):
+        self.move(playerx, playery)
 
         # Alien death when it goes off-screen or when it's health is 0
         if self.rect.centerx < 1 or self.lives <= 0:
             self.kill()
+
+
+# Enemy obstacles class
+class Asteroids(pygame.sprite.Sprite):
+    def __init__(self, wd, ht, x, y):
+        super().__init__()
+        self.wd = wd
+        self.ht = ht
+        self.surface = pygame.image.load("graphics/ast.png").convert_alpha()
+        self.image = pygame.transform.scale(self.surface, (wd/12, ht/9))
+        self.image.set_colorkey("white")
+        self.rect = self.image.get_rect(center=(x, y))
+
+    def move(self):
+        self.rect.x -= self.wd/250
+
+    def die(self):
+        self.kill()
+
+    def update(self):
+        self.move()
+        if self.rect.right < 1:
+            self.die()
 
 
 def play():
@@ -162,15 +191,27 @@ def play():
     height = 540
     play_game = True
     game_timer = 3600
+    score = 0
     pygame.init()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Space Game")
+
+    font1 = pygame.font.Font("graphics/fonts/ARCADE_I.ttf", round(width / 19))
+    font2 = pygame.font.Font("graphics/fonts/ARCADE_N.ttf", round(width / 19))
+
     clock = pygame.time.Clock()
     player = pygame.sprite.GroupSingle()
     player.add(Player(width, height))
     laser = pygame.sprite.Group()
+    enemies = pygame.sprite.Group()
     aliens = pygame.sprite.Group()
+
+    score_surface = font2.render(str(score), True, (60, 60, 200)).convert_alpha()
+    score_rect = score_surface.get_rect(center=(width / 2, height / 10))
+
+
     cooldown = 0
+
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -184,6 +225,20 @@ def play():
             cooldown = 10
         cooldown -= 1
 
+        # Adding enemies
+        if game_timer % 352 == 0 and game_timer > 250:
+            attack_pattern1(enemies, width, height, random.randint(0, height))
+
+        if game_timer % 401 == 0 and game_timer > 250:
+            attack_pattern2(enemies, width, height, random.randint(0, height))
+
+        if game_timer % 547 == 0 and game_timer > 250:
+            attack_pattern3(enemies, width, height, random.randint(0, height))
+
+        # Collision Detection
+        if pygame.sprite.groupcollide(laser, enemies, True, True):
+            score += 100
+
         if game_timer % 200 == 0:  # Adding aliens
             aliens.add(Alien(width, height, "normal"))
 
@@ -193,23 +248,55 @@ def play():
                 if pygame.sprite.collide_rect(n, alien):
                     n.kill()
                     alien.__setattr__("lives", alien.__getattribute__("lives") - 1)
+                    if alien.__getattribute__("lives") <= 0:
+                        score += 500
 
         game_timer -= 1
         # Update everything
         screen.fill("black")
         player.draw(screen)
         laser.draw(screen)
-        aliens.update(game_timer)
-
+        aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, game_timer)
         aliens.draw(screen)
+        enemies.draw(screen)
+        enemies.update()
         player.update()
         laser.update()
+        screen.blit(score_surface, score_rect)
+        score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
         pygame.display.update()
         clock.tick(60)  # Caps at 60 fps
 
+# Three enemies in horizontal line
+def attack_pattern1(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.25, y))
+    sprite_group.add(Asteroids(width, height, width * 1.4, y))
+
+
+# Three enemies in vertical line
+def attack_pattern2(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y - (0.2 * height)))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.1, y + (0.2 * height)))
+
+
+# Three enemies in diagonal line
+def attack_pattern3(sprite_group, width, height, y):
+    sprite_group.add(Asteroids(width, height, width * 1.1, y))
+    sprite_group.add(Asteroids(width, height, width * 1.2, y + (0.2 * height)))
+    sprite_group.add(Asteroids(width, height, width * 1.3, y + (0.4 * height)))
 
 if __name__ == "__main__":
     play()
 
+    # def take_dmg1(self):
+    #     self.image = pygame.transform.scale(self.image_sprite, (self.wd/11, self.ht/11))
+    #
+    # def take_dmg2(self):
+    #     self.image = pygame.transform.scale(self.image_inv, (self.wd/11, self.ht/11))
 
+    # def death_check(self, li):
+    #     if li <= 0:
+    #         self.take_dmg2()
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
