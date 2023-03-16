@@ -186,12 +186,36 @@ class Asteroids(pygame.sprite.Sprite):
             self.die()
 
 
+# Number of lives UI
+class Hearts(pygame.sprite.Sprite):
+    def __init__(self, wd, ht, plr):
+        super().__init__()
+        self.wd = wd
+        self.ht = ht
+        self.images = [pygame.image.load("graphics/hearts1.png"),
+                       pygame.image.load("graphics/hearts2.png"),
+                       pygame.image.load("graphics/hearts3.png"),
+                       pygame.image.load("graphics/hearts4.png"),
+                       pygame.image.load("graphics/hearts5.png")]
+
+        self.image = pygame.transform.scale(self.images[2], (wd/3, ht/10))
+        if plr:
+            self.rect = self.image.get_rect(center=(wd/6, ht/30))
+
+    def animate(self, lvs):
+        self.image = pygame.transform.scale(self.images[lvs-1], (self.wd/3, self.ht/10))
+
+    def update(self, lives):
+        self.animate(lives)
+
+
 def play():
     width = 960
     height = 540
     play_game = True
     game_timer = 3600
     score = 0
+    lives = 3
     pygame.init()
     screen = pygame.display.set_mode((width, height))
     pygame.display.set_caption("Space Game")
@@ -205,13 +229,13 @@ def play():
     laser = pygame.sprite.Group()
     enemies = pygame.sprite.Group()
     aliens = pygame.sprite.Group()
+    player1_lives = pygame.sprite.GroupSingle()
+    player1_lives.add(Hearts(width, height, True))
 
     score_surface = font2.render(str(score), True, (60, 60, 200)).convert_alpha()
     score_rect = score_surface.get_rect(center=(width / 2, height / 10))
 
-
     cooldown = 0
-
 
     while play_game:  # Game loop
         for event in pygame.event.get():
@@ -226,13 +250,13 @@ def play():
         cooldown -= 1
 
         # Adding enemies
-        if game_timer % 352 == 0 and game_timer > 250:
+        if game_timer % 352 == 0 and game_timer > 500:
             attack_pattern1(enemies, width, height, random.randint(0, height))
 
-        if game_timer % 401 == 0 and game_timer > 250:
+        if game_timer % 401 == 0 and game_timer > 500:
             attack_pattern2(enemies, width, height, random.randint(0, height))
 
-        if game_timer % 547 == 0 and game_timer > 250:
+        if game_timer % 547 == 0 and game_timer > 500:
             attack_pattern3(enemies, width, height, random.randint(0, height))
 
         # Collision Detection
@@ -251,19 +275,28 @@ def play():
                     if alien.__getattribute__("lives") <= 0:
                         score += 500
 
+        # Player hit detection
+        if (pygame.sprite.spritecollide(player.sprite, enemies, False) or
+            pygame.sprite.spritecollide(player.sprite, aliens, False)) and lives > 0:
+            lives -= 1
+            if lives <= 0:
+                play_game = False
+
         game_timer -= 1
         # Update everything
         screen.fill("black")
         player.draw(screen)
         laser.draw(screen)
-        aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, game_timer)
-        aliens.draw(screen)
+        # aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, game_timer)
+        # aliens.draw(screen)
         enemies.draw(screen)
         enemies.update()
         player.update()
         laser.update()
         screen.blit(score_surface, score_rect)
         score_surface = font2.render(str(score), True, (60, 60, 200), (10, 10, 10)).convert_alpha()
+        player1_lives.update(lives)
+        player1_lives.draw(screen)
         pygame.display.update()
         clock.tick(60)  # Caps at 60 fps
 
