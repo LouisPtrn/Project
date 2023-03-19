@@ -112,25 +112,25 @@ class TestMethods(unittest.TestCase):
     # -----------------------------------------------------------------------------
     # TESTING VALIDATION
 
-    # testing dates dd/mm/yyyy format
-    def test_dates(self):
-        self.assertTrue(is_valid_date("01/01/2001"))  # Valid date
-        self.assertFalse(is_valid_date("32/13/2001"))  # Invalid date
-        self.assertFalse(is_valid_date(2))  # Invalid date, wrong type
-        self.assertTrue(is_valid_date("30/12/9999"))  # Extreme (but valid)
+    # testing scoes
+    def test_valid_scores(self):
+        # Valid scores
+        for i in range(1000):
+            self.assertTrue(is_valid_score(100*i))
+        # Borderline
+        self.assertTrue(is_valid_score(999999))
+    def test_invalid_scores(self):
+        # Invalid scores
+        for i in range(1,10000000):
+            self.assertFalse(is_valid_score(-100*i))
+        # Invalid score
+        self.assertFalse(is_valid_score(500.5))
+        # Invalid score
+        self.assertFalse(is_valid_score("Test"))
 
-    # testing usernames
-    def test_users(self):
-        self.assertTrue(is_valid_user("test_user1", "username"))  # Valid username
-        self.assertFalse(is_valid_user("username_exceeding_chr_limit", "username"))  # Invalid username - too long
-        self.assertFalse(is_valid_user(10, "username"))  # Invalid username - wrong type
 
-    # testing passwords
-    def test_passwords(self):
-        self.assertTrue(is_valid_user("test_password1", "password"))  # Valid password
-        self.assertFalse(is_valid_user("test", "password"))  # Invalid password - too short
-        self.assertFalse(is_valid_user(True, "password"))  # Invalid password - wrong type
-        self.assertTrue(is_valid_user("test1234", "password"))  # Borderline valid
+
+
 
 if __name__ == '__main__':
     unittest.main()

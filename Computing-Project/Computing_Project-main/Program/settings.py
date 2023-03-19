@@ -71,7 +71,6 @@ def remember_launch():
     with open("I_remember_you.TXT", "w") as f:
         f.write("")
 
-
 # Checks if the text file exits
 def is_first_launch():
     try:
@@ -80,3 +79,8 @@ def is_first_launch():
         return False
     except FileNotFoundError:
         return True
+
+if __name__ == "__main__":
+    load_defaults()
+    save_setting("difficulty", "Hard")
+    print(get_setting("test"))

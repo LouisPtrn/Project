@@ -40,74 +40,46 @@ class Player(pygame.sprite.Sprite):
         self.image_sprite = pygame.image.load("graphics/ship1.png")
         self.image_inv = pygame.image.load("graphics/shipInv.png")
         self.image = pygame.transform.scale(self.image_sprite, (wd/11, ht/11))
-        self.rect = self.image.get_rect(center=(wd/10, ht/4))
+        self.rect = self.image.get_rect(center=(wd / 10, ht / 5))
+        self.position = pygame.math.Vector2(self.rect.x, self.rect.y)
 
     def player_input(self):  # Ship movement from input
         keys = pygame.key.get_pressed()
+        dx = keys[pygame.K_d] - keys[pygame.K_a]
+        dy = keys[pygame.K_s] - keys[pygame.K_w]
+        self.direction = pygame.math.Vector2(dx, dy)
+        # Accounting for diagonal speed by dividing by root 2
+        if dx != 0 and dy != 0:
+            self.direction /= 1.41421
 
+        if self.rect.centery < 0 and keys[pygame.K_w]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
+        if self.rect.centery > self.ht and keys[pygame.K_s]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
+        # Focus active when shift is held
         if keys[pygame.K_LSHIFT]:
-            if keys[pygame.K_s] and self.rect.centery < self.ht and not keys[pygame.K_w]:
-                if keys[pygame.K_a]:
-                    self.rect.centery += ((self.ht / (100))/1.414)*0.5
-                    self.rect.centerx -= ((self.wd / (178))/1.414)*0.5
-                elif keys[pygame.K_d]:
-                    self.rect.centery += ((self.ht / (100))/1.414)*0.5
-                    self.rect.centerx += ((self.wd / (178))/1.414)*0.5
-                else:
-                    self.rect.centery += self.ht/100*0.5
-
-            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                if keys[pygame.K_a]:
-                    self.rect.centery -= ((self.ht / (100))/1.414)*0.5
-                    self.rect.centerx -= ((self.wd / (178))/1.414)*0.5
-                elif keys[pygame.K_d]:
-                    self.rect.centery -= ((self.ht / (100))/1.414)*0.5
-                    self.rect.centerx += ((self.wd / (178))/1.414)*0.5
-                else:
-                    self.rect.centery -= self.ht/100*0.5
-
-            elif keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd/178
-
-            elif keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd/178
+            self.position += self.direction * 4
         else:
-            if keys[pygame.K_s] and self.rect.centery < self.ht and not keys[pygame.K_w]:
-                if keys[pygame.K_a]:
-                    self.rect.centery += (self.ht / (100))/1.414
-                    self.rect.centerx -= (self.wd / (178))/1.414
-                elif keys[pygame.K_d]:
-                    self.rect.centery += (self.ht / (100))/1.414
-                    self.rect.centerx += (self.wd / (178))/1.414
-                else:
-                    self.rect.centery += self.ht/100
-
-            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                if keys[pygame.K_a]:
-                    self.rect.centery -= (self.ht / (100))/1.414
-                    self.rect.centerx -= (self.wd / (178))/1.414
-                elif keys[pygame.K_d]:
-                    self.rect.centery -= (self.ht / (100))/1.414
-                    self.rect.centerx += (self.wd / (178))/1.414
-                else:
-                    self.rect.centery -= self.ht/100
-
-            elif keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd/178
-
-            elif keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd/178
+            self.position += self.direction * 8
 
         if self.rect.left > self.wd:
             self.rect.right = 0
-        if self.rect.right < 0:
+            self.position.x = self.rect.x
+        elif self.rect.right < 0:
             self.rect.left = self.wd
+            self.position.x = self.rect.x
+
+        # Set rect position to position vector
+        self.rect.x = round(self.position.x)
+        self.rect.y = round(self.position.y)
 
     def take_dmg1(self):
-        self.image = pygame.transform.scale(self.image_sprite, (self.wd/11, self.ht/11))
+        self.image = pygame.transform.scale(self.image_sprite, (self.wd / 11, self.ht / 11))
 
     def take_dmg2(self):
-        self.image = pygame.transform.scale(self.image_inv, (self.wd/11, self.ht/11))
+        self.image = pygame.transform.scale(self.image_inv, (self.wd / 11, self.ht / 11))
 
     def death_check(self, li):
         if li <= 0:
@@ -119,66 +91,41 @@ class Player(pygame.sprite.Sprite):
 
 
 class PlayerA(Player):
-    def player_input(self):  # Altered movement for versus
+    def player_input(self):  # Player 1 ship movement from input
         keys = pygame.key.get_pressed()
+        dx = keys[pygame.K_d] - keys[pygame.K_a]
+        dy = keys[pygame.K_s] - keys[pygame.K_w]
+        self.direction = pygame.math.Vector2(dx, dy)
+        # Accounting for diagonal speed by dividing by root 2
+        if dx != 0 and dy != 0:
+            self.direction /= 1.41421
 
+        if self.rect.centery < 0 and keys[pygame.K_w]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
+        if self.rect.centery > self.ht/2.2 and keys[pygame.K_s]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
+
+        # Focus active when shift is held
         if keys[pygame.K_LSHIFT]:
-            if keys[pygame.K_s] and self.rect.centery < self.ht/2.25 and not keys[pygame.K_w]:
-                if keys[pygame.K_a]:
-                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
-                elif keys[pygame.K_d]:
-                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
-                else:
-                    self.rect.centery += self.ht / 100 * 0.5
-
-            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                if keys[pygame.K_a]:
-                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
-                elif keys[pygame.K_d]:
-                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
-                else:
-                    self.rect.centery -= self.ht / 100 * 0.5
-
-            elif keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd / 178
-
-            elif keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd / 178
+            self.position += self.direction * 4
         else:
-            if keys[pygame.K_s] and self.rect.centery < self.ht/2.25 and not keys[pygame.K_w]:
-                if keys[pygame.K_a]:
-                    self.rect.centery += (self.ht / (100)) / 1.414
-                    self.rect.centerx -= (self.wd / (178)) / 1.414
-                elif keys[pygame.K_d]:
-                    self.rect.centery += (self.ht / (100)) / 1.414
-                    self.rect.centerx += (self.wd / (178)) / 1.414
-                else:
-                    self.rect.centery += self.ht / 100
-
-            elif keys[pygame.K_w] and self.rect.centery > 0 and not keys[pygame.K_s]:
-                if keys[pygame.K_a]:
-                    self.rect.centery -= (self.ht / (100)) / 1.414
-                    self.rect.centerx -= (self.wd / (178)) / 1.414
-                elif keys[pygame.K_d]:
-                    self.rect.centery -= (self.ht / (100)) / 1.414
-                    self.rect.centerx += (self.wd / (178)) / 1.414
-                else:
-                    self.rect.centery -= self.ht / 100
-
-            elif keys[pygame.K_d] and not keys[pygame.K_a]:
-                self.rect.centerx += self.wd / 178
-
-            elif keys[pygame.K_a] and not keys[pygame.K_d]:
-                self.rect.centerx -= self.wd / 178
+            self.position += self.direction * 8
 
         if self.rect.left > self.wd:
             self.rect.right = 0
-        if self.rect.right < 0:
+            self.position.x = self.rect.x
+        elif self.rect.right < 0:
             self.rect.left = self.wd
+            self.position.x = self.rect.x
+
+        # Set rect position to position vector
+        self.rect.x = round(self.position.x)
+        self.rect.y = round(self.position.y)
+
+    def update(self, lives):
+        self.player_input()
+        self.death_check(lives)
 
 
 class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
@@ -190,67 +137,39 @@ class PlayerB(pygame.sprite.Sprite):  # 2nd ship for versus
         self.image_inv = pygame.image.load("graphics/shipInv.png")
         self.image = pygame.transform.scale(self.image_sprite, (wd / 11, ht / 11))
         self.rect = self.image.get_rect(center=(wd / 10, ht / 1.25))
+        self.position = pygame.math.Vector2(self.rect.x, self.rect.y)
 
     def player_input(self):  # Player 2 input
         keys = pygame.key.get_pressed()
+        dx = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+        dy = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+        self.direction = pygame.math.Vector2(dx, dy)
+        # Accounting for diagonal speed by dividing by root 2
+        if dx != 0 and dy != 0:
+            self.direction /= 1.41421
 
-        if keys[pygame.K_RCTRL]:
-            if keys[pygame.K_DOWN] and self.rect.centery < 0 and not keys[pygame.K_UP]:
-                if keys[pygame.K_LEFT]:
-                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
-                elif keys[pygame.K_RIGHT]:
-                    self.rect.centery += ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
-                else:
-                    self.rect.centery += self.ht / 100 * 0.5
+        if self.rect.centery < self.ht/1.8 and keys[pygame.K_UP]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
 
-            elif keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
-                if keys[pygame.K_LEFT]:
-                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx -= ((self.wd / (178)) / 1.414) * 0.5
-                elif keys[pygame.K_RIGHT]:
-                    self.rect.centery -= ((self.ht / (100)) / 1.414) * 0.5
-                    self.rect.centerx += ((self.wd / (178)) / 1.414) * 0.5
-                else:
-                    self.rect.centery -= self.ht / 100 * 0.5
+        if self.rect.centery > self.ht and keys[pygame.K_DOWN]:
+            self.direction = pygame.math.Vector2(self.direction.x, 0)
 
-            elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-                self.rect.centerx += self.wd / 178
-
-            elif keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-                self.rect.centerx -= self.wd / 178
+        # Focus active when control is held
+        if keys[pygame.K_LCTRL]:
+            self.position += self.direction * 4
         else:
-            if keys[pygame.K_DOWN] and self.rect.centery < self.ht and not keys[pygame.K_UP]:
-                if keys[pygame.K_LEFT]:
-                    self.rect.centery += (self.ht / (100)) / 1.414
-                    self.rect.centerx -= (self.wd / (178)) / 1.414
-                elif keys[pygame.K_RIGHT]:
-                    self.rect.centery += (self.ht / (100)) / 1.414
-                    self.rect.centerx += (self.wd / (178)) / 1.414
-                else:
-                    self.rect.centery += self.ht / 100
-
-            elif keys[pygame.K_UP] and self.rect.centery > self.ht/1.85 and not keys[pygame.K_DOWN]:
-                if keys[pygame.K_LEFT]:
-                    self.rect.centery -= (self.ht / (100)) / 1.414
-                    self.rect.centerx -= (self.wd / (178)) / 1.414
-                elif keys[pygame.K_RIGHT]:
-                    self.rect.centery -= (self.ht / (100)) / 1.414
-                    self.rect.centerx += (self.wd / (178)) / 1.414
-                else:
-                    self.rect.centery -= self.ht / 100
-
-            elif keys[pygame.K_RIGHT] and not keys[pygame.K_LEFT]:
-                self.rect.centerx += self.wd / 178
-
-            elif keys[pygame.K_LEFT] and not keys[pygame.K_RIGHT]:
-                self.rect.centerx -= self.wd / 178
+            self.position += self.direction * 8
 
         if self.rect.left > self.wd:
             self.rect.right = 0
-        if self.rect.right < 0:
+            self.position.x = self.rect.x
+        elif self.rect.right < 0:
             self.rect.left = self.wd
+            self.position.x = self.rect.x
+
+        # Set rect position to position vector
+        self.rect.x = round(self.position.x)
+        self.rect.y = round(self.position.y)
 
     def take_dmg1(self):
         self.image = pygame.transform.scale(self.image_sprite, (self.wd/11, self.ht/11))
@@ -401,8 +320,6 @@ class Alien(pygame.sprite.Sprite):
 
         if alien_type == "normal":
             self.lives = 3
-            self.hit = False
-
             self.surface = pygame.image.load("graphics/alien1.png").convert_alpha()
             self.image = pygame.transform.scale(self.surface, (wd / 12, ht / 9))
             self.image.set_colorkey("white")
@@ -423,7 +340,6 @@ class Alien(pygame.sprite.Sprite):
             self.rect = self.image.get_rect(center=(wd * 1.1, ht * 0.5))
 
     def move(self, px, py, p2x, p2y):
-        self.hit = False
         if self.type == "normal":
             if self.rect.centery < self.ht/2:
                 # player 1 side movement
@@ -456,18 +372,12 @@ class Alien(pygame.sprite.Sprite):
         elif self.type == "boss":
             self.rect.centerx -= self.wd/2000
 
-    def take_dmg(self, shot):
-        if shot and not self.hit:
-            self.lives -= 1
-            self.hit = True
-
     def animate(self, timer):
         n = (timer % 16)//2
         self.image = pygame.transform.scale(self.surface_list[n], (self.wd / 4, self.ht / 4))
         self.image.set_colorkey("black")
 
-    def update(self, playerx, playery, player2x, player2y, is_shot, timer):
-        self.take_dmg(is_shot)
+    def update(self, playerx, playery, player2x, player2y, timer):
         self.move(playerx, playery, player2x, player2y)
 
         if self.type == "boss":
