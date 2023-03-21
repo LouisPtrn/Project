@@ -225,8 +225,8 @@ def play(name):
             if (keys[pygame.K_RETURN] or keys[pygame.K_SPACE]) and select == 4 and start_delay <= 0:
                 pygame.quit()
                 # Logs off the user
-                # login2 = login.LoginWindow()
-                # login2.mainloop()
+                login2 = login.LoginWindow()
+                login2.mainloop()
                 return ()
             start_delay -= 1
 
