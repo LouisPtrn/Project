@@ -19,7 +19,7 @@ def create_h_table():
                 FOREIGN KEY (Name) REFERENCES Users(Username));''')
     # add default data
     for i in range(5):
-        enter_score("------", 0, Dates.get_date())
+        enter_score("------", 0, dates.get_date())
     con.commit()
     con.close()
 

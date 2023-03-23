@@ -12,6 +12,7 @@ from tkinter.colorchooser import askcolor
 from LoginData import search
 import game
 import AdminControl
+from messages import *
 
 
 class LoginWindow(tk.Tk):

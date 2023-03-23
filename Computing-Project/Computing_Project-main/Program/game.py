@@ -362,7 +362,7 @@ def play(name):
             laser.draw(screen)
             laser.update()
             aliens.update(player.sprite.rect.centerx, player.sprite.rect.centery, player.sprite.rect.centerx,
-                          player.sprite.rect.centery, alien_shot, game_timer)
+                          player.sprite.rect.centery, game_timer)
 
             aliens.draw(screen)
             enemies.draw(screen)

@@ -1,4 +1,4 @@
 Window width: 960
 Window height: 540
-Difficulty: Normal
+Difficulty: Hard
 Colourblind mode: False

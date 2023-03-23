@@ -111,25 +111,36 @@ from HighscoresData import *
 class TestMethods(unittest.TestCase):
     # -----------------------------------------------------------------------------
     # TESTING VALIDATION
-
     # testing scoes
     def test_valid_scores(self):
         # Valid scores
         for i in range(1000):
-            self.assertTrue(is_valid_score(100*i))
+            self.assertTrue(is_valid_score(100 * i))
         # Borderline
         self.assertTrue(is_valid_score(999999))
+
     def test_invalid_scores(self):
         # Invalid scores
-        for i in range(1,10000000):
-            self.assertFalse(is_valid_score(-100*i))
+        for i in range(1, 10000000):
+            self.assertFalse(is_valid_score(-100 * i))
         # Invalid score
         self.assertFalse(is_valid_score(500.5))
         # Invalid score
         self.assertFalse(is_valid_score("Test"))
 
+    # testing dates dd/mm/yyyy format
+    def test_valid_dates(self):
+        # Valid dates
+        self.assertTrue(is_valid_date("01/01/2001"))
+        self.assertTrue(is_valid_date("29/02/2004"))
+        self.assertTrue(is_valid_date("30/12/9999"))
 
-
+    def test_invalid_dates(self):
+        # Invalid dates
+        self.assertFalse(is_valid_date("40/10/1000"))
+        self.assertFalse(is_valid_date("31/09/2015"))
+        self.assertFalse(is_valid_date("Test"))
+        self.assertFalse(is_valid_date("01/01/2001/01/2001"))
 
 
 if __name__ == '__main__':
